@@ -11,7 +11,7 @@ import java.util.Arrays;
  * @author Paraducha Juan
  */
 public class Homework1 {
-    
+      
     public static void main(String[] args){
         
         System.out.println("Text from the main method");
