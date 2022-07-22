@@ -3,8 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package solvd.Homeworks;
-//import solvd.Homeworks.Homework1;
+package solvd.homeworks;
+//import solvd.homeworks.homework1;
 
 /**
  *

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package solvd.Homeworks;
+package solvd.homeworks;
 import java.util.Arrays;
 
 /**
