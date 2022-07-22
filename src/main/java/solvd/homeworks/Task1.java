@@ -4,18 +4,23 @@
  * and open the template in the editor.
  */
 package solvd.homeworks;
-//import solvd.homeworks.homework1;
+import java.util.Arrays;
 
 /**
  *
  * @author Paraducha Juan
  */
-public class allHomeworks {
-    
+public class Task1 {
+      
     public static void main(String[] args){
-                       
-        Homework1.main(args);
         
-    }
-    
+        if(args.length>0){
+            System.out.println(args[0]);
+        }else{
+            System.out.println("No user input");
+        }
+        
+        System.out.println("Text from the main method");
+        
+     }    
 }

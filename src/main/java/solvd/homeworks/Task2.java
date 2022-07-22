@@ -4,21 +4,18 @@
  * and open the template in the editor.
  */
 package solvd.homeworks;
-import java.util.Arrays;
 
 /**
  *
  * @author Paraducha Juan
  */
-public class Homework1 {
-      
+public class Task2 {
+    
     public static void main(String[] args){
-        
-        System.out.println("Text from the main method");
-        
+  
         int[] array = new int[]{3, 7, 6, 13, 33, 9, -100, 25};
-        int smallestValue = 10000;
-        int biggestValue = -10000;
+        int smallestValue = array[0];
+        int biggestValue = array[0];
         
         int i = 0;
         
@@ -34,32 +31,8 @@ public class Homework1 {
             
             i++;
         }
+        
         System.out.println("Smallest number: " + smallestValue
                 + "\nBiggest number: " + biggestValue);
-        
-        
-        System.out.println("Sorted array: " + Arrays.toString(selectionSort(array)));
-        
-     }
-    
-    
-    public static int[] selectionSort(int[] array){
-        
-        for(int i = 0; i<array.length; i++){
-            int smallestInRun = i;
-            for(int j = i; j<array.length; j++){
-                if(array[j]< array[smallestInRun]){
-                    smallestInRun = j;
-                }
-            
-            }
-            
-            int aux = array[i];
-            array[i] = array[smallestInRun];
-            array[smallestInRun] = aux;
         }
-        
-        return array;        
-    }
-    
 }
