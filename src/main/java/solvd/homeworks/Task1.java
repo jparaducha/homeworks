@@ -4,8 +4,6 @@
  * and open the template in the editor.
  */
 package solvd.homeworks;
-import java.util.Arrays;
-
 /**
  *
  * @author Paraducha Juan
