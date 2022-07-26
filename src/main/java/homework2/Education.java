@@ -10,8 +10,8 @@ package homework2;
  * @author Paraducha Juan
  */
 public class Education extends Public {
-    
-    public Education(){
+
+    public Education() {
         super.yearlyTaxes = 0;
         super.weeksOfConstruction = 20;
         costCalculation(24000);
@@ -21,7 +21,5 @@ public class Education extends Public {
     public String toString() {
         return "Education";
     }
-    
-    
-    
+
 }

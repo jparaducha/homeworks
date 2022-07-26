@@ -58,6 +58,10 @@ public abstract class Building {
 
     }
     
+    public int getTaxes(){
+        return yearlyTaxes;
+    }
+    
     protected void timeAndCost(){
         System.out.println("The " + this.toString() +" building made of " + this.material + " will cost: $" + Math.ceil(this.costOfBuilding) + " and will be finished in approximately "+ this.weeksOfConstruction + " weeks.");
         System.out.println("This building will have a yearly tax of $" + this.yearlyTaxes);

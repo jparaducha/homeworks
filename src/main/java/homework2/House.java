@@ -9,11 +9,12 @@ package homework2;
  *
  * @author Paraducha Juan
  */
-public abstract class House extends Building {
+public  class House extends Building {
 
     
 
     static String className = "Housing";
+    String address;
 
     @Override
     public String toString() {
@@ -24,6 +25,10 @@ public abstract class House extends Building {
     public int hashCode() {
 
         return super.hashCode() + 1;
+    }
+    
+    public void setAddress(String address){
+        this.address = address;
     }
 
     @Override

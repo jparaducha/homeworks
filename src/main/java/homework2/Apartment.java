@@ -9,10 +9,11 @@ package homework2;
  *
  * @author Paraducha Juan
  */
-public abstract class Apartment extends Building {
+public  class Apartment extends Building {
 
     String address;
-    
+    int tenantsQuantity = 0;
+        
     public Apartment() {
         this.address = "221B Baker Street";
     }
@@ -35,5 +36,12 @@ public abstract class Apartment extends Building {
         
         return super.equals(obj);
     }
-
+    
+    public void setTenants(int tenants){
+        tenantsQuantity = tenants;
+    }
+    
+    public int getTenants(){
+        return tenantsQuantity;
+    }
 }

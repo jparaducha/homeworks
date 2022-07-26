@@ -9,13 +9,21 @@ package homework2;
  *
  * @author Paraducha Juan
  */
-public abstract class Industrial extends Building {
+public class Industrial extends Building {
+
+    private int quantityOfWorkers = 0;
 
     @Override
     public String toString() {
-        return "Industrial"; 
+        return "Industrial";
     }
-    
-    
-    
+
+    public void setWorkers(int quantity) {
+        quantityOfWorkers = quantity;
+    }
+
+    public int getWorkers() {
+        return quantityOfWorkers;
+    }
+
 }
