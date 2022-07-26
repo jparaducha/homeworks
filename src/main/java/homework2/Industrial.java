@@ -3,20 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package solvd.homeworks;
-//import solvd.homeworks.homework1;
+package homework2;
 
 /**
  *
  * @author Paraducha Juan
  */
-public class Main {
-    
-    public static void main(String[] args){
-                       
-        Task1.main(args);
-        Task2.main(args);
-        Task3.main(args);
+public abstract class Industrial extends Building {
+
+    @Override
+    public String toString() {
+        return "Industrial"; 
     }
+    
+    
     
 }

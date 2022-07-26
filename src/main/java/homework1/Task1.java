@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package solvd.homeworks;
+package homework1;
 /**
  *
  * @author Paraducha Juan
