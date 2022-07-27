@@ -9,20 +9,18 @@ package homework2;
  *
  * @author Paraducha Juan
  */
-public  class Apartment extends Building {
+public class Apartment extends Building {
 
     String address;
     int tenantsQuantity = 0;
-        
+
     public Apartment() {
         this.address = "221B Baker Street";
     }
-    
-    
-    public Apartment(String name){
+
+    public Apartment(String name) {
         this.address = name;
     }
-    
 
     static String name = "Departamento";
 
@@ -33,15 +31,24 @@ public  class Apartment extends Building {
 
     @Override
     public boolean equals(Object obj) {
-        
+
         return super.equals(obj);
     }
-    
-    public void setTenants(int tenants){
+
+    public void setTenants(int tenants) {
         tenantsQuantity = tenants;
     }
-    
-    public int getTenants(){
+
+    public int getTenants() {
         return tenantsQuantity;
+    }
+
+    public final void printRules() {
+        System.out.println("Rules for living in the apartment:");
+        System.out.println("Respect other tenants");
+        System.out.println("Keep a clean environment");
+        System.out.println("Don't be noisy");
+        System.out.println("No pets allowed");
+        System.out.println("Put the garbage out before 8 PM");
     }
 }

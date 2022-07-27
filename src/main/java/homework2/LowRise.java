@@ -9,9 +9,9 @@ package homework2;
  *
  * @author Paraducha Juan
  */
-public class LowRise extends Apartment {
-    
-    public LowRise(){
+public final class LowRise extends Apartment {
+
+    public LowRise() {
         super.yearlyTaxes = 2200;
         super.weeksOfConstruction = 16;
         costCalculation(20000);
@@ -21,8 +21,5 @@ public class LowRise extends Apartment {
     public String toString() {
         return "LowRise";
     }
-    
-    
-    
-    
+
 }

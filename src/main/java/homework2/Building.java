@@ -10,8 +10,7 @@ package homework2;
  * @author Paraducha Juan
  */
 public abstract class Building {
-    
-    
+
     java.util.Scanner scan = new java.util.Scanner(System.in);
 
     static int buildingCount = 0;
@@ -40,30 +39,33 @@ public abstract class Building {
 
         switch (selection) {
             case "1":
-                this.costOfBuilding = price*1;
+                this.costOfBuilding = price * 1;
                 this.material = "Wood";
                 break;
             case "2":
-                this.costOfBuilding = price*2.3;
+                this.costOfBuilding = price * 2.3;
                 this.material = "Concrete";
                 break;
             case "3":
-                this.costOfBuilding = price*3.5;
+                this.costOfBuilding = price * 3.5;
                 this.material = "Steel";
                 break;
             default:
-                this.costOfBuilding = price*1.8;
+                this.costOfBuilding = price * 1.8;
                 this.material = "Bricks";
         }
 
     }
-    
-    public int getTaxes(){
+
+    public int getTaxes() {
         return yearlyTaxes;
     }
-    
-    protected void timeAndCost(){
-        System.out.println("The " + this.toString() +" building made of " + this.material + " will cost: $" + Math.ceil(this.costOfBuilding) + " and will be finished in approximately "+ this.weeksOfConstruction + " weeks.");
+
+    @Override
+    public abstract String toString();
+
+    protected void timeAndCost() {
+        System.out.println("The " + this.toString() + " building made of " + this.material + " will cost: $" + Math.ceil(this.costOfBuilding) + " and will be finished in approximately " + this.weeksOfConstruction + " weeks.");
         System.out.println("This building will have a yearly tax of $" + this.yearlyTaxes);
         System.out.println("Select any key to continue...");
         scan.nextLine();
