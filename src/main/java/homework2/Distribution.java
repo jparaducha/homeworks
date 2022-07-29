@@ -10,8 +10,8 @@ package homework2;
  * @author Paraducha Juan
  */
 public class Distribution extends Industrial {
-    
-    public Distribution(){
+
+    public Distribution() {
         super.yearlyTaxes = 4500;
         super.weeksOfConstruction = 20;
         costCalculation(25000);
@@ -21,6 +21,5 @@ public class Distribution extends Industrial {
     public String toString() {
         return "Distribution";
     }
-    
-    
+
 }

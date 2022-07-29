@@ -22,7 +22,7 @@ public class Apartment extends Building {
         this.address = name;
     }
 
-    static String name = "Departamento";
+    String name = "Departamento";
 
     @Override
     public String toString() {

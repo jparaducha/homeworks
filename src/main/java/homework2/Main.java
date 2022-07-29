@@ -19,7 +19,6 @@ public class Main {
 
         Scanner scan = new Scanner(System.in);
 
-        
         do {
             System.out.println("Select new building to build"
                     + "\n1.Apartment"
@@ -30,14 +29,14 @@ public class Main {
 
             String selection = scan.nextLine();
             String selection2;
-            
+
             switch (selection) {
                 case "1":
                     System.out.println("Select new building to build"
                             + "\n1.Low Rise"
                             + "\n2.High Rise"
                             + "\nAny key. Select other type of building\n");
-                    
+
                     selection2 = scan.nextLine();
                     if ("1".equals(selection2)) {
                         LowRise build = new LowRise();
@@ -69,7 +68,7 @@ public class Main {
                             + "\n2.Education"
                             + "\nAny key. Select other type of building\n");
                     selection2 = scan.nextLine();
-                    
+
                     if ("1".equals(selection2)) {
                         Building build = new Health();
                         build.timeAndCost();
@@ -97,8 +96,6 @@ public class Main {
                 default:
                     flag = "n";
             }
-            
-            
 
         } while (!flag.equals("n"));
 

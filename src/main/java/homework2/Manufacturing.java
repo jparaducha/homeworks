@@ -10,8 +10,8 @@ package homework2;
  * @author Paraducha Juan
  */
 public class Manufacturing extends Industrial {
-    
-    public Manufacturing(){
+
+    public Manufacturing() {
         super.yearlyTaxes = 6500;
         super.weeksOfConstruction = 16;
         costCalculation(28000);
@@ -21,5 +21,5 @@ public class Manufacturing extends Industrial {
     public String toString() {
         return "Manufacturing";
     }
-    
+
 }

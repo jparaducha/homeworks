@@ -9,9 +9,8 @@ package homework2;
  *
  * @author Paraducha Juan
  */
-public  class Public extends Building {
-    
-    
+public class Public extends Building {
+
     @Override
     public String toString() {
         return "Public";
@@ -21,7 +20,7 @@ public  class Public extends Building {
     public int hashCode() {
         return super.hashCode();
     }
-    
+
     public void changeTaxes(int taxes) {
         super.yearlyTaxes = taxes;
     }

@@ -10,9 +10,8 @@ package homework2;
  * @author Paraducha Juan
  */
 public class Suburban extends House {
-    
-    
-    public Suburban(){
+
+    public Suburban() {
         super.yearlyTaxes = 1000;
         super.weeksOfConstruction = 4;
         costCalculation(12000);
@@ -22,6 +21,5 @@ public class Suburban extends House {
     public String toString() {
         return "Suburban";
     }
-    
-    
+
 }
