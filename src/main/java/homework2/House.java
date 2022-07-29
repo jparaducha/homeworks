@@ -9,9 +9,7 @@ package homework2;
  *
  * @author Paraducha Juan
  */
-public  class House extends Building {
-
-    
+public class House extends Building {
 
     static String className = "Housing";
     String address;
@@ -21,13 +19,21 @@ public  class House extends Building {
         return className;
     }
 
+    public House(String address) {
+        this.address = address;
+    }
+
+    public House() {
+
+    }
+
     @Override
     public int hashCode() {
 
         return super.hashCode() + 1;
     }
-    
-    public void setAddress(String address){
+
+    public void setAddress(String address) {
         this.address = address;
     }
 
