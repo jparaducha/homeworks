@@ -19,6 +19,7 @@ public abstract class Building {
     double costOfBuilding;
     short weeksOfConstruction;
     String material;
+    final String constructionCompany = "LeVille Works";
 
     public Building() {
         buildingCount++;
