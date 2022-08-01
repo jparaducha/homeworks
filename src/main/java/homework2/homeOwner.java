@@ -9,8 +9,10 @@ package homework2;
  *
  * @author Paraducha Juan
  */
-public interface working {
+public interface homeOwner {
 
-    public void printWorkers();
+    int BASIC_TAX = 120;
+
+    public void HOACharge(String className);
 
 }
