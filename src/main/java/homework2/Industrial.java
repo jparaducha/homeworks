@@ -9,7 +9,7 @@ package homework2;
  *
  * @author Paraducha Juan
  */
-public class Industrial extends Building {
+public class Industrial extends Building implements working {
 
     private int quantityOfWorkers = 0;
 
@@ -24,6 +24,11 @@ public class Industrial extends Building {
 
     public int getWorkers() {
         return quantityOfWorkers;
+    }
+
+    @Override
+    public void printWorkers() {
+        System.out.println("This " + this.toString() + " building has " + this.quantityOfWorkers + " workers");
     }
 
 }

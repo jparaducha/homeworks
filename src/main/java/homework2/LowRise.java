@@ -9,7 +9,7 @@ package homework2;
  *
  * @author Paraducha Juan
  */
-public final class LowRise extends Apartment {
+public final class LowRise extends Apartment implements privateProperty {
 
     public LowRise() {
         super.yearlyTaxes = 2200;
@@ -20,6 +20,13 @@ public final class LowRise extends Apartment {
     @Override
     public String toString() {
         return "LowRise";
+    }
+
+    @Override
+    public void changeMaterial() {
+        System.out.println("Introduce new type of material: ");
+
+        this.material = scan.nextLine();
     }
 
 }
