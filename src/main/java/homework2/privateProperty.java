@@ -9,7 +9,7 @@ package homework2;
  *
  * @author Paraducha Juan
  */
-public interface privateProperty {
+public interface PrivateProperty {
 
     public void changeMaterial();
 

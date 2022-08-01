@@ -9,7 +9,7 @@ package homework2;
  *
  * @author Paraducha Juan
  */
-public class House extends Building implements homeOwner {
+public class House extends Building implements HomeOwner {
 
     static String className = "Housing";
     String address;
@@ -55,7 +55,7 @@ public class House extends Building implements homeOwner {
     @Override
     public void HOACharge(String className) {
 
-        System.out.println("You have to pay " + homework2.homeOwner.BASIC_TAX * 2.5 + " to the Home Owner Association");
+        System.out.println("You have to pay " + homework2.HomeOwner.BASIC_TAX * 2.5 + " to the Home Owner Association");
 
     }
 

@@ -9,7 +9,7 @@ package homework2;
  *
  * @author Paraducha Juan
  */
-public final class LowRise extends Apartment implements privateProperty, homeOwner {
+public final class LowRise extends Apartment implements PrivateProperty, HomeOwner {
 
     public LowRise() {
         super.yearlyTaxes = 2200;
@@ -32,7 +32,7 @@ public final class LowRise extends Apartment implements privateProperty, homeOwn
     @Override
     public void HOACharge(String className) {
 
-        System.out.println("You have to pay " + homework2.homeOwner.BASIC_TAX + " to the Home Owner Association");
+        System.out.println("You have to pay " + homework2.HomeOwner.BASIC_TAX + " to the Home Owner Association");
 
     }
 

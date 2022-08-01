@@ -9,7 +9,7 @@ package homework2;
  *
  * @author Paraducha Juan
  */
-public class Industrial extends Building implements working {
+public class Industrial extends Building implements Working {
 
     private int quantityOfWorkers = 0;
 

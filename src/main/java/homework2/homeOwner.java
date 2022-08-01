@@ -9,7 +9,7 @@ package homework2;
  *
  * @author Paraducha Juan
  */
-public interface homeOwner {
+public interface HomeOwner {
 
     int BASIC_TAX = 120;
 

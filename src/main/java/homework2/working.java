@@ -9,7 +9,7 @@ package homework2;
  *
  * @author Paraducha Juan
  */
-public interface working {
+public interface Working {
 
     public void printWorkers();
 

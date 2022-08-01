@@ -9,7 +9,7 @@ package homework2;
  *
  * @author Paraducha Juan
  */
-public class Suburban extends House implements privateProperty, homeOwner {
+public class Suburban extends House implements PrivateProperty, HomeOwner {
 
     public Suburban() {
         super.yearlyTaxes = 1000;
@@ -32,7 +32,7 @@ public class Suburban extends House implements privateProperty, homeOwner {
     @Override
     public void HOACharge(String className) {
 
-        System.out.println("You have to pay " + homework2.homeOwner.BASIC_TAX * 4.5 + " to the Home Owner Association");
+        System.out.println("You have to pay " + homework2.HomeOwner.BASIC_TAX * 4.5 + " to the Home Owner Association");
 
     }
 
