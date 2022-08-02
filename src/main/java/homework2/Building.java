@@ -72,4 +72,21 @@ public abstract class Building {
         scan.nextLine();
     }
 
+    protected void costWithArea() {
+        System.out.println("Enter the area to be built on in square meters: ");
+        int area = scan.nextInt();
+
+        if (area > 100) {
+            this.costOfBuilding *= 1.2;
+        }
+        if (area > 250) {
+            this.costOfBuilding *= 1.8;
+        }
+        if (area > 400) {
+            this.costOfBuilding *= 2.6;
+        }
+        
+        timeAndCost();
+    }
+
 }
