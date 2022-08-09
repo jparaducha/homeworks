@@ -9,17 +9,12 @@ package homework2;
  *
  * @author Paraducha Juan
  */
-public class Health extends Public {
+public abstract class Human {
 
-    public Health() {
-        super.yearlyTaxes = 0;
-        super.weeksOfConstruction = 52;
-        costCalculation(50000);
-    }
+    java.util.Scanner scan = new java.util.Scanner(System.in);
 
-    @Override
-    public String toString() {
-        return "Health";
-    }
+    public String name;
+    public int age;
+    public String nationality;
 
 }

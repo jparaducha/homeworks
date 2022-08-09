@@ -7,97 +7,34 @@ package homework2;
 
 import java.util.Scanner;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  *
  * @author Paraducha Juan
  */
 public class Main {
 
-    static String flag = "s";
+private static final Logger logger = LogManager.getLogger(Main.class);
 
     public static void main(String[] args) {
 
-        Scanner scan = new Scanner(System.in);
+        
+        try{
+        
+        Building b = new Building("Wood");
+        Company c = new Company();
+        
+        b.setArea(200);
+        b.setFloors(5);
 
-        do {
-            System.out.println("Select new building to build"
-                    + "\n1.Apartment"
-                    + "\n2.House"
-                    + "\n3.Public"
-                    + "\n4.Industrial"
-                    + "\nAny key. Exit\n");
+        logger.info("Building cost:"  + c.buildingCost(b));
 
-            String selection = scan.nextLine();
-            String selection2;
-
-            switch (selection) {
-                case "1":
-                    System.out.println("Select new building to build"
-                            + "\n1.Low Rise"
-                            + "\n2.High Rise"
-                            + "\nAny key. Select other type of building\n");
-
-                    selection2 = scan.nextLine();
-                    if ("1".equals(selection2)) {
-                        LowRise build = new LowRise();
-                        build.timeAndCost();
-                    }
-                    if ("2".equals(selection2)) {
-                        Building build = new HighRise();
-                        build.timeAndCost();
-                    }
-                    break;
-                case "2":
-                    System.out.println("Select new building to build"
-                            + "\n1.Cottage"
-                            + "\n2.Suburban"
-                            + "\nAny key. Select other type of building\n");
-                    selection2 = scan.nextLine();
-                    if ("1".equals(selection2)) {
-                        Building build = new Cottage();
-                        build.timeAndCost();
-                    }
-                    if ("2".equals(selection2)) {
-                        Building build = new Suburban();
-                        build.timeAndCost();
-                    }
-                    break;
-                case "3":
-                    System.out.println("Select new building to build"
-                            + "\n1.Health"
-                            + "\n2.Education"
-                            + "\nAny key. Select other type of building\n");
-                    selection2 = scan.nextLine();
-
-                    if ("1".equals(selection2)) {
-                        Building build = new Health();
-                        build.timeAndCost();
-                    }
-                    if ("2".equals(selection2)) {
-                        Building build = new Education();
-                        build.timeAndCost();
-                    }
-                    break;
-                case "4":
-                    System.out.println("Select new building to build"
-                            + "\n1.Manufacturing"
-                            + "\n2.Distribution"
-                            + "\nAny key. Select other type of building\n");
-                    selection2 = scan.nextLine();
-                    if ("1".equals(selection2)) {
-                        Building build = new Manufacturing();
-                        build.timeAndCost();
-                    }
-                    if ("2".equals(selection2)) {
-                        Building build = new Distribution();
-                        build.timeAndCost();
-                    }
-                    break;
-                default:
-                    flag = "n";
-            }
-
-        } while (!flag.equals("n"));
-
+        }catch(Exception e){
+            logger.error(e);
+        }
+        
     }
 }

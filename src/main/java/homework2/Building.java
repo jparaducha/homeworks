@@ -9,17 +9,22 @@ package homework2;
  *
  * @author Paraducha Juan
  */
-public abstract class Building {
+public class Building extends Company {
 
     java.util.Scanner scan = new java.util.Scanner(System.in);
 
-    static int buildingCount = 0;
-    int buildingId;
-    int yearlyTaxes;
-    double costOfBuilding;
-    short weeksOfConstruction;
-    String material;
-    final String constructionCompany = "LeVille Works";
+    public static int buildingCount;
+    public int buildingId;
+    public int yearlyTaxes;
+    public String material;
+    public int floors;
+    public String name;
+    public String type;
+    public int areaInSqMts;
+
+    static {
+        buildingCount = 0;
+    }
 
     public Building() {
         buildingCount++;
@@ -27,44 +32,71 @@ public abstract class Building {
         this.buildingId = buildingCount;
     }
 
-    protected void costCalculation(int price) {
+    public Building(String material) {
+        buildingCount++;
 
-        System.out.println("Select material of construction:"
-                + "\n1.Wood"
-                + "\n2.Concrete"
-                + "\n3.Steel"
-                + "\n4.Bricks (default)"
-                + "\nAny key: Select default\n");
+        this.buildingId = buildingCount;
+        this.material = material;
+    }
 
-        String selection = scan.nextLine();
-
-        switch (selection) {
-            case "1":
-                this.costOfBuilding = price * 1;
-                this.material = "Wood";
-                break;
-            case "2":
-                this.costOfBuilding = price * 2.3;
-                this.material = "Concrete";
-                break;
-            case "3":
-                this.costOfBuilding = price * 3.5;
-                this.material = "Steel";
-                break;
-            default:
-                this.costOfBuilding = price * 1.8;
-                this.material = "Bricks";
+    public Building(String material, int area, int floors) throws InvalidFloorsException, InvalidAreaException{
+        if(floors< 0){
+            throw new InvalidFloorsException("Floors cannot be negative");
         }
+        if(floors==0){
+            throw new InvalidFloorsException("Floors cannot be zero");
+        }
+        if(area< 0){
+            throw new InvalidAreaException("Area cannot be negative");
+        }
+        if(area==0){
+            throw new InvalidAreaException("Area cannot be zero");
+        }
+        buildingCount++;
 
+        this.buildingId = buildingCount;
+        this.material = material;
+        this.areaInSqMts = area;
+        this.floors = floors;
+    }
+    
+    public void setFloors(int floors) throws InvalidFloorsException{
+        if(floors< 0){
+            throw new InvalidFloorsException("Floors cannot be negative");
+        }
+        if(floors==0){
+            throw new InvalidFloorsException("Floors cannot be zero");
+        }
+        this.floors = floors;
+    }
+    
+    public int getFloors(){
+        return this.floors;
+    }
+
+    public void setMaterial(String material) {
+        this.material = material;
+    }
+
+    public void setArea(int area) throws InvalidAreaException {
+        if(area< 0){
+            throw new InvalidAreaException("Area cannot be negative");
+        }
+        if(area==0){
+            throw new InvalidAreaException("Area cannot be zero");
+        }
+        this.areaInSqMts = area;
+    }
+
+    public int getArea() {
+        return this.areaInSqMts;
     }
 
     public int getTaxes() {
         return yearlyTaxes;
     }
 
-    @Override
-    public abstract String toString();
-
+    /*
     protected void timeAndCost() {
         System.out.println("The " + this.toString() + " building made of " + this.material + " will cost: $" + Math.ceil(this.costOfBuilding) + " and will be finished in approximately " + this.weeksOfConstruction + " weeks.");
         System.out.println("This building will have a yearly tax of $" + this.yearlyTaxes);
@@ -87,6 +119,5 @@ public abstract class Building {
         }
         
         timeAndCost();
-    }
-
+    }*/
 }
