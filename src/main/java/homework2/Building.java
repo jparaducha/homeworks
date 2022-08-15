@@ -13,14 +13,14 @@ public class Building extends Company {
 
     java.util.Scanner scan = new java.util.Scanner(System.in);
 
-    public static int buildingCount;
-    public int buildingId;
-    public int yearlyTaxes;
-    public String material;
-    public int floors;
-    public String name;
-    public String type;
-    public int areaInSqMts;
+
+    private static int buildingCount;
+    private int buildingId;
+    private int yearlyTaxes;
+    private Material material;
+    private int floors;
+    private int areaInSqMts;
+    private int costOfBuilding;
 
     static {
         buildingCount = 0;
@@ -32,14 +32,16 @@ public class Building extends Company {
         this.buildingId = buildingCount;
     }
 
-    public Building(String material) {
+    public Building(Material material) {
         buildingCount++;
 
         this.buildingId = buildingCount;
         this.material = material;
     }
 
-    public Building(String material, int area, int floors) throws InvalidFloorsException, InvalidAreaException{
+
+
+    public Building(Material material, int area, int floors) throws InvalidFloorsException, InvalidAreaException{
         if(floors< 0){
             throw new InvalidFloorsException("Floors cannot be negative");
         }
@@ -74,7 +76,7 @@ public class Building extends Company {
         return this.floors;
     }
 
-    public void setMaterial(String material) {
+    public void setMaterial(Material material) {
         this.material = material;
     }
 
@@ -96,28 +98,31 @@ public class Building extends Company {
         return yearlyTaxes;
     }
 
-    /*
-    protected void timeAndCost() {
-        System.out.println("The " + this.toString() + " building made of " + this.material + " will cost: $" + Math.ceil(this.costOfBuilding) + " and will be finished in approximately " + this.weeksOfConstruction + " weeks.");
-        System.out.println("This building will have a yearly tax of $" + this.yearlyTaxes);
-        System.out.println("Select any key to continue...");
-        scan.nextLine();
+
+
+    public double buildingCost(){
+
+        switch(this.material){
+            case CONCRETE:
+                this.costOfBuilding = this.areaInSqMts * this.floors * 3000;
+                break;
+            case STEEL:
+                this.costOfBuilding = this.areaInSqMts * this.floors * 4200;
+                break;
+            case BRICKS:
+                this.costOfBuilding = this.areaInSqMts * this.floors * 3300;
+                break;
+            case STONE:
+                this.costOfBuilding = this.areaInSqMts * this.floors * 4800;
+                break;
+            case WOOD:
+            case ORGANIC:
+                this.costOfBuilding = this.areaInSqMts * this.floors * 2750;
+                break;
+            default :
+                this.costOfBuilding = this.areaInSqMts * this.floors * 2500;
+        }
+
+        return this.costOfBuilding;
     }
-
-    protected void costWithArea() {
-        System.out.println("Enter the area to be built on in square meters: ");
-        int area = scan.nextInt();
-
-        if (area > 100) {
-            this.costOfBuilding *= 1.2;
-        }
-        if (area > 250) {
-            this.costOfBuilding *= 1.8;
-        }
-        if (area > 400) {
-            this.costOfBuilding *= 2.6;
-        }
-        
-        timeAndCost();
-    }*/
 }

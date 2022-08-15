@@ -6,39 +6,28 @@
 package homework2;
 
 /**
- *
  * @author Paraducha Juan
  */
-public class Worker extends Human implements ISalary {
+public abstract class Worker extends Human {
 
     public int shiftHours;
-    public int quantity;
+    private int yearsOfExperience;
 
-    public Worker(int q) {
-        this.quantity = q;
-    }
-
-    public Worker() {
-    }
-
-    public void setQuantity(int q) {
-        this.quantity = q;
-    }
-
-    public int getQuantity() {
-        return quantity;
+    public int getShift() {
+        return shiftHours;
     }
 
     public void setShift(int shift) {
         this.shiftHours = shift;
     }
 
-    public int getShift() {
-        return shiftHours;
+    public int getExperience() {
+        return yearsOfExperience;
     }
 
-    public int TotalSalary() {
-        return shiftHours * quantity;
+    public void setExperience(int years) {
+        this.yearsOfExperience = years;
     }
 
+    public abstract int TotalSalary();
 }

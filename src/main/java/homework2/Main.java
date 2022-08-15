@@ -23,14 +23,16 @@ private static final Logger logger = LogManager.getLogger(Main.class);
 
         
         try{
+
+            Material wood = Material.WOOD;
         
-        Building b = new Building("Wood");
-        Company c = new Company();
+        Building b = new Building(wood);
         
         b.setArea(200);
         b.setFloors(5);
 
-        logger.info("Building cost:"  + c.buildingCost(b));
+        logger.info("Building cost:"  + b.buildingCost());
+
 
         }catch(Exception e){
             logger.error(e);

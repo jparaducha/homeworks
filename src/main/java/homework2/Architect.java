@@ -6,23 +6,21 @@
 package homework2;
 
 /**
- *
  * @author Paraducha Juan
  */
-public class Architect extends Human implements ISalary {
+public class Architect extends Worker {
 
-    public int yearsOfExperience;
-    public String shift;
+    private String planType;
 
     @Override
     public int TotalSalary() {
         int salary;
         salary = 0;
-        if ("FullTime".equals(shift)) {
-            salary = yearsOfExperience * 2500;
+        if ("FullPlan".equals(planType)) {
+            salary = super.getExperience() * 2500;
         }
-        if ("PartTime".equals(shift) || "".equals(shift)) {
-            salary = yearsOfExperience * 1000;
+        if ("BasicPlan".equals(planType) || "".equals(planType)) {
+            salary = super.getExperience() * 1000;
         }
 
         if (salary > 20000) {
@@ -32,20 +30,12 @@ public class Architect extends Human implements ISalary {
         return salary;
     }
 
-    public void setExperience(int years) {
-        this.yearsOfExperience = years;
+    public String getPlanType() {
+        return planType;
     }
 
-    public int getExperience() {
-        return yearsOfExperience;
-    }
-
-    public void setShift(String shift) {
-        this.shift = shift;
-    }
-
-    public String getShift() {
-        return shift;
+    public void setPlanType(String planType) {
+        this.planType = planType;
     }
 
 }

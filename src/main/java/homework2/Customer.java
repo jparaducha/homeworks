@@ -6,11 +6,18 @@
 package homework2;
 
 /**
- *
  * @author Paraducha Juan
  */
 public class Customer extends Human {
-    
-    public int budget;
-    
+
+    private int budget;
+
+    public int getBudget() {
+        return budget;
+    }
+
+    public void setBudget(int budget) {
+        this.budget = budget;
+    }
+
 }
