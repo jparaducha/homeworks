@@ -29,5 +29,5 @@ public abstract class Worker extends Human {
         this.yearsOfExperience = years;
     }
 
-    public abstract int TotalSalary();
+    public abstract double TotalSalary();
 }

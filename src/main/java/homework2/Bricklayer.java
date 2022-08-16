@@ -4,6 +4,10 @@ public class Bricklayer extends Worker {
 
     private int salary;
 
+    public Bricklayer(){
+        this.salary = 1200;
+    }
+
     public void setSalary(int salary){
         this.salary = salary;
     }
@@ -13,8 +17,13 @@ public class Bricklayer extends Worker {
     }
 
     @Override
-    public int TotalSalary(){
-        return 10;
+    public double TotalSalary(){
+        return this.salary;
+    }
+
+    @Override
+    public String toString(){
+        return "Bricklayer";
     }
 
 

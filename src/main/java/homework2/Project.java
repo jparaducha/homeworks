@@ -9,7 +9,9 @@ public class Project extends Company {
     private Permit permit;
     private CustomLinkedList<Bricklayer> bricklayerCustomLinkedList = new CustomLinkedList<>();
 
-    public Project(Architect architect, Customer customer, Building building, Permit permit, Bricklayer bricklayer){
+    public Project(){};
+
+    public Project(Architect architect, Customer customer, Building building, Permit permit){
     this.architect = architect;
     this.customer = customer;
     this.building = building;
@@ -64,8 +66,32 @@ public class Project extends Company {
         return this.bricklayerCustomLinkedList.toString();
     }
 
+    private double bricklayersListCost(){
+        double total;
+        total = 0;
+        int counter;
+        counter = 2;
+        Node<Bricklayer> temp = new Node<>(null);
+
+        if (this.bricklayerCustomLinkedList.head == null) {
+            return 0;
+        } else {
+
+            Node<Bricklayer> X = this.bricklayerCustomLinkedList.head;
+
+            total = total + X.data.TotalSalary();
+            while (X.next != null) {
+                X = X.next;
+                total =  total + X.data.TotalSalary();
+                counter++;
+            }
+
+        }
+        return total;
+    }
+
     public double TotalCost(){
-        return building.buildingCost() + architect.TotalSalary();
+        return building.buildingCost() + architect.TotalSalary() + bricklayersListCost();
     }
 
 }
