@@ -7,8 +7,9 @@ public class Project extends Company {
     private Architect architect;
     private Building building;
     private Permit permit;
+    private CustomLinkedList<Bricklayer> bricklayerCustomLinkedList = new CustomLinkedList<>();
 
-    public Project(Architect architect, Customer customer, Building building, Permit permit){
+    public Project(Architect architect, Customer customer, Building building, Permit permit, Bricklayer bricklayer){
     this.architect = architect;
     this.customer = customer;
     this.building = building;
@@ -53,6 +54,18 @@ public class Project extends Company {
 
     public Permit getPermit(){
         return permit;
+    }
+
+    public void addWorker(Bricklayer bricklayer){
+        this.bricklayerCustomLinkedList.add(bricklayer);
+    }
+
+    public String getWorkers(){
+        return this.bricklayerCustomLinkedList.toString();
+    }
+
+    public double TotalCost(){
+        return building.buildingCost() + architect.TotalSalary();
     }
 
 }
