@@ -1,6 +1,9 @@
 package homework2;
 
-public class Project extends Company {
+import homework2.CustomLinkedList.CustomLinkedList;
+import homework2.CustomLinkedList.Node;
+
+public class Project {
 
     private String city;
     private Customer customer;

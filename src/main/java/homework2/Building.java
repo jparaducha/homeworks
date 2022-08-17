@@ -5,6 +5,9 @@
  */
 package homework2;
 
+import homework2.Exceptions.InvalidAreaException;
+import homework2.Exceptions.InvalidFloorsException;
+
 /**
  * @author Paraducha Juan
  */

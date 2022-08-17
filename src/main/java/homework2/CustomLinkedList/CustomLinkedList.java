@@ -1,16 +1,16 @@
-package homework2;
+package homework2.CustomLinkedList;
 
 
-class CustomLinkedList<T> {
+public class CustomLinkedList<T> {
 
-    Node<T> head;
+    public Node<T> head;
     private int length = 0;
 
-    CustomLinkedList() {
+    public CustomLinkedList() {
         this.head = null;
     }
 
-    void add(T data) {
+    public void add(T data) {
 
         Node<T> temp = new Node<>(data);
 
@@ -30,7 +30,7 @@ class CustomLinkedList<T> {
         length++;
     }
 
-    void add(int position, T data) {
+    public void add(int position, T data) {
 
         if (position > length + 1) {
 
@@ -63,7 +63,7 @@ class CustomLinkedList<T> {
         prev.next.next = temp;
     }
 
-    void remove(T key) {
+    public void remove(T key) {
         Node<T> prev = new Node<>(null);
 
         prev.next = head;
@@ -117,7 +117,7 @@ class CustomLinkedList<T> {
         }
     }
 
-    void clear() {
+    public void clear() {
 
         head = null;
         length = 0;
