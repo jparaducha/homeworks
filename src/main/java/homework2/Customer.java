@@ -19,5 +19,4 @@ public class Customer extends Human {
     public void setBudget(int budget) {
         this.budget = budget;
     }
-
 }

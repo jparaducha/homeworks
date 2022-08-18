@@ -5,71 +5,62 @@ import homework2.CustomLinkedList.Node;
 
 public class Project {
 
+    private final CustomLinkedList<Bricklayer> bricklayerCustomLinkedList = new CustomLinkedList<>();
     private String city;
-    private Customer customer;
     private Architect architect;
     private Building building;
     private Permit permit;
-    private CustomLinkedList<Bricklayer> bricklayerCustomLinkedList = new CustomLinkedList<>();
 
-    public Project(){};
+    public Project() {
+    }
 
-    public Project(Architect architect, Customer customer, Building building, Permit permit){
-    this.architect = architect;
-    this.customer = customer;
-    this.building = building;
-    this.permit = permit;
-    };
-
-    public void setCity(String city) {
-        this.city = city;
+    public Project(Architect architect, Building building, Permit permit) {
+        this.architect = architect;
+        this.building = building;
+        this.permit = permit;
     }
 
     public String getCity() {
         return city;
     }
 
-    public void setCustomer(Customer customer){
-        this.customer = customer;
+    public void setCity(String city) {
+        this.city = city;
     }
 
-    public Customer getCustomer(){
-        return customer;
-    }
-
-    public void setArchitect(Architect architect){
-        this.architect = architect;
-    }
-
-    public Architect getArchitect(){
+    public Architect getArchitect() {
         return architect;
     }
 
-    public void setBuilding(Building building){
-        this.building = building;
+    public void setArchitect(Architect architect) {
+        this.architect = architect;
     }
 
-    public Building getBuilding(){
+    public Building getBuilding() {
         return building;
     }
 
-    public void setPermit(Permit permit){
-        this.permit = permit;
+    public void setBuilding(Building building) {
+        this.building = building;
     }
 
-    public Permit getPermit(){
+    public Permit getPermit() {
         return permit;
     }
 
-    public void addWorker(Bricklayer bricklayer){
+    public void setPermit(Permit permit) {
+        this.permit = permit;
+    }
+
+    public void addWorker(Bricklayer bricklayer) {
         this.bricklayerCustomLinkedList.add(bricklayer);
     }
 
-    public String getWorkers(){
-        return this.bricklayerCustomLinkedList.toString();
+    public CustomLinkedList<Bricklayer> getWorkers() {
+        return this.bricklayerCustomLinkedList;
     }
 
-    private double bricklayersListCost(){
+    public double bricklayersListCost() {
         double total;
         total = 0;
         int counter;
@@ -85,16 +76,10 @@ public class Project {
             total = total + X.data.TotalSalary();
             while (X.next != null) {
                 X = X.next;
-                total =  total + X.data.TotalSalary();
+                total = total + X.data.TotalSalary();
                 counter++;
             }
-
         }
         return total;
     }
-
-    public double TotalCost(){
-        return building.buildingCost() + architect.TotalSalary() + bricklayersListCost();
-    }
-
 }

@@ -6,14 +6,14 @@
 package homework2.Exceptions;
 
 /**
- *
  * @author Paraducha Juan
  */
 public class InvalidAreaException extends RuntimeException {
-    
-    public InvalidAreaException(){};
-    
-    public InvalidAreaException(String message){
+
+    public InvalidAreaException() {
+    }
+
+    public InvalidAreaException(String message) {
         super(message);
     }
 }

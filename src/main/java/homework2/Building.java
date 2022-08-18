@@ -19,8 +19,8 @@ public class Building extends Company {
         buildingCount = 0;
     }
 
-    java.util.Scanner scan = new java.util.Scanner(System.in);
     private final int buildingId;
+    java.util.Scanner scan = new java.util.Scanner(System.in);
     private int yearlyTaxes;
     private Material material;
     private int floors;
@@ -39,7 +39,6 @@ public class Building extends Company {
         this.buildingId = buildingCount;
         this.material = material;
     }
-
 
     public Building(Material material, int area, int floors) throws InvalidFloorsException, InvalidAreaException {
         if (floors < 0) {
@@ -94,32 +93,35 @@ public class Building extends Company {
         this.areaInSqMts = area;
     }
 
+    public int getTotalArea() {
+        return this.areaInSqMts * this.floors;
+    }
+
     public int getTaxes() {
         return yearlyTaxes;
     }
-
 
     public double buildingCost() {
 
         switch (this.material) {
             case CONCRETE:
-                this.costOfBuilding = this.areaInSqMts * this.floors * 3000;
+                this.costOfBuilding = this.areaInSqMts * this.floors * 2700;
                 break;
             case STEEL:
-                this.costOfBuilding = this.areaInSqMts * this.floors * 4200;
+                this.costOfBuilding = this.areaInSqMts * this.floors * 3900;
                 break;
             case BRICKS:
-                this.costOfBuilding = this.areaInSqMts * this.floors * 3300;
+                this.costOfBuilding = this.areaInSqMts * this.floors * 3000;
                 break;
             case STONE:
-                this.costOfBuilding = this.areaInSqMts * this.floors * 4800;
+                this.costOfBuilding = this.areaInSqMts * this.floors * 4500;
                 break;
             case WOOD:
             case ORGANIC:
-                this.costOfBuilding = this.areaInSqMts * this.floors * 2750;
+                this.costOfBuilding = this.areaInSqMts * this.floors * 2450;
                 break;
             default:
-                this.costOfBuilding = this.areaInSqMts * this.floors * 2500;
+                this.costOfBuilding = this.areaInSqMts * this.floors * 2200;
         }
 
         return this.costOfBuilding;

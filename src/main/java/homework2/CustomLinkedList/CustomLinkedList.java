@@ -1,6 +1,5 @@
 package homework2.CustomLinkedList;
 
-
 public class CustomLinkedList<T> {
 
     public Node<T> head;
@@ -33,9 +32,7 @@ public class CustomLinkedList<T> {
     public void add(int position, T data) {
 
         if (position > length + 1) {
-
-            System.out.println(
-                    "Position Unavailable in LinkedList");
+            System.out.println("Position Unavailable in LinkedList");
             return;
         }
 
@@ -82,8 +79,7 @@ public class CustomLinkedList<T> {
 
         while (temp.next != null) {
 
-            if (String.valueOf(temp.data).equals(
-                    String.valueOf(key))) {
+            if (String.valueOf(temp.data).equals(String.valueOf(key))) {
 
                 prev.next = next;
                 exists = true;
@@ -98,9 +94,7 @@ public class CustomLinkedList<T> {
             next = temp.next;
         }
 
-        if (exists == false
-                && String.valueOf(temp.data).equals(
-                String.valueOf(key))) {
+        if (exists == false && String.valueOf(temp.data).equals(String.valueOf(key))) {
 
             prev.next = null;
 
@@ -112,8 +106,7 @@ public class CustomLinkedList<T> {
             length--;
         } else {
 
-            System.out.println(
-                    "Given Value is not present in linked list");
+            System.out.println("Given Value is not present in linked list");
         }
     }
 
@@ -123,11 +116,11 @@ public class CustomLinkedList<T> {
         length = 0;
     }
 
-    boolean empty() {
+    public boolean empty() {
         return head == null;
     }
 
-    int length() {
+    public int length() {
         return this.length;
     }
 
@@ -137,8 +130,9 @@ public class CustomLinkedList<T> {
 
         Node<T> X = head;
 
-        if (X == null)
+        if (X == null) {
             return S + " }";
+        }
 
         while (X.next != null) {
             S += X.data + "; ";

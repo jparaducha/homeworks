@@ -12,45 +12,50 @@ import org.apache.logging.log4j.Logger;
  * @author Paraducha Juan
  */
 public class Main {
-
-    private static final Logger logger = LogManager.getLogger(Main.class);
+    private static final Logger LOGGER = LogManager.getLogger(Main.class);
 
     public static void main(String[] args) {
-
-
         try {
-
             Material wood = Material.WOOD;
 
             Building b = new Building(wood);
+
             Customer customer = new Customer();
+
             Permit permit = new Permit();
+
+            Company company = new Company();
 
             b.setArea(200);
             b.setFloors(5);
 
-            logger.info("Building cost:" + b.buildingCost());
+            LOGGER.info("Building cost:" + b.buildingCost());
 
-            Architect arquitecto = new Architect(2100,"FullPlan",3);
-            Project proyecto = new Project(arquitecto, customer, b, permit);
+            Architect arquitecto = new Architect(2100, "FullPlan", 3);
+
+            Project proyecto = new Project(arquitecto, b, permit);
 
             Bricklayer brick1 = new Bricklayer();
             Bricklayer brick2 = new Bricklayer();
+
             Bricklayer brick3 = new Bricklayer();
 
             proyecto.addWorker(brick1);
+
             proyecto.addWorker(brick2);
+
             proyecto.addWorker(brick3);
 
-            logger.info("salary of a worker: " + brick1.TotalSalary());
-            logger.info("salary of the architect: " + arquitecto.TotalSalary());
+            LOGGER.info("salary of worker1: " + brick1.TotalSalary());
 
-            logger.info("Total cost of the project: " + proyecto.TotalCost());
+            LOGGER.info("salary of all workers: " + proyecto.bricklayersListCost());
 
+            LOGGER.info("salary of the architect: " + arquitecto.TotalSalary());
 
+            LOGGER.info("Total cost of the project: " + company.TotalCost(proyecto));
         } catch (Exception e) {
-            logger.error(e);
-        }
 
+            LOGGER.error(e);
+        }
     }
 }

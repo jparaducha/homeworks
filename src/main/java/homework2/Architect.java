@@ -11,19 +11,18 @@ package homework2;
 public class Architect extends Worker {
 
     private String planType;
-    private double salary;
 
-    public Architect(){
-        this.salary = 1900;
+    public Architect() {
+        super(2500);
         super.setExperience(1);
     }
 
-    public Architect(int salary){
-        this.salary = salary;
+    public Architect(int salary) {
+        super(salary);
     }
 
-    public Architect(int salary, String plan, int experience){
-        this.salary = salary;
+    public Architect(int salary, String plan, int experience) {
+        super(salary);
         this.planType = plan;
         super.setExperience(experience);
     }
@@ -31,17 +30,17 @@ public class Architect extends Worker {
     @Override
     public double TotalSalary() {
         if ("FullPlan".equals(planType)) {
-            salary = super.getExperience() * salary * 1.7;
+            super.setSalary((int) (super.getExperience() * super.getSalary() * 1.7));
         }
         if ("BasicPlan".equals(planType) || "".equals(planType)) {
-            salary = super.getExperience() * salary * 1.2;
+            super.setSalary((int) (super.getExperience() * super.getSalary() * 1.2));
         }
 
-        if (salary > 20000) {
-            salary = 20000;
+        if (super.getSalary() > 20000) {
+            super.setSalary(20000);
         }
 
-        return salary;
+        return super.getSalary();
     }
 
     public String getPlanType() {
@@ -51,5 +50,4 @@ public class Architect extends Worker {
     public void setPlanType(String planType) {
         this.planType = planType;
     }
-
 }

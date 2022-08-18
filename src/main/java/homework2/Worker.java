@@ -12,6 +12,22 @@ public abstract class Worker extends Human {
 
     public int shiftHours;
     private int yearsOfExperience;
+    private int salary;
+
+    public Worker(int salary) {
+        this.salary = salary;
+    }
+
+    public Worker() {
+    }
+
+    public int getSalary() {
+        return salary;
+    }
+
+    public void setSalary(int salary) {
+        this.salary = salary;
+    }
 
     public int getShift() {
         return shiftHours;
