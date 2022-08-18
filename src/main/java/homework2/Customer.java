@@ -12,6 +12,13 @@ public class Customer extends Human {
 
     private int budget;
 
+    public Customer() {
+    }
+
+    public Customer(int budget) {
+        this.budget = budget;
+    }
+
     public int getBudget() {
         return budget;
     }

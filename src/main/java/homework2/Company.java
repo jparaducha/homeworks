@@ -5,6 +5,8 @@
  */
 package homework2;
 
+import homework2.CustomLinkedList.CustomLinkedList;
+
 /**
  * @author Paraducha Juan
  */
@@ -15,6 +17,10 @@ public class Company {
     private Customer customer;
 
     public Company() {
+    }
+
+    public Company(Customer customer) {
+        this.customer = customer;
     }
 
     public String getName() {
@@ -33,17 +39,29 @@ public class Company {
         this.customer = customer;
     }
 
-    public double TotalCost(Project p) {
-        return p.getBuilding().buildingCost() + p.getArchitect().TotalSalary() + p.bricklayersListCost();
+    public String TotalCost(Project p) {
+        double totalCost = p.getBuilding().buildingCost() + p.getArchitect().TotalSalary() + p.bricklayersListCost();
+        String text = "Total cost of the project: $" + totalCost + "\n";
+        if (totalCost < this.customer.getBudget()) {
+            text += "The customer is $" + (this.customer.getBudget() - totalCost) + " in surplus";
+        }
+
+        if (totalCost > this.customer.getBudget()) {
+            text += "The customer is $" + (totalCost - this.customer.getBudget()) + " in shortage";
+        }
+
+        if (totalCost == this.customer.getBudget()) {
+            text += "The customer has the right amount of money for the project";
+        }
+
+        return text;
     }
 
     public String ConstructionTime(Project p) {
         int totalArea = p.getBuilding().getTotalArea();
-        int quantityOfWorkers = p.getWorkers().length();
-        int areaPerWorker = totalArea / quantityOfWorkers;
+        CustomLinkedList<Bricklayer> bricklayerCustomLinkedList = p.getWorkers();
+        int areaPerWorker = totalArea / (bricklayerCustomLinkedList.length() + (int) (p.getExtraHoursWorkers().length() * 0.5));
 
-        return "about a week";
+        return "This project will take approximately " + (areaPerWorker / 9) * p.getBuilding().TimeToBuild() + " weeks to be completed";
     }
-
-    //calculateCost(proyect)
 }

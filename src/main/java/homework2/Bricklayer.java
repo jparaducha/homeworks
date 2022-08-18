@@ -14,6 +14,11 @@ public class Bricklayer extends Worker {
         this.extraHours = extra;
     }
 
+    public Bricklayer(boolean extra) {
+        super(1100);
+        this.extraHours = extra;
+    }
+
     public boolean getExtraHours() {
         return extraHours;
     }

@@ -126,4 +126,31 @@ public class Building extends Company {
 
         return this.costOfBuilding;
     }
+
+    public double TimeToBuild() {
+        double time;
+
+        switch (this.material) {
+            case CONCRETE:
+                time = 1.5;
+                break;
+            case STEEL:
+                time = 1.7;
+                break;
+            case BRICKS:
+                time = 2.3;
+                break;
+            case STONE:
+                time = 2.8;
+                break;
+            case WOOD:
+            case ORGANIC:
+                time = 1.2;
+                break;
+            default:
+                time = 1;
+        }
+
+        return time;
+    }
 }

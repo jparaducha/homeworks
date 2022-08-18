@@ -60,6 +60,36 @@ public class Project {
         return this.bricklayerCustomLinkedList;
     }
 
+    public CustomLinkedList<Bricklayer> getAvailableWorkers() {
+        CustomLinkedList<Bricklayer> list = new CustomLinkedList<>();
+        Node node = this.bricklayerCustomLinkedList.head;
+
+        while (node.next != null) {
+            Bricklayer bricks = (Bricklayer) node.data;
+            if (bricks.isAvailable()) {
+                list.add(bricks);
+            }
+        }
+
+        return list;
+    }
+
+    public CustomLinkedList<Bricklayer> getExtraHoursWorkers() {
+        CustomLinkedList<Bricklayer> list = new CustomLinkedList<>();
+        Node node = this.bricklayerCustomLinkedList.head;
+
+        do {
+            Bricklayer bricks = (Bricklayer) node.data;
+            if (bricks.getExtraHours() && bricks.isAvailable()) {
+                list.add(bricks);
+            }
+
+            node = node.next;
+        } while (node != null);
+
+        return list;
+    }
+
     public double bricklayersListCost() {
         double total;
         total = 0;
