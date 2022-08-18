@@ -29,18 +29,21 @@ public class Architect extends Worker {
 
     @Override
     public double TotalSalary() {
+        double total = 0;
         if ("FullPlan".equals(planType)) {
-            super.setSalary((int) (super.getExperience() * super.getSalary() * 1.7));
+            total = (int) (super.getExperience() * super.getSalary() * 1.7);
         }
         if ("BasicPlan".equals(planType) || "".equals(planType)) {
-            super.setSalary((int) (super.getExperience() * super.getSalary() * 1.2));
+            total = (int) (super.getExperience() * super.getSalary() * 1.2);
         }
 
-        if (super.getSalary() > 20000) {
+        if (total >= 20000) {
+            System.out.println("????" + super.getSalary());
             super.setSalary(20000);
+            total = 20000;
         }
 
-        return super.getSalary();
+        return total;
     }
 
     public String getPlanType() {

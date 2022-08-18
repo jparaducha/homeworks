@@ -15,7 +15,8 @@ public class Customer extends Human {
     public Customer() {
     }
 
-    public Customer(int budget) {
+    public Customer(int budget, String name) {
+        super.setName(name);
         this.budget = budget;
     }
 

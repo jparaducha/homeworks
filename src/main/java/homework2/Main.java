@@ -16,11 +16,12 @@ public class Main {
 
     public static void main(String[] args) {
         try {
+
             Material wood = Material.WOOD;
 
             Building b = new Building(wood);
 
-            Customer customer = new Customer(2500000);
+            Customer customer = new Customer(2500000, "Philip Pirrip");
 
             Permit permit = new Permit();
 

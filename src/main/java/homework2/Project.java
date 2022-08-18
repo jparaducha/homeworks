@@ -2,6 +2,7 @@ package homework2;
 
 import homework2.CustomLinkedList.CustomLinkedList;
 import homework2.CustomLinkedList.Node;
+import homework2.Exceptions.InvalidSalaryException;
 
 public class Project {
 
@@ -90,7 +91,7 @@ public class Project {
         return list;
     }
 
-    public double bricklayersListCost() {
+    public double bricklayersListCost() throws InvalidSalaryException {
         double total;
         total = 0;
         int counter;
@@ -104,8 +105,14 @@ public class Project {
             Node<Bricklayer> X = this.bricklayerCustomLinkedList.head;
 
             total = total + X.data.TotalSalary();
+            if (X.data.getSalary() <= 0) {
+                throw new InvalidSalaryException("Worker salary must be a positive number");
+            }
             while (X.next != null) {
                 X = X.next;
+                if (X.data.getSalary() <= 0) {
+                    throw new InvalidSalaryException("Worker salary must be a positive number");
+                }
                 total = total + X.data.TotalSalary();
                 counter++;
             }

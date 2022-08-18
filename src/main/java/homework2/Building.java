@@ -7,6 +7,7 @@ package homework2;
 
 import homework2.Exceptions.InvalidAreaException;
 import homework2.Exceptions.InvalidFloorsException;
+import homework2.Exceptions.InvalidMaterialException;
 
 /**
  * @author Paraducha Juan
@@ -101,7 +102,10 @@ public class Building extends Company {
         return yearlyTaxes;
     }
 
-    public double buildingCost() {
+    public double buildingCost() throws InvalidMaterialException {
+        if (this.material == null) {
+            throw new InvalidMaterialException("Building material cannot be null");
+        }
 
         switch (this.material) {
             case CONCRETE:

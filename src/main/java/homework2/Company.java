@@ -6,6 +6,9 @@
 package homework2;
 
 import homework2.CustomLinkedList.CustomLinkedList;
+import homework2.Exceptions.InvalidBudgetException;
+import homework2.Exceptions.InvalidMaterialException;
+import homework2.Exceptions.InvalidSalaryException;
 
 /**
  * @author Paraducha Juan
@@ -39,7 +42,18 @@ public class Company {
         this.customer = customer;
     }
 
-    public String TotalCost(Project p) {
+    public String TotalCost(Project p) throws InvalidSalaryException, InvalidBudgetException, InvalidMaterialException {
+        if (customer.getBudget() <= 0) {
+            throw new InvalidBudgetException("Customer budget cannot be negative");
+        }
+
+        if (p.getArchitect().getSalary() < 0) {
+            throw new InvalidSalaryException("Architect salary cannot be negative");
+        }
+        if (p.getArchitect().getSalary() == 0) {
+            throw new InvalidSalaryException("Architect salary cannot be zero");
+        }
+
         double totalCost = p.getBuilding().buildingCost() + p.getArchitect().TotalSalary() + p.bricklayersListCost();
         String text = "Total cost of the project: $" + totalCost + "\n";
         if (totalCost < this.customer.getBudget()) {
