@@ -12,7 +12,7 @@ import homework2.CustomLinkedList.CustomLinkedList;
  */
 public class Company {
 
-    public final String companyName = "ConstructionWorks";
+    public final String COMPANY_NAME = "ConstructionWorks";
     private String name;
     private Customer customer;
 
@@ -62,6 +62,6 @@ public class Company {
         CustomLinkedList<Bricklayer> bricklayerCustomLinkedList = p.getWorkers();
         int areaPerWorker = totalArea / (bricklayerCustomLinkedList.length() + (int) (p.getExtraHoursWorkers().length() * 0.5));
 
-        return "This project will take approximately " + (areaPerWorker / 9) * p.getBuilding().TimeToBuild() + " weeks to be completed";
+        return "This project will take approximately " + (int) Math.ceil((areaPerWorker / 9) * p.getBuilding().TimeToBuild()) + " weeks to be completed";
     }
 }
