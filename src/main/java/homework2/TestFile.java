@@ -11,13 +11,10 @@ import java.util.HashSet;
 
 public class TestFile {
 
-    static String a = System.getProperty("java.class.path");
-    static int index = a.indexOf("homeworks");
-    static String thisDirectory = a.substring(0, index) + "homeworks\\src\\main\\java\\homework2";
-
     public static void main(String[] args) throws IOException {
 
-        File file = FileUtils.getFile(thisDirectory + "\\LoremIpsum.txt");
+        File file = FileUtils.getFile(new File("src\\main\\java\\homework2\\LoremIpsum.txt"));
+        //thisDirectory + "\\LoremIpsum.txt"
         String LoremIpsum = FileUtils.readFileToString(file, "UTF-8").toLowerCase();
 
         HashSet<String> set = new HashSet<>(Arrays.asList(LoremIpsum.split(" ")));
@@ -27,15 +24,15 @@ public class TestFile {
 
         CountUniqueWords(LoremIpsum);
 
-        File pip = FileUtils.getFile(thisDirectory + "\\Pip.txt");
-        File TextFiles = new File(thisDirectory + "\\TextFiles");
+        File pip = FileUtils.getFile(new File("src\\main\\java\\homework2\\Pip.txt"));
+        File TextFiles = new File("src\\main\\java\\homework2\\TextFiles");
 
         System.out.println("Pip file is older-->" + FileUtils.isFileOlder(pip, Instant.now()));
         System.out.println("pip file is newer than lorem ipsum -->" + FileUtils.isFileNewer(pip, file));
         FileUtils.forceMkdir(TextFiles);
         FileUtils.copyToDirectory(pip, TextFiles);
 
-        File pipCopy = FileUtils.getFile(thisDirectory + "\\TextFiles\\Pip.txt");
+        File pipCopy = FileUtils.getFile(new File("src\\main\\java\\homework2\\TextFiles\\Pip.txt"));
         System.out.println("Pip file copied to TextFiles -->" + FileUtils.directoryContains(TextFiles, pipCopy));
     }
 
