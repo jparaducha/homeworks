@@ -39,6 +39,9 @@ public class TestFile {
 
         File pipCopy = FileUtils.getFile(new File("src\\main\\resources\\TextFiles\\Pip.txt"));
         LOGGER.info("Pip file copied to TextFiles -->" + FileUtils.directoryContains(TextFiles, pipCopy));
+        LOGGER.info(StringUtils.swapCase("tHIS wILL Be Swapped."));
+        LOGGER.info(StringUtils.capitaliseAllWords("red rum, sir, is murder"));
+        LOGGER.info(StringUtils.reverse(StringUtils.capitalise("never odd or even.")));
     }
 
     public static void countUniqueWords(String text) throws IOException {
