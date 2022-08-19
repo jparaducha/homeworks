@@ -1,4 +1,4 @@
-package homework2;
+package homework3;
 
 import org.apache.commons.io.FileUtils;
 import org.codehaus.plexus.util.StringUtils;
@@ -13,7 +13,7 @@ public class TestFile {
 
     public static void main(String[] args) throws IOException {
 
-        File file = FileUtils.getFile(new File("src\\main\\java\\homework2\\LoremIpsum.txt"));
+        File file = FileUtils.getFile(new File("src\\main\\java\\homework3\\LoremIpsum.txt"));
         //thisDirectory + "\\LoremIpsum.txt"
         String LoremIpsum = FileUtils.readFileToString(file, "UTF-8").toLowerCase();
 
@@ -24,15 +24,15 @@ public class TestFile {
 
         CountUniqueWords(LoremIpsum);
 
-        File pip = FileUtils.getFile(new File("src\\main\\java\\homework2\\Pip.txt"));
-        File TextFiles = new File("src\\main\\java\\homework2\\TextFiles");
+        File pip = FileUtils.getFile(new File("src\\main\\java\\homework3\\Pip.txt"));
+        File TextFiles = new File("src\\main\\java\\homework3\\TextFiles");
 
         System.out.println("Pip file is older-->" + FileUtils.isFileOlder(pip, Instant.now()));
         System.out.println("pip file is newer than lorem ipsum -->" + FileUtils.isFileNewer(pip, file));
         FileUtils.forceMkdir(TextFiles);
         FileUtils.copyToDirectory(pip, TextFiles);
 
-        File pipCopy = FileUtils.getFile(new File("src\\main\\java\\homework2\\TextFiles\\Pip.txt"));
+        File pipCopy = FileUtils.getFile(new File("src\\main\\java\\homework3\\TextFiles\\Pip.txt"));
         System.out.println("Pip file copied to TextFiles -->" + FileUtils.directoryContains(TextFiles, pipCopy));
     }
 
