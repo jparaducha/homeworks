@@ -3,3 +3,5 @@ nbactions.xml
 nb-configuration.xml
 .idea/
 logs/
+src/main/resources/TextFiles/
+src/main/resources/output

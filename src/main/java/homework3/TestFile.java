@@ -14,6 +14,7 @@ import java.util.HashSet;
 public class TestFile {
 
     private static final Logger LOGGER = LogManager.getLogger(TestFile.class);
+    private static final File output = new File("src\\main\\resources\\output");
 
     public static void main(String[] args) throws IOException {
 
@@ -26,7 +27,7 @@ public class TestFile {
         LOGGER.info(LoremIpsum.split(" ").length + " words " + set.size() + " unique words");
         // will count same word as a different one if it has a "." at the end;
 
-        CountUniqueWords(LoremIpsum);
+        countUniqueWords(LoremIpsum);
 
         File pip = FileUtils.getFile(new File("src\\main\\resources\\Pip.txt"));
         File TextFiles = new File("src\\main\\resources\\TextFiles");
@@ -40,17 +41,19 @@ public class TestFile {
         LOGGER.info("Pip file copied to TextFiles -->" + FileUtils.directoryContains(TextFiles, pipCopy));
     }
 
-    public static void CountUniqueWords(String text) {
+    public static void countUniqueWords(String text) throws IOException {
 
         int counter = 0;
         String[] words = text.split(" ");
         for (String word : words) {
-            word = word.endsWith(".") ? StringUtils.chop(word) : word;
+            word = word.endsWith(".") || word.endsWith(",") ? StringUtils.chop(word) : word;
             // if the word ends with a "." it is removed;
             if (StringUtils.countMatches(text, word) == 1) {
                 counter++;
             }
         }
+
+        FileUtils.writeStringToFile(output, "Unique words in lorem ipsum file: " + counter + " \n", "UTF-8", true);
         LOGGER.info("Unique words : " + counter);
     }
 }
