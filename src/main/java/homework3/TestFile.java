@@ -1,6 +1,8 @@
 package homework3;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.codehaus.plexus.util.StringUtils;
 
 import java.io.File;
@@ -11,29 +13,31 @@ import java.util.HashSet;
 
 public class TestFile {
 
+    private static final Logger LOGGER = LogManager.getLogger(TestFile.class);
+
     public static void main(String[] args) throws IOException {
 
-        File file = FileUtils.getFile(new File("src\\main\\java\\homework3\\LoremIpsum.txt"));
+        File file = FileUtils.getFile(new File("src\\main\\resources\\LoremIpsum.txt"));
         //thisDirectory + "\\LoremIpsum.txt"
         String LoremIpsum = FileUtils.readFileToString(file, "UTF-8").toLowerCase();
 
         HashSet<String> set = new HashSet<>(Arrays.asList(LoremIpsum.split(" ")));
 
-        System.out.println(LoremIpsum.split(" ").length + " words " + set.size() + " unique words");
+        LOGGER.info(LoremIpsum.split(" ").length + " words " + set.size() + " unique words");
         // will count same word as a different one if it has a "." at the end;
 
         CountUniqueWords(LoremIpsum);
 
-        File pip = FileUtils.getFile(new File("src\\main\\java\\homework3\\Pip.txt"));
-        File TextFiles = new File("src\\main\\java\\homework3\\TextFiles");
+        File pip = FileUtils.getFile(new File("src\\main\\resources\\Pip.txt"));
+        File TextFiles = new File("src\\main\\resources\\TextFiles");
 
-        System.out.println("Pip file is older-->" + FileUtils.isFileOlder(pip, Instant.now()));
-        System.out.println("pip file is newer than lorem ipsum -->" + FileUtils.isFileNewer(pip, file));
+        LOGGER.info("Pip file is older-->" + FileUtils.isFileOlder(pip, Instant.now()));
+        LOGGER.info("pip file is newer than lorem ipsum -->" + FileUtils.isFileNewer(pip, file));
         FileUtils.forceMkdir(TextFiles);
         FileUtils.copyToDirectory(pip, TextFiles);
 
-        File pipCopy = FileUtils.getFile(new File("src\\main\\java\\homework3\\TextFiles\\Pip.txt"));
-        System.out.println("Pip file copied to TextFiles -->" + FileUtils.directoryContains(TextFiles, pipCopy));
+        File pipCopy = FileUtils.getFile(new File("src\\main\\resources\\TextFiles\\Pip.txt"));
+        LOGGER.info("Pip file copied to TextFiles -->" + FileUtils.directoryContains(TextFiles, pipCopy));
     }
 
     public static void CountUniqueWords(String text) {
@@ -47,6 +51,6 @@ public class TestFile {
                 counter++;
             }
         }
-        System.out.println("Unique words : " + counter);
+        LOGGER.info("Unique words : " + counter);
     }
 }
