@@ -7,6 +7,13 @@ public class Permit extends Company {
     private boolean isApproved;
     private Date expiry;
 
+    public Permit() {
+    }
+
+    public Permit(boolean status) {
+        this.isApproved = status;
+    }
+
     public void setApproved(boolean approved) {
         this.isApproved = approved;
     }

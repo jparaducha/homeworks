@@ -43,6 +43,7 @@ public class Company {
     }
 
     public String TotalCost(Project p) throws InvalidSalaryException, InvalidBudgetException, InvalidMaterialException {
+        double totalCost = 0;
         if (customer.getBudget() <= 0) {
             throw new InvalidBudgetException("Customer budget cannot be negative");
         }
@@ -53,8 +54,12 @@ public class Company {
         if (p.getArchitect().getSalary() == 0) {
             throw new InvalidSalaryException("Architect salary cannot be zero");
         }
+        if (p.getBuilding().includesPlumbing()) {
+            p.getPlumber().setBuilding(p.getBuilding());
+            totalCost = p.getPlumber().TotalSalary();
+        }
 
-        double totalCost = p.getBuilding().buildingCost() + p.getArchitect().TotalSalary() + p.bricklayersListCost();
+        totalCost += p.getBuilding().buildingCost() + p.getArchitect().TotalSalary() + p.bricklayersListCost();
         String text = "Total cost of the project: $" + totalCost + "\n";
         if (totalCost < this.customer.getBudget()) {
             text += "The customer is $" + (this.customer.getBudget() - totalCost) + " in surplus";
@@ -66,6 +71,10 @@ public class Company {
 
         if (totalCost == this.customer.getBudget()) {
             text += "The customer has the right amount of money for the project";
+        }
+
+        if (!p.getPermit().getApproval()) {
+            text += "\n The approval for the permit will cost an extra $" + p.getInspector().TotalSalary();
         }
 
         return text;

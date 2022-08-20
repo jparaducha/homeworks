@@ -11,14 +11,33 @@ public class Project {
     private Architect architect;
     private Building building;
     private Permit permit;
+    private Plumber plumber;
+    private Inspector inspector;
 
     public Project() {
     }
 
-    public Project(Architect architect, Building building, Permit permit) {
+    public Project(Architect architect, Building building, Permit permit, Inspector inspector) {
         this.architect = architect;
         this.building = building;
         this.permit = permit;
+        this.inspector = inspector;
+    }
+
+    public Inspector getInspector() {
+        return inspector;
+    }
+
+    public void setInspector(Inspector inspector) {
+        this.inspector = inspector;
+    }
+
+    public Plumber getPlumber() {
+        return plumber;
+    }
+
+    public void setPlumber(Plumber plumber) {
+        this.plumber = plumber;
     }
 
     public String getCity() {

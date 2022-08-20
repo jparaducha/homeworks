@@ -36,7 +36,8 @@ public class Main {
 
             Architect arquitecto = new Architect(2100, "FullPlan", 3, "Le Corbusier");
 
-            Project proyecto = new Project(arquitecto, b, permit);
+            Inspector inspector = new Inspector();
+            Project proyecto = new Project(arquitecto, b, permit, inspector);
 
             Bricklayer brick1 = new Bricklayer();
             Bricklayer brick2 = new Bricklayer(true);
@@ -52,15 +53,15 @@ public class Main {
             proyecto.addWorker(brick5);
             proyecto.addWorker(brick6);
 
-            LOGGER.info("salary of worker1: " + brick1.TotalSalary());
+            //LOGGER.info("salary of worker1: " + brick1.TotalSalary());
 
-            LOGGER.info("salary of all workers: " + proyecto.bricklayersListCost());
+            //LOGGER.info("salary of all workers: " + proyecto.bricklayersListCost());
 
-            LOGGER.info("salary of the architect: " + arquitecto.TotalSalary());
+            //LOGGER.info("salary of the architect: " + arquitecto.TotalSalary());
 
             LOGGER.info(company.ConstructionTime(proyecto));
 
-            LOGGER.info(arquitecto.getNationalityAndName());
+            //LOGGER.info(arquitecto.getNationalityAndName());
             LOGGER.info(arquitecto.getData());
 
             LOGGER.info(company.TotalCost(proyecto));

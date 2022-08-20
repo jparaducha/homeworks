@@ -26,6 +26,7 @@ public class Building extends Company {
     private Material material;
     private int floors;
     private int areaInSqMts;
+    private boolean plumbing;
     private int costOfBuilding;
 
     public Building() {
@@ -33,7 +34,6 @@ public class Building extends Company {
 
         this.buildingId = buildingCount;
     }
-
     public Building(Material material) {
         buildingCount++;
 
@@ -60,6 +60,14 @@ public class Building extends Company {
         this.material = material;
         this.areaInSqMts = area;
         this.floors = floors;
+    }
+
+    public boolean includesPlumbing() {
+        return plumbing;
+    }
+
+    public void setPlumbing(boolean plumbing) {
+        this.plumbing = plumbing;
     }
 
     public int getFloors() {
