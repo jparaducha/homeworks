@@ -47,11 +47,16 @@ public class TestFile {
     public static void countUniqueWords(String text) throws IOException {
 
         int counter = 0;
-        String[] words = text.split(" ");
+        //System.out.println(text);
+        String[] words = text.split("[$&+,:;=?@#|'<>.-^*()%!]| |[0-9]|\n", 0);
+
         for (String word : words) {
-            word = word.endsWith(".") || word.endsWith(",") ? StringUtils.chop(word) : word;
+            //word = word.endsWith(".") || word.endsWith(",") ? StringUtils.chop(word) : word;
+            //word = matcher.find() ? word.split("[$&+,:;=?@#|'<>.-^*()%!]| |[0-9]")[0] : word;
+
             // if the word ends with a "." it is removed;
-            if (StringUtils.countMatches(text, word) == 1) {
+            if (!StringUtils.isBlank(word) && StringUtils.countMatches(text, word) == 1) {
+                //System.out.println("this is unique: " + word);
                 counter++;
             }
         }
