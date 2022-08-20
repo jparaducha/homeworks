@@ -1,6 +1,8 @@
 package homework2;
 
-public class Bricklayer extends Worker {
+import homework2.Interfaces.IData;
+
+public class Bricklayer extends Worker implements IData {
 
     private boolean extraHours;
     private boolean isAvailable;
@@ -46,5 +48,48 @@ public class Bricklayer extends Worker {
     @Override
     public String toString() {
         return "Bricklayer";
+    }
+
+    @Override
+    public String getData() {
+        String data = "";
+        if (this.getName().equals("")) {
+            data = "Bricklayer does not have a name";
+        } else {
+            data = this.getName();
+        }
+
+        if (this.getAge() == 0) {
+            data += "\n Architect does not have a defined age";
+        } else {
+            data += " is " + this.getAge() + " years old";
+
+            if (this.isAvailable()) {
+                data += " and is available";
+            } else {
+                data += " and is not available";
+            }
+        }
+
+        return data;
+    }
+
+    @Override
+    public String getNationalityAndName() {
+        String data = "Bricklayer ";
+        if (!this.getName().equals("")) {
+            data += this.getName();
+        }
+        if (this.getNationality() != null && !this.getNationality().equals("")) {
+            data += " is " + this.getNationality();
+        } else {
+            if (data.equals("")) {
+                data = " does not have a nationality defined";
+            } else {
+                data += " has no nationality defined";
+            }
+        }
+
+        return data;
     }
 }

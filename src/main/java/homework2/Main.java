@@ -32,7 +32,7 @@ public class Main {
 
             LOGGER.info("Building cost:" + b.buildingCost());
 
-            Architect arquitecto = new Architect(2100, "FullPlan", 3);
+            Architect arquitecto = new Architect(2100, "FullPlan", 3, "Le Corbusier");
 
             Project proyecto = new Project(arquitecto, b, permit);
 
@@ -57,6 +57,9 @@ public class Main {
             LOGGER.info("salary of the architect: " + arquitecto.TotalSalary());
 
             LOGGER.info(company.ConstructionTime(proyecto));
+
+            LOGGER.info(arquitecto.getNationalityAndName());
+            LOGGER.info(arquitecto.getData());
 
             LOGGER.info(company.TotalCost(proyecto));
         } catch (Exception e) {
