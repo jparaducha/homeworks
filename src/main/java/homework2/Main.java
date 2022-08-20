@@ -30,6 +30,8 @@ public class Main {
             b.setArea(200);
             b.setFloors(5);
 
+            //Plumber plumber = new Plumber(b);
+
             LOGGER.info("Building cost:" + b.buildingCost());
 
             Architect arquitecto = new Architect(2100, "FullPlan", 3, "Le Corbusier");

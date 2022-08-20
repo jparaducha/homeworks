@@ -1,9 +1,9 @@
 package homework3;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.codehaus.plexus.util.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,8 +40,8 @@ public class TestFile {
         File pipCopy = FileUtils.getFile(new File("src\\main\\resources\\TextFiles\\Pip.txt"));
         LOGGER.info("Pip file copied to TextFiles -->" + FileUtils.directoryContains(TextFiles, pipCopy));
         LOGGER.info(StringUtils.swapCase("tHIS wILL Be Swapped."));
-        LOGGER.info(StringUtils.capitaliseAllWords("red rum, sir, is murder"));
-        LOGGER.info(StringUtils.reverse(StringUtils.capitalise("never odd or even.")));
+        LOGGER.info(StringUtils.capitalize("red rum, sir, is murder"));
+        LOGGER.info(StringUtils.reverse(StringUtils.capitalize("never odd or even.")));
     }
 
     public static void countUniqueWords(String text) throws IOException {
