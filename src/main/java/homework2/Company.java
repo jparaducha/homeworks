@@ -48,10 +48,10 @@ public class Company {
             throw new InvalidBudgetException("Customer budget cannot be negative");
         }
 
-        if (p.getArchitect().getSalary() < 0) {
+        if (p.getArchitectSalary() < 0) {
             throw new InvalidSalaryException("Architect salary cannot be negative");
         }
-        if (p.getArchitect().getSalary() == 0) {
+        if (p.getArchitectSalary() == 0) {
             throw new InvalidSalaryException("Architect salary cannot be zero");
         }
         if (p.getBuilding().includesPlumbing()) {
@@ -59,7 +59,7 @@ public class Company {
             totalCost = p.getPlumber().totalSalary();
         }
 
-        totalCost += p.getBuilding().buildingCost() + p.getArchitect().totalSalary() + p.bricklayersListCost();
+        totalCost += p.getBuilding().buildingCost() + p.getArchitectSalary() + p.bricklayersListCost();
         String text = "Total cost of the project: $" + totalCost + "\n";
         if (totalCost < this.customer.getBudget()) {
             text += "The customer is $" + (this.customer.getBudget() - totalCost) + " in surplus";

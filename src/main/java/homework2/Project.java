@@ -8,8 +8,8 @@ import homework2.Interfaces.IManageable;
 public class Project implements IManageable {
 
     private final CustomLinkedList<Bricklayer> bricklayerCustomLinkedList = new CustomLinkedList<>();
+    private final CustomLinkedList<Architect> architectList = new CustomLinkedList<>();
     private String city;
-    private Architect architect;
     private Building building;
     private Permit permit;
     private Plumber plumber;
@@ -19,7 +19,7 @@ public class Project implements IManageable {
     }
 
     public Project(Architect architect, Building building, Permit permit, Inspector inspector) {
-        this.architect = architect;
+        this.architectList.add(architect);
         this.building = building;
         this.permit = permit;
         this.inspector = inspector;
@@ -49,12 +49,41 @@ public class Project implements IManageable {
         this.city = city;
     }
 
-    public Architect getArchitect() {
-        return architect;
+    public CustomLinkedList<Architect> getArchitectList() {
+        return architectList;
     }
 
-    public void setArchitect(Architect architect) {
-        this.architect = architect;
+    public void setArchitectList(Architect architectList) {
+        this.architectList.add(architectList);
+    }
+
+    public double getArchitectSalary() throws InvalidSalaryException {
+        double total;
+        total = 0;
+        int counter;
+        counter = 2;
+        Node<Architect> temp = new Node<>(null);
+
+        if (this.architectList.head == null) {
+            return 0;
+        } else {
+
+            Node<Architect> X = this.architectList.head;
+
+            total = total + X.data.totalSalary();
+            if (X.data.totalSalary() <= 0) {
+                throw new InvalidSalaryException("Architect salary must be a positive number");
+            }
+            while (X.next != null) {
+                X = X.next;
+                if (X.data.totalSalary() <= 0) {
+                    throw new InvalidSalaryException("Architect salary must be a positive number");
+                }
+                total = total + X.data.totalSalary();
+                counter++;
+            }
+        }
+        return total;
     }
 
     public Building getBuilding() {
