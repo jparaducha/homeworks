@@ -3,8 +3,9 @@ package homework2;
 import homework2.CustomLinkedList.CustomLinkedList;
 import homework2.CustomLinkedList.Node;
 import homework2.Exceptions.InvalidSalaryException;
+import homework2.Interfaces.IManageable;
 
-public class Project {
+public class Project implements IManageable {
 
     private final CustomLinkedList<Bricklayer> bricklayerCustomLinkedList = new CustomLinkedList<>();
     private String city;
@@ -123,7 +124,7 @@ public class Project {
 
             Node<Bricklayer> X = this.bricklayerCustomLinkedList.head;
 
-            total = total + X.data.TotalSalary();
+            total = total + X.data.totalSalary();
             if (X.data.getSalary() <= 0) {
                 throw new InvalidSalaryException("Worker salary must be a positive number");
             }
@@ -132,10 +133,21 @@ public class Project {
                 if (X.data.getSalary() <= 0) {
                     throw new InvalidSalaryException("Worker salary must be a positive number");
                 }
-                total = total + X.data.TotalSalary();
+                total = total + X.data.totalSalary();
                 counter++;
             }
         }
         return total;
+    }
+
+    public String getWorkersCount() {
+        String text = "";
+        if (building.getTotalArea() > 2000) {
+            text += "This building should have 2 architects or project managers and 3 plumbers";
+        } else {
+            text += "This building will be fine with 1 architect";
+        }
+
+        return text;
     }
 }
