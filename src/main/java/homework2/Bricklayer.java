@@ -38,7 +38,7 @@ public class Bricklayer extends Worker implements IData {
     }
 
     @Override
-    public double TotalSalary() {
+    public double totalSalary() {
         if (extraHours) {
             return super.getSalary() * 1.5;
         }

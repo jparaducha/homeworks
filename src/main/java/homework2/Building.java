@@ -34,6 +34,7 @@ public class Building extends Company {
 
         this.buildingId = buildingCount;
     }
+
     public Building(Material material) {
         buildingCount++;
 
@@ -139,7 +140,7 @@ public class Building extends Company {
         return this.costOfBuilding;
     }
 
-    public double TimeToBuild() {
+    public double timeToBuild() {
         double time;
 
         switch (this.material) {

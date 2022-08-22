@@ -59,12 +59,12 @@ public class Main {
 
             //LOGGER.info("salary of the architect: " + arquitecto.TotalSalary());
 
-            LOGGER.info(company.ConstructionTime(proyecto));
+            LOGGER.info(company.constructionTime(proyecto));
 
             //LOGGER.info(arquitecto.getNationalityAndName());
             LOGGER.info(arquitecto.getData());
 
-            LOGGER.info(company.TotalCost(proyecto));
+            LOGGER.info(company.totalCost(proyecto));
         } catch (Exception e) {
 
             LOGGER.error(e);

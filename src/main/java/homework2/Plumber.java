@@ -20,7 +20,7 @@ public class Plumber extends Worker {
     }
 
     @Override
-    public double TotalSalary() {
+    public double totalSalary() {
 
         return 4.5 * b.getTotalArea();
     }

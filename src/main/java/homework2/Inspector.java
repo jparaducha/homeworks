@@ -11,7 +11,7 @@ public class Inspector extends Worker {
     }
 
     @Override
-    public double TotalSalary() {
+    public double totalSalary() {
         return 1200;
     }
 }

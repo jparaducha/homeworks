@@ -31,7 +31,7 @@ public class Architect extends Worker implements IData {
     }
 
     @Override
-    public double TotalSalary() {
+    public double totalSalary() {
         double total = 0;
         if ("FullPlan".equals(planType)) {
             total = (int) (super.getExperience() * super.getSalary() * 1.7);
