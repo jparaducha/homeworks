@@ -11,7 +11,6 @@ package homework2;
 public abstract class Human {
 
     java.util.Scanner scan = new java.util.Scanner(System.in);
-
     private String name;
     private int age;
     private String nationality;
