@@ -66,7 +66,7 @@ public class Company {
             totalCost = p.getPlumber().totalSalary() * timeInMonths;
         }
 
-        totalCost += p.getBuilding().buildingCost() + p.getArchitectSalary() * timeInMonths + p.bricklayersListCost() * timeInMonths;
+        totalCost += p.getBuilding().buildingCost() + p.getArchitectSalary() + p.bricklayersListCost() * timeInMonths;
         String text = "Total cost of the project: $" + totalCost + "\n";
         if (totalCost < this.customer.getBudget()) {
             text += "The customer is $" + (this.customer.getBudget() - totalCost) + " in surplus";
