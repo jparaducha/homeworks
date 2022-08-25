@@ -9,6 +9,7 @@ import homework2.CustomLinkedList.CustomLinkedList;
 import homework2.Exceptions.InvalidBudgetException;
 import homework2.Exceptions.InvalidMaterialException;
 import homework2.Exceptions.InvalidSalaryException;
+import homework2.Interfaces.IRise;
 
 /**
  * @author Paraducha Juan
@@ -25,6 +26,10 @@ public class Company {
 
     public Company(Customer customer) {
         this.customer = customer;
+    }
+
+    public double applyRaise(Project p, IRise rise) throws InvalidSalaryException {
+        return rise.getSalariesWithRaise(p);
     }
 
     public String getName() {
