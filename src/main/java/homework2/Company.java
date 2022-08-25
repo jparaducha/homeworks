@@ -16,6 +16,7 @@ import homework2.Exceptions.InvalidSalaryException;
 public class Company {
 
     public final String COMPANY_NAME = "ConstructionWorks";
+    //IRise rise = (Project p, int amount) -> p.bricklayersListCost() + (p.getWorkers().length() * amount);
     private String name;
     private Customer customer;
 
@@ -43,6 +44,7 @@ public class Company {
     }
 
     public String totalCost(Project p) throws InvalidSalaryException, InvalidBudgetException, InvalidMaterialException {
+        int timeInMonths = (int) Math.ceil(constructionTime(p) / 4);
         double totalCost = 0;
         if (customer.getBudget() <= 0) {
             throw new InvalidBudgetException("Customer budget cannot be negative");
@@ -56,10 +58,10 @@ public class Company {
         }
         if (p.getBuilding().includesPlumbing()) {
             p.getPlumber().setBuilding(p.getBuilding());
-            totalCost = p.getPlumber().totalSalary();
+            totalCost = p.getPlumber().totalSalary() * timeInMonths;
         }
 
-        totalCost += p.getBuilding().buildingCost() + p.getArchitectSalary() + p.bricklayersListCost();
+        totalCost += p.getBuilding().buildingCost() + p.getArchitectSalary() * timeInMonths + p.bricklayersListCost() * timeInMonths;
         String text = "Total cost of the project: $" + totalCost + "\n";
         if (totalCost < this.customer.getBudget()) {
             text += "The customer is $" + (this.customer.getBudget() - totalCost) + " in surplus";
@@ -80,11 +82,11 @@ public class Company {
         return text;
     }
 
-    public String constructionTime(Project p) {
+    public int constructionTime(Project p) {
         int totalArea = p.getBuilding().getTotalArea();
         CustomLinkedList<Bricklayer> bricklayerCustomLinkedList = p.getWorkers();
         int areaPerWorker = totalArea / (bricklayerCustomLinkedList.length() + (int) (p.getExtraHoursWorkers().length() * 0.5));
 
-        return "This project will take approximately " + (int) Math.ceil((areaPerWorker / 6) * p.getBuilding().timeToBuild()) + " weeks to be completed";
+        return (int) Math.ceil((areaPerWorker / 10) * p.getBuilding().timeToBuild());
     }
 }

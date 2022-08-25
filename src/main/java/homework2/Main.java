@@ -21,7 +21,7 @@ public class Main {
 
             Building b = new Building(wood);
 
-            Customer customer = new Customer(2500000, "Philip Pirrip");
+            Customer customer = new Customer(2700000, "Philip Pirrip");
 
             Permit permit = new Permit();
 
@@ -59,7 +59,7 @@ public class Main {
 
             //LOGGER.info("salary of the architect: " + arquitecto.TotalSalary());
 
-            LOGGER.info(company.constructionTime(proyecto));
+            LOGGER.info("This project will take approximately " + company.constructionTime(proyecto) + " weeks to be completed");
 
             //LOGGER.info(arquitecto.getNationalityAndName());
             LOGGER.info(arquitecto.getData());
