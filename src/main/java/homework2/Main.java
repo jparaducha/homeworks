@@ -8,9 +8,6 @@ package homework2;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 /**
  * @author Paraducha Juan
  */
@@ -44,14 +41,10 @@ public class Main {
             arquitecto.appendDegrees("Master of Heritage Conservation, University of Sidney, Australia");
             arquitecto.appendDegrees("Architectural History, Oxford University, United Kingdom");
 
-            List<String> internationalPostgrad = arquitecto.getDegrees().stream().filter((i) -> !i.contains("Argentina")).collect(Collectors.toList());
-            List<String> postgradCountries = arquitecto.getDegrees().stream().map((i) -> i.split(", ")[i.split(", ").length - 1]).collect(Collectors.toList());
-/*
-            LOGGER.info("International degrees:");
-            internationalPostgrad.forEach((i) -> LOGGER.info(i));
-            LOGGER.info(postgradCountries);
-            LOGGER.info(arquitecto.getDegrees().stream().reduce("| ", (acc, curr) -> acc + curr + " | "));
-            */
+            // Java streams;
+            arquitecto.printDegreesFromCountry("argentina");
+            arquitecto.printPostgradCountries();
+            arquitecto.printAllDegrees();
 
             Inspector inspector = new Inspector();
             Project proyecto = new Project(arquitecto, b, permit, inspector);

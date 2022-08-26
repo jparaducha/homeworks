@@ -6,15 +6,19 @@
 package homework2;
 
 import homework2.Interfaces.IData;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Paraducha Juan
  */
 public class Architect extends Worker implements IData {
 
+    private final Logger LOGGER = LogManager.getLogger(Architect.class);
     private final List<String> degrees = new ArrayList<>();
     private String planType;
 
@@ -36,6 +40,22 @@ public class Architect extends Worker implements IData {
 
     public List<String> getDegrees() {
         return degrees;
+    }
+
+    public void printDegreesFromCountry(String country) {
+        List<String> postgrads = this.getDegrees().stream().filter((i) -> i.toLowerCase().contains(country.toLowerCase())).collect(Collectors.toList());
+
+        postgrads.forEach((i) -> LOGGER.info(i));
+    }
+
+    public void printPostgradCountries() {
+        List<String> postgradCountries = this.getDegrees().stream().map((i) -> i.split(", ")[i.split(", ").length - 1]).collect(Collectors.toList());
+
+        postgradCountries.forEach(i -> LOGGER.info(i));
+    }
+
+    public void printAllDegrees() {
+        LOGGER.info(this.getDegrees().stream().reduce("| ", (acc, curr) -> acc + curr + " | "));
     }
 
     public void appendDegrees(String degrees) {
