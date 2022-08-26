@@ -16,7 +16,7 @@ import java.util.ArrayList;
  */
 public abstract class Worker extends Human implements IDrivable {
 
-    private static final Logger LOGGER = LogManager.getLogger(Worker.class);
+    private final Logger LOGGER = LogManager.getLogger(Worker.class);
     private final ArrayList<LicenseType> license = new ArrayList<>();
     public int shiftHours;
     private int yearsOfExperience;
