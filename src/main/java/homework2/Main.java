@@ -8,6 +8,11 @@ package homework2;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * @author Paraducha Juan
  */
@@ -32,13 +37,25 @@ public class Main {
 
             Plumber plumber = new Plumber(b);
 
-            LOGGER.info("Building cost:" + b.buildingCost());
+            //LOGGER.info("Building cost:" + b.buildingCost());
 
             Architect arquitecto = new Architect(2100, "FullPlan", 3, "Le Corbusier");
+            arquitecto.appendDegrees("Arquitectura, UBA, Argentina");
+            arquitecto.appendDegrees("Sustentabilidad en Arquitectura y Urbanismo, UBA, Argentina");
+            arquitecto.appendDegrees("Master of Design, University of Sidney, Australia");
+            arquitecto.appendDegrees("Master of Heritage Conservation, University of Sidney, Australia");
+            arquitecto.appendDegrees("Architectural History, Oxford University, United Kingdom");
 
+            List<String> internationalPostgrad = arquitecto.getDegrees().stream().filter((i) -> !i.contains("Argentina")).collect(Collectors.toList());
+            List<String> postgradCountries = arquitecto.getDegrees().stream().map((i) -> i.split(", ")[i.split(", ").length - 1]).collect(Collectors.toList());
+
+            LOGGER.info("International degrees:");
+            internationalPostgrad.forEach((i) -> LOGGER.info(i));
+            LOGGER.info(postgradCountries);
+            LOGGER.info(arquitecto.getDegrees().stream().reduce("| ", (acc, curr) -> acc + curr + " | "));
             Inspector inspector = new Inspector();
             Project proyecto = new Project(arquitecto, b, permit, inspector);
-            company.applyRaise(proyecto, (p) -> p.bricklayersListCost() + (p.getWorkers().length() * 100));
+            //company.applyRaise(proyecto, (p) -> p.bricklayersListCost() + (p.getWorkers().length() * 100));
 
             Bricklayer brick1 = new Bricklayer();
             Bricklayer brick2 = new Bricklayer(true);
@@ -54,6 +71,10 @@ public class Main {
             proyecto.addWorker(brick5);
             proyecto.addWorker(brick6);
 
+            LicenseType crane = LicenseType.CRANE;
+            brick1.setLicense(crane);
+            brick1.printLicenseTypes();
+/*
             LOGGER.info("workers' salaries raised: " + company.applyRaise(proyecto, (p) -> p.bricklayersListCost() + (p.getWorkers().length() * 100)));
             LOGGER.info("salary of worker1: " + brick1.totalSalary());
 
@@ -67,6 +88,36 @@ public class Main {
             LOGGER.info(arquitecto.getData());
 
             LOGGER.info(company.totalCost(proyecto));
+*/
+            Class reflectionClass = Building.class;
+
+            Field[] fields = reflectionClass.getDeclaredFields();
+/*
+            LOGGER.info("Fields inside building class:");
+            for (Field field : fields) {
+                LOGGER.info(field.getName());
+            }*/
+
+            Method[] methods = reflectionClass.getDeclaredMethods();
+
+            LOGGER.info("methods inside building class:");
+            for (Method method : methods) {
+                LOGGER.info(method.getName());
+
+                if (method.getParameterTypes().length == 0) {
+                    LOGGER.info("Takes no parameters");
+                } else {
+                    Class[] parameterTypes = method.getParameterTypes();
+
+                    for (Class parameterType : parameterTypes) {
+                        LOGGER.info(parameterType.getName());
+                    }
+                }
+            }
+
+            Method something = reflectionClass.getDeclaredMethod("includesPlumbing");
+
+            LOGGER.info("Calling method using reflection: " + something.invoke(b));
         } catch (Exception e) {
 
             LOGGER.error(e);

@@ -7,11 +7,15 @@ package homework2;
 
 import homework2.Interfaces.IData;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Paraducha Juan
  */
 public class Architect extends Worker implements IData {
 
+    private final List<String> degrees = new ArrayList<>();
     private String planType;
 
     public Architect() {
@@ -28,6 +32,14 @@ public class Architect extends Worker implements IData {
         this.planType = plan;
         this.setExperience(experience);
         this.setName(name);
+    }
+
+    public List<String> getDegrees() {
+        return degrees;
+    }
+
+    public void appendDegrees(String degrees) {
+        this.degrees.add(degrees);
     }
 
     @Override
