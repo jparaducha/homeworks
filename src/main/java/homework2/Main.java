@@ -48,7 +48,6 @@ public class Main {
 
             Inspector inspector = new Inspector();
             Project proyecto = new Project(arquitecto, b, permit, inspector);
-            //company.applyRaise(proyecto, (p) -> p.bricklayersListCost() + (p.getWorkers().length() * 100));
 
             Bricklayer brick1 = new Bricklayer();
             Bricklayer brick2 = new Bricklayer(true);
