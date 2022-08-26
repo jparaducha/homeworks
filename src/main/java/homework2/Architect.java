@@ -5,7 +5,7 @@
  */
 package homework2;
 
-import homework2.Interfaces.IData;
+import homework2.interfaces.IData;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

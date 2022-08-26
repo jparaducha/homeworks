@@ -1,6 +1,6 @@
 package homework2;
 
-import homework2.Interfaces.IData;
+import homework2.interfaces.IData;
 
 public class Bricklayer extends Worker implements IData {
 

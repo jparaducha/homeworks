@@ -5,11 +5,11 @@
  */
 package homework2;
 
-import homework2.CustomLinkedList.CustomLinkedList;
-import homework2.Exceptions.InvalidBudgetException;
-import homework2.Exceptions.InvalidMaterialException;
-import homework2.Exceptions.InvalidSalaryException;
-import homework2.Interfaces.IRise;
+import homework2.customLinkedList.CustomLinkedList;
+import homework2.exceptions.InvalidBudgetException;
+import homework2.exceptions.InvalidMaterialException;
+import homework2.exceptions.InvalidSalaryException;
+import homework2.interfaces.IRise;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package homework2.Exceptions;
+package homework2.exceptions;
 
 public class InvalidBudgetException extends RuntimeException {
 

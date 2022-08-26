@@ -1,4 +1,4 @@
-package homework2.Interfaces;
+package homework2.interfaces;
 
 public interface IManageable {
 

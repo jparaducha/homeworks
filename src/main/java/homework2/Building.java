@@ -5,9 +5,9 @@
  */
 package homework2;
 
-import homework2.Exceptions.InvalidAreaException;
-import homework2.Exceptions.InvalidFloorsException;
-import homework2.Exceptions.InvalidMaterialException;
+import homework2.exceptions.InvalidAreaException;
+import homework2.exceptions.InvalidFloorsException;
+import homework2.exceptions.InvalidMaterialException;
 
 /**
  * @author Paraducha Juan

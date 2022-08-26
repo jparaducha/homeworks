@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package homework2.Exceptions;
+package homework2.exceptions;
 
 /**
  * @author Paraducha Juan

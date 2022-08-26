@@ -1,7 +1,7 @@
-package homework2.Exceptions;
+package homework2.exceptions;
 
 public class InvalidSalaryException extends Exception {
-    
+
     public InvalidSalaryException() {
     }
 

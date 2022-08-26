@@ -1,7 +1,7 @@
-package homework2.Interfaces;
+package homework2.interfaces;
 
-import homework2.Exceptions.InvalidSalaryException;
 import homework2.Project;
+import homework2.exceptions.InvalidSalaryException;
 
 @FunctionalInterface
 public interface IRise {

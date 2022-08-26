@@ -1,9 +1,9 @@
 package homework2;
 
-import homework2.CustomLinkedList.CustomLinkedList;
-import homework2.CustomLinkedList.Node;
-import homework2.Exceptions.InvalidSalaryException;
-import homework2.Interfaces.IManageable;
+import homework2.customLinkedList.CustomLinkedList;
+import homework2.customLinkedList.Node;
+import homework2.exceptions.InvalidSalaryException;
+import homework2.interfaces.IManageable;
 
 public class Project implements IManageable {
 
