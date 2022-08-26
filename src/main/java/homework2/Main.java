@@ -25,7 +25,7 @@ public class Main {
 
             Permit permit = new Permit();
 
-            Company company = new Company(customer);
+            Company company = new Company();
 
             b.setArea(200);
             b.setFloors(5);
@@ -67,8 +67,8 @@ public class Main {
             LicenseType crane = LicenseType.CRANE;
             brick1.setLicense(crane);
             brick1.printLicenseTypes();
-/*
-            LOGGER.info("workers' salaries raised: " + company.applyRaise(proyecto, (p) -> p.bricklayersListCost() + (p.getWorkers().length() * 100)));
+
+            LOGGER.info("workers' salaries raised: " + company.raiseLambda(proyecto, 250));
             LOGGER.info("salary of worker1: " + brick1.totalSalary());
 
             LOGGER.info("salary of all workers: " + proyecto.bricklayersListCost());
@@ -80,8 +80,7 @@ public class Main {
             LOGGER.info(arquitecto.getNationalityAndName());
             LOGGER.info(arquitecto.getData());
 
-            LOGGER.info(company.totalCost(proyecto));
-*/
+            LOGGER.info(company.totalCost(proyecto, customer));
         } catch (Exception e) {
 
             LOGGER.error(e);

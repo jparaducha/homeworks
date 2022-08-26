@@ -11,25 +11,26 @@ import homework2.Exceptions.InvalidMaterialException;
 import homework2.Exceptions.InvalidSalaryException;
 import homework2.Interfaces.IRise;
 
+import java.util.ArrayList;
+
 /**
  * @author Paraducha Juan
  */
 public class Company {
 
     public final String COMPANY_NAME = "ConstructionWorks";
-    //IRise rise = (Project p, int amount) -> p.bricklayersListCost() + (p.getWorkers().length() * amount);
+    private final ArrayList<Customer> listOfCustomers = new ArrayList<>();
     private String name;
-    private Customer customer;
 
     public Company() {
     }
 
-    public Company(Customer customer) {
-        this.customer = customer;
+    private double applyRaise(Project p, IRise rise) throws InvalidSalaryException {
+        return rise.getSalariesWithRaise(p);
     }
 
-    public double applyRaise(Project p, IRise rise) throws InvalidSalaryException {
-        return rise.getSalariesWithRaise(p);
+    public double raiseLambda(Project proyecto, int amount) throws InvalidSalaryException {
+        return this.applyRaise(proyecto, (p) -> p.bricklayersListCost() + (p.getWorkers().length() * amount));
     }
 
     public String getName() {
@@ -40,15 +41,19 @@ public class Company {
         this.name = name;
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public ArrayList<Customer> getCustomers() {
+        return listOfCustomers;
     }
 
     public void setCustomer(Customer customer) {
-        this.customer = customer;
+        this.listOfCustomers.add(customer);
     }
 
-    public String totalCost(Project p) throws InvalidSalaryException, InvalidBudgetException, InvalidMaterialException {
+    public String totalCost(Project p, Customer customer) throws InvalidSalaryException, InvalidBudgetException, InvalidMaterialException {
+        if (this.listOfCustomers.indexOf(customer) == -1) {
+            this.listOfCustomers.add(customer);
+        }
+
         int timeInMonths = (int) Math.ceil(constructionTime(p) / 4);
         double totalCost = 0;
         if (customer.getBudget() <= 0) {
@@ -68,15 +73,15 @@ public class Company {
 
         totalCost += p.getBuilding().buildingCost() + p.getArchitectSalary() + p.bricklayersListCost() * timeInMonths;
         String text = "Total cost of the project: $" + totalCost + "\n";
-        if (totalCost < this.customer.getBudget()) {
-            text += "The customer is $" + (this.customer.getBudget() - totalCost) + " in surplus";
+        if (totalCost < customer.getBudget()) {
+            text += "The customer is $" + (customer.getBudget() - totalCost) + " in surplus";
         }
 
-        if (totalCost > this.customer.getBudget()) {
-            text += "The customer is $" + (totalCost - this.customer.getBudget()) + " in shortage";
+        if (totalCost > customer.getBudget()) {
+            text += "The customer is $" + (totalCost - customer.getBudget()) + " in shortage";
         }
 
-        if (totalCost == this.customer.getBudget()) {
+        if (totalCost == customer.getBudget()) {
             text += "The customer has the right amount of money for the project";
         }
 
