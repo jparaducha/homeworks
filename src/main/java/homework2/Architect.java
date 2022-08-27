@@ -58,6 +58,14 @@ public class Architect extends Worker implements IData {
         LOGGER.info(this.getDegrees().stream().reduce("| ", (acc, curr) -> acc + curr + " | "));
     }
 
+    public boolean hasDegreeInCountry(String country) {
+        return this.getDegrees().stream().anyMatch((i) -> i.toLowerCase().contains(country.toLowerCase()));
+    }
+
+    public long numberOfDegrees() {
+        return this.getDegrees().stream().count();
+    }
+
     public void appendDegrees(String degrees) {
         this.degrees.add(degrees);
     }

@@ -21,7 +21,6 @@ public class Building extends Company {
     }
 
     private final int buildingId;
-    java.util.Scanner scan = new java.util.Scanner(System.in);
     private int yearlyTaxes;
     private Material material;
     private int floors;

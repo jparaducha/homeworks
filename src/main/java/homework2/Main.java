@@ -45,10 +45,14 @@ public class Main {
             arquitecto.printDegreesFromCountry("argentina");
             arquitecto.printPostgradCountries();
             arquitecto.printAllDegrees();
+            LOGGER.info("Architect " + arquitecto.getName() + " has a degree from an Australian entity: " + arquitecto.hasDegreeInCountry("Australia"));
+            LOGGER.info("Architect " + arquitecto.getName() + " has a degree from an Georgian entity: " + arquitecto.hasDegreeInCountry("Georgia"));
+            LOGGER.info("Architect " + arquitecto.getName() + " has " + arquitecto.numberOfDegrees() + " degrees.");
 
             Inspector inspector = new Inspector();
             Project proyecto = new Project(arquitecto, b, permit, inspector);
 
+            //CREATES WORKERS AND ADDS THEM TO THE PROJECT;
             Bricklayer brick1 = new Bricklayer();
             Bricklayer brick2 = new Bricklayer(true);
             Bricklayer brick3 = new Bricklayer();
@@ -63,6 +67,7 @@ public class Main {
             proyecto.addWorker(brick5);
             proyecto.addWorker(brick6);
 
+            // GIVES A WORKER A LICENSE;
             LicenseType crane = LicenseType.CRANE;
             brick1.setLicense(crane);
             brick1.printLicenseTypes();
