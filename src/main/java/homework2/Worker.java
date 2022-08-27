@@ -5,6 +5,7 @@
  */
 package homework2;
 
+import homework2.enums.LicenseType;
 import homework2.interfaces.IDrivable;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

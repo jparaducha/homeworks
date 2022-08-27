@@ -1,4 +1,4 @@
-package homework2;
+package homework2.enums;
 
 public enum LicenseType {
     HEAVYLOAD, FORKLIFT, TRANSPORT, CRANE, BACKHOE, BULLDOZER, DUMPTRUCK, GRADER, STEAMROLLER;

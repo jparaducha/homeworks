@@ -5,6 +5,7 @@
  */
 package homework2;
 
+import homework2.enums.Material;
 import homework2.exceptions.InvalidAreaException;
 import homework2.exceptions.InvalidFloorsException;
 import homework2.exceptions.InvalidMaterialException;
