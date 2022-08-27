@@ -19,7 +19,7 @@ public class ClientsRunner {
         // By setting corePoolSize and maximumPoolSize the same, you create a fixed-size thread pool;
         executor.execute(new CustomThread(" Thread: 1 ", cp));
         for (int i = 1; i <= MAXIMUM_THREADS; i++) {
-            executor.awaitTermination(1000, TimeUnit.MILLISECONDS);
+            executor.awaitTermination(1000, TimeUnit.MILLISECONDS); // will wait until all tasks are completed or 1 second elapses which will be the case here;
             executor.execute(new Connection("thread : " + (i + 1), cp)); // executes the given task sometime in the future;
             System.out.println("Thread: " + (i + 1) + " was submitted");
         }
@@ -35,6 +35,7 @@ public class ClientsRunner {
 
         if (executor.isTerminated()) { // Returns true if all tasks have completed following shut down.;
             // Note that isTerminated is never true unless either shutdown or shutdownNow was called first;
+            // modify timeout on line 30 to execute this block;
             System.out.println("all threads terminated");
         } else {
             System.out.println("threads still running");

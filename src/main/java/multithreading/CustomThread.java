@@ -24,7 +24,7 @@ public class CustomThread extends Thread {
         System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<Started run() of thread subclass");
 
         try {
-            Thread.sleep(9500);  // Thread.sleep() has to be surrounded by a try/catch block;
+            Thread.sleep(5500);  // Thread.sleep() has to be surrounded by a try/catch block;
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
