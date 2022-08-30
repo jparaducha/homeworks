@@ -35,6 +35,6 @@ public class Connection implements Runnable { //The Runnable interface should be
 
         System.out.println("-------------------------Finished run() of " + name);
 
-        cp.ReleaseConnection(myConnection);
+        cp.Disconnect(myConnection);
     }
 }

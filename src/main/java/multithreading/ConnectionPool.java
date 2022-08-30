@@ -27,7 +27,7 @@ public class ConnectionPool {
         return cp;
     }
 
-    private void InnitConnection() {
+    private void Connect() {
         connections.add("Connection N° " + (connectionsCount));
         // BlockingDeque.add() Inserts the specified element into the queue represented by this deque
         // (in other words, at the tail of this deque)
@@ -41,7 +41,7 @@ public class ConnectionPool {
             synchronized (ConnectionPool.class) {
                 if (connections.size() == 0 && connectionsCount <= POOL_THREADS) {
                     // if there are no current connections calls the innitConnection method to use the add() method;
-                    InnitConnection();
+                    Connect();
                 }
             }
         }
@@ -51,7 +51,7 @@ public class ConnectionPool {
         // waiting if necessary until an element becomes available.
     }
 
-    public void ReleaseConnection(String conn) {
+    public void Disconnect(String conn) {
         connections.offer(conn); //Inserts the specified element into the queue represented by this deque
         // (in other words, at the tail of this deque)
         // if it is possible to do so immediately without violating capacity restrictions,

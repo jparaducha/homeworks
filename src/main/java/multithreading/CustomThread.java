@@ -30,6 +30,6 @@ public class CustomThread extends Thread {
         }
 
         System.out.println("-------------------------Finished run() of thread subclass");
-        cp.ReleaseConnection(myConnection);
+        cp.Disconnect(myConnection);
     }
 }
