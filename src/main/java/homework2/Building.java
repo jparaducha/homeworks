@@ -5,6 +5,7 @@
  */
 package homework2;
 
+import homework2.enums.BuildingType;
 import homework2.enums.Material;
 import homework2.exceptions.InvalidAreaException;
 import homework2.exceptions.InvalidFloorsException;
@@ -28,6 +29,7 @@ public class Building extends Company {
     private int areaInSqMts;
     private boolean plumbing;
     private int costOfBuilding;
+    private BuildingType type = BuildingType.UNDEFINED;
 
     public Building() {
         buildingCount++;
@@ -109,6 +111,14 @@ public class Building extends Company {
 
     public int getTaxes() {
         return yearlyTaxes;
+    }
+
+    public String getType() {
+        return this.type.getType();
+    }
+
+    public void setType(BuildingType type) {
+        this.type = type;
     }
 
     public double buildingCost() throws InvalidMaterialException {
