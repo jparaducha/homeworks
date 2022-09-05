@@ -8,14 +8,15 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 public class ClientsRunner {
-    public static final int MAXIMUM_THREADS = 9;
+    public static final int MAXIMUM_THREADS = 7;
     private static final Logger LOGGER = LogManager.getLogger(ClientsRunner.class);
+    private static final int threadPoolSize = 5;
 
     public static void main(String[] args) throws InterruptedException {
 
-        ConnectionPool cp = new ConnectionPool(5);
+        ConnectionPool cp = new ConnectionPool(7);
 
-        ThreadPoolExecutor executor = new ThreadPoolExecutor(5, 5, 7000, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>(MAXIMUM_THREADS));
+        ThreadPoolExecutor executor = new ThreadPoolExecutor(threadPoolSize, threadPoolSize, 7000, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>(MAXIMUM_THREADS));
 
         //executor.execute(new CustomThread(" Thread: 1 ", cp));
         for (int i = 1; i <= MAXIMUM_THREADS; i++) {
@@ -26,7 +27,7 @@ public class ClientsRunner {
                     try {
 
                         Connection connection = cp.getConnection();
-                        connection.Connect(Thread.currentThread().getId() % 5 + 1);
+                        connection.Connect(Thread.currentThread().getId() % threadPoolSize + 1);
                         try {
                             Thread.sleep(7500);
                         } catch (InterruptedException e) {
@@ -45,7 +46,7 @@ public class ClientsRunner {
 
             executor.awaitTermination(1000, TimeUnit.MILLISECONDS);
         }
-        LOGGER.info("[DONE]. no more tasks will me submitted to the Vector");
+        LOGGER.info("[DONE]. no more tasks will me submitted to the executor");
         executor.shutdown();
         try {
             executor.awaitTermination(1500, TimeUnit.MILLISECONDS);
