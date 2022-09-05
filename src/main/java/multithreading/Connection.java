@@ -26,8 +26,8 @@ public class Connection {
         return isAvailable;
     }
 
-    public void Connect() {
-        LOGGER.info("connecting " + name);
+    public void Connect(long threadId) {
+        LOGGER.info("connecting " + name + " at connection number " + threadId);
         this.isAvailable = false;
     }
 

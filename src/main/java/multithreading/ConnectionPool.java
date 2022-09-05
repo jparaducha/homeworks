@@ -34,7 +34,7 @@ public class ConnectionPool {
         Connection con = null;
 
         if (connections.size() < size) {
-            con = new Connection("Thread#" + (connectionsCount + 1) + " at connection number: " + (connections.size() + 1));
+            con = new Connection("Thread#" + (connectionsCount + 1));
             InnitConnection(con);
             return con;
         } else {
@@ -44,7 +44,7 @@ public class ConnectionPool {
                 Thread.sleep(1000);
 
                 if (connections.size() < size) {
-                    con = new Connection("Thread#" + (connectionsCount + 1) + " at connection number: " + (connections.size() + 1));
+                    con = new Connection("Thread#" + (connectionsCount + 1) + (Thread.currentThread().getId() % 5 + 1));
                     InnitConnection(con);
                     return con;
                 }

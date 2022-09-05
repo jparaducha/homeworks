@@ -15,7 +15,7 @@ public class ClientsRunner {
 
         ConnectionPool cp = new ConnectionPool(5);
 
-        ThreadPoolExecutor executor = new ThreadPoolExecutor(MAXIMUM_THREADS, MAXIMUM_THREADS, 7000, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>(MAXIMUM_THREADS));
+        ThreadPoolExecutor executor = new ThreadPoolExecutor(5, 5, 7000, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>(MAXIMUM_THREADS));
 
         //executor.execute(new CustomThread(" Thread: 1 ", cp));
         for (int i = 1; i <= MAXIMUM_THREADS; i++) {
@@ -24,8 +24,9 @@ public class ClientsRunner {
                 @Override
                 public void run() {
                     try {
+
                         Connection connection = cp.getConnection();
-                        connection.Connect();
+                        connection.Connect(Thread.currentThread().getId() % 5 + 1);
                         try {
                             Thread.sleep(7500);
                         } catch (InterruptedException e) {
