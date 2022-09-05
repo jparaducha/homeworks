@@ -8,17 +8,15 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 public class ClientsRunner {
-    public static final int MAXIMUM_THREADS = 7;
+    public static final int MAXIMUM_THREADS = 9;
     private static final Logger LOGGER = LogManager.getLogger(ClientsRunner.class);
     private static final int threadPoolSize = 5;
+    private static final ConnectionPool cp = new ConnectionPool(7);
 
     public static void main(String[] args) throws InterruptedException {
 
-        ConnectionPool cp = new ConnectionPool(7);
-
         ThreadPoolExecutor executor = new ThreadPoolExecutor(threadPoolSize, threadPoolSize, 7000, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>(MAXIMUM_THREADS));
 
-        //executor.execute(new CustomThread(" Thread: 1 ", cp));
         for (int i = 1; i <= MAXIMUM_THREADS; i++) {
             Runnable connection = new Runnable() {
 
@@ -46,6 +44,9 @@ public class ClientsRunner {
 
             executor.awaitTermination(1000, TimeUnit.MILLISECONDS);
         }
+
+        executor.execute(new RunnerTask(Thread.currentThread().getId() % threadPoolSize + 1));
+        executor.execute(new RunnerTaskThread(Thread.currentThread().getId() % threadPoolSize + 1));
         LOGGER.info("[DONE]. no more tasks will me submitted to the executor");
         executor.shutdown();
         try {
@@ -60,4 +61,58 @@ public class ClientsRunner {
             LOGGER.info("threads still running");
         }
     }
+
+    static class RunnerTaskThread extends Thread {
+        private final long threadId;
+
+        public RunnerTaskThread(long threadId) {
+            this.threadId = threadId;
+        }
+
+        public void run() {
+            try {
+                Connection connection = cp.getConnection();
+                connection.Connect(threadId);
+                try {
+                    Thread.sleep(7500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                connection.Disconnect();
+                cp.ReleaseConnection(connection);
+            } catch (RuntimeException e) {
+                LOGGER.error(e.getMessage());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    static class RunnerTask implements Runnable {
+
+        private final long threadId;
+
+        public RunnerTask(long threadId) {
+            this.threadId = threadId;
+        }
+
+        public void run() {
+            try {
+                Connection connection = cp.getConnection();
+                connection.Connect(threadId);
+                try {
+                    Thread.sleep(7500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                connection.Disconnect();
+                cp.ReleaseConnection(connection);
+            } catch (RuntimeException e) {
+                LOGGER.error(e.getMessage());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }
+
