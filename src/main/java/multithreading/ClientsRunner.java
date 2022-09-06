@@ -3,17 +3,18 @@ package multithreading;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 public class ClientsRunner {
-    public static final int MAXIMUM_THREADS = 9;
+    public static final int MAXIMUM_THREADS = 5;
     private static final Logger LOGGER = LogManager.getLogger(ClientsRunner.class);
     private static final int threadPoolSize = 5;
-    private static final ConnectionPool cp = new ConnectionPool(7);
+    private static final ConnectionPool cp = new ConnectionPool(5);
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException, ExecutionException {
 
         ThreadPoolExecutor executor = new ThreadPoolExecutor(threadPoolSize, threadPoolSize, 7000, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>(MAXIMUM_THREADS));
 
@@ -41,12 +42,12 @@ public class ClientsRunner {
                 }
             };
             executor.execute(connection);
-
             executor.awaitTermination(1000, TimeUnit.MILLISECONDS);
         }
 
-        executor.execute(new RunnerTask(Thread.currentThread().getId() % threadPoolSize + 1));
+        executor.execute(new RunnerTask(Thread.currentThread().getId()));
         executor.execute(new RunnerTaskThread(Thread.currentThread().getId() % threadPoolSize + 1));
+        executor.awaitTermination(1000, TimeUnit.MILLISECONDS);
         LOGGER.info("[DONE]. no more tasks will me submitted to the executor");
         executor.shutdown();
         try {
