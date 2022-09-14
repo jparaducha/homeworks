@@ -1,7 +1,10 @@
 package jdbc.DAO.mysql;
 
+import homework2.Main;
 import jdbc.*;
 import jdbc.DAO.IBaseDAO;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -14,66 +17,25 @@ public class FlightDAO implements IBaseDAO<Flight> {
     public final String DELETE_BY_ID = "DELETE FROM flights WHERE flight_id = ?";
     public final String UPDATE_FLIGHT = "UPDATE flights SET airlineId = ?, pilotId = ?, planeId = ?, price = ?, departure_time = ? , arrival_time = ?, flight_duration = ? WHERE flight_id = ?";
     public final String DELETE_ALL = "DELETE FROM flights";
+    private final Logger LOGGER = LogManager.getLogger(Main.class);
     Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sql_task", "root", "root");
-    PreparedStatement preparedStatement;
 
     public FlightDAO() throws SQLException {
     }
 
     @Override
     public Flight getById(int id) throws SQLException {
-        preparedStatement = connection.prepareStatement(GET_FLIGHT_BY_ID, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-        preparedStatement.setInt(1, id);
+        PreparedStatement preparedStatement = null;
+        Flight flight = null;
+        try {
+            preparedStatement = connection.prepareStatement(GET_FLIGHT_BY_ID, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            preparedStatement.setInt(1, id);
 
-        ResultSet result = preparedStatement.executeQuery();
-
-        ArrayList<Passenger> passengers = new ArrayList<>();
-
-        result.next();
-
-        Pilot_License license = new Pilot_License(result.getInt("license_id"), result.getString("issued_on"), result.getString("expires"), result.getInt("pilotId"));
-        Pilot pilot = new Pilot(result.getInt("id_pilot"), result.getString("pilot_name"), result.getInt("pilot_age"), license);
-
-        Plane_Manufacturer manufacturer = new Plane_Manufacturer(result.getInt("manufacturer_id"), result.getString("manufacturer_name"));
-        Plane plane = new Plane(result.getInt("plane_id"), result.getInt("year"), result.getString(result.findColumn("model_name")), manufacturer);
-
-        Country country1 = new Country(result.getString("con1"), result.getInt("con1id"));
-        City city1 = new City(result.getInt("city1id"), result.getString("city1"), country1);
-        Airport departure_airport = new Airport(result.getInt("a1id"), result.getString("a1_name"), result.getString("a1IATA"), city1);
-
-        Country country2 = new Country(result.getString("con2"), result.getInt("con2id"));
-        City city2 = new City(result.getInt("city2id"), result.getString("city2"), country2);
-        Airport arrival_airport = new Airport(result.getInt("a2id"), result.getString("a2_name"), result.getString("a2IATA"), city2);
-
-        Country country3 = new Country(result.getString("con3"), result.getInt("con3id"));
-        Airline airline = new Airline(result.getInt("airline_id"), result.getString("airline_name"), country3);
-
-        passengers.add(new Passenger(result.getInt("passenger_id"), result.getString("passenger_name")));
-
-        while (result.next()) {
-            passengers.add(new Passenger(result.getInt("passenger_id"), result.getString("passenger_name")));
-        }
-
-        result.previous();
-        Flight flight = new Flight(result.getInt("flight_id"), result.getString("flight_duration"), result.getDouble("price"), result.getString("departure_time"), result.getString("arrival_time"), arrival_airport, departure_airport, pilot, plane, airline, passengers);
-
-        return flight;
-    }
-
-    @Override
-    public ArrayList<Flight> getAll() throws SQLException {
-
-        preparedStatement = connection.prepareStatement(GET_ALL_FLIGHTS, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-
-        ResultSet result = preparedStatement.executeQuery();
-
-        ArrayList<Flight> flights = new ArrayList<>();
-
-        while (result.next()) {
+            ResultSet result = preparedStatement.executeQuery();
 
             ArrayList<Passenger> passengers = new ArrayList<>();
 
-            int currFlightId = result.getInt("flight_id");
+            result.next();
 
             Pilot_License license = new Pilot_License(result.getInt("license_id"), result.getString("issued_on"), result.getString("expires"), result.getInt("pilotId"));
             Pilot pilot = new Pilot(result.getInt("id_pilot"), result.getString("pilot_name"), result.getInt("pilot_age"), license);
@@ -94,63 +56,179 @@ public class FlightDAO implements IBaseDAO<Flight> {
 
             passengers.add(new Passenger(result.getInt("passenger_id"), result.getString("passenger_name")));
 
-            while (result.getInt("flight_id") == currFlightId && result.next()) {
+            while (result.next()) {
                 passengers.add(new Passenger(result.getInt("passenger_id"), result.getString("passenger_name")));
             }
 
             result.previous();
-            Flight flight = new Flight(result.getInt("flight_id"), result.getString("flight_duration"), result.getDouble("price"), result.getString("departure_time"), result.getString("arrival_time"), arrival_airport, departure_airport, pilot, plane, airline, passengers);
+            flight = new Flight(result.getInt("flight_id"), result.getString("flight_duration"), result.getDouble("price"), result.getString("departure_time"), result.getString("arrival_time"), arrival_airport, departure_airport, pilot, plane, airline, passengers);
 
-            flights.add(flight);
+            return flight;
+        } catch (SQLException e) {
+            LOGGER.error(e);
+            return null;
+        } finally {
+            try {
+                preparedStatement.close();
+            } catch (SQLException e) {
+                LOGGER.error(e);
+            }
         }
+    }
 
-        return flights;
+    @Override
+    public ArrayList<Flight> getAll() throws SQLException {
+
+        PreparedStatement preparedStatement = null;
+
+        ArrayList<Flight> flights = null;
+        try {
+
+            preparedStatement = connection.prepareStatement(GET_ALL_FLIGHTS, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+
+            ResultSet result = preparedStatement.executeQuery();
+
+            flights = new ArrayList<>();
+
+            while (result.next()) {
+
+                ArrayList<Passenger> passengers = new ArrayList<>();
+
+                int currFlightId = result.getInt("flight_id");
+
+                Pilot_License license = new Pilot_License(result.getInt("license_id"), result.getString("issued_on"), result.getString("expires"), result.getInt("pilotId"));
+                Pilot pilot = new Pilot(result.getInt("id_pilot"), result.getString("pilot_name"), result.getInt("pilot_age"), license);
+
+                Plane_Manufacturer manufacturer = new Plane_Manufacturer(result.getInt("manufacturer_id"), result.getString("manufacturer_name"));
+                Plane plane = new Plane(result.getInt("plane_id"), result.getInt("year"), result.getString(result.findColumn("model_name")), manufacturer);
+
+                Country country1 = new Country(result.getString("con1"), result.getInt("con1id"));
+                City city1 = new City(result.getInt("city1id"), result.getString("city1"), country1);
+                Airport departure_airport = new Airport(result.getInt("a1id"), result.getString("a1_name"), result.getString("a1IATA"), city1);
+
+                Country country2 = new Country(result.getString("con2"), result.getInt("con2id"));
+                City city2 = new City(result.getInt("city2id"), result.getString("city2"), country2);
+                Airport arrival_airport = new Airport(result.getInt("a2id"), result.getString("a2_name"), result.getString("a2IATA"), city2);
+
+                Country country3 = new Country(result.getString("con3"), result.getInt("con3id"));
+                Airline airline = new Airline(result.getInt("airline_id"), result.getString("airline_name"), country3);
+
+                passengers.add(new Passenger(result.getInt("passenger_id"), result.getString("passenger_name")));
+
+                while (result.getInt("flight_id") == currFlightId && result.next()) {
+                    passengers.add(new Passenger(result.getInt("passenger_id"), result.getString("passenger_name")));
+                }
+
+                result.previous();
+                Flight flight = new Flight(result.getInt("flight_id"), result.getString("flight_duration"), result.getDouble("price"), result.getString("departure_time"), result.getString("arrival_time"), arrival_airport, departure_airport, pilot, plane, airline, passengers);
+
+                flights.add(flight);
+            }
+
+            return flights;
+        } catch (SQLException e) {
+            LOGGER.error(e);
+            return null;
+        } finally {
+            try {
+                preparedStatement.close();
+            } catch (SQLException e) {
+                LOGGER.error(e);
+            }
+        }
     }
 
     @Override
     public void insertRow(Flight object) throws SQLException {
-        preparedStatement = connection.prepareStatement(INSERT_FLIGHT);
-        preparedStatement.setInt(1, object.getAirline().getAirline_id());
-        preparedStatement.setInt(2, object.getPilot().getPilot_id());
-        preparedStatement.setInt(3, object.getPlane().getPlaneId());
-        preparedStatement.setDouble(4, object.getPrice());
-        preparedStatement.setString(5, object.getDeparture_time());
-        preparedStatement.setString(6, object.getArrival_time());
-        preparedStatement.setString(7, object.getFlight_duration());
+        PreparedStatement preparedStatement = null;
 
-        preparedStatement.executeUpdate();
+        try {
+
+            preparedStatement = connection.prepareStatement(INSERT_FLIGHT);
+            preparedStatement.setInt(1, object.getAirline().getAirline_id());
+            preparedStatement.setInt(2, object.getPilot().getPilot_id());
+            preparedStatement.setInt(3, object.getPlane().getPlaneId());
+            preparedStatement.setDouble(4, object.getPrice());
+            preparedStatement.setString(5, object.getDeparture_time());
+            preparedStatement.setString(6, object.getArrival_time());
+            preparedStatement.setString(7, object.getFlight_duration());
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            LOGGER.error(e);
+        } finally {
+            try {
+                preparedStatement.close();
+            } catch (SQLException e) {
+                LOGGER.error(e);
+            }
+        }
     }
 
     @Override
     public void deleteById(int id) throws SQLException {
 
-        preparedStatement = connection.prepareStatement(DELETE_BY_ID);
-        preparedStatement.setInt(1, id);
+        PreparedStatement preparedStatement = null;
+        try {
 
-        preparedStatement.executeUpdate();
+            preparedStatement = connection.prepareStatement(DELETE_BY_ID);
+            preparedStatement.setInt(1, id);
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            LOGGER.error(e);
+        } finally {
+            try {
+                preparedStatement.close();
+            } catch (SQLException e) {
+                LOGGER.error(e);
+            }
+        }
     }
 
     @Override
     public void updateRow(int id, Flight object) throws SQLException {
 
-        preparedStatement = connection.prepareStatement(UPDATE_FLIGHT);
-        preparedStatement.setInt(1, object.getAirline().getAirline_id());
-        preparedStatement.setInt(2, object.getPilot().getPilot_id());
-        preparedStatement.setInt(3, object.getPlane().getPlaneId());
-        preparedStatement.setDouble(4, object.getPrice());
-        preparedStatement.setString(5, object.getDeparture_time());
-        preparedStatement.setString(6, object.getArrival_time());
-        preparedStatement.setString(7, object.getFlight_duration());
-        preparedStatement.setInt(8, id);
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(UPDATE_FLIGHT);
+            preparedStatement.setInt(1, object.getAirline().getAirline_id());
+            preparedStatement.setInt(2, object.getPilot().getPilot_id());
+            preparedStatement.setInt(3, object.getPlane().getPlaneId());
+            preparedStatement.setDouble(4, object.getPrice());
+            preparedStatement.setString(5, object.getDeparture_time());
+            preparedStatement.setString(6, object.getArrival_time());
+            preparedStatement.setString(7, object.getFlight_duration());
+            preparedStatement.setInt(8, id);
 
-        preparedStatement.executeUpdate();
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            LOGGER.error(e);
+        } finally {
+            try {
+                preparedStatement.close();
+            } catch (SQLException e) {
+                LOGGER.error(e);
+            }
+        }
     }
 
     @Override
     public void deleteAll() throws SQLException {
 
-        preparedStatement = connection.prepareStatement(DELETE_ALL);
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(DELETE_ALL);
 
-        preparedStatement.executeUpdate();
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            LOGGER.error(e);
+        } finally {
+            try {
+                preparedStatement.close();
+            } catch (SQLException e) {
+                LOGGER.error(e);
+            }
+        }
     }
 }
