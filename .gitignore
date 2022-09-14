@@ -5,3 +5,4 @@ nb-configuration.xml
 logs/
 src/main/resources/TextFiles/
 src/main/resources/output
+lib/
