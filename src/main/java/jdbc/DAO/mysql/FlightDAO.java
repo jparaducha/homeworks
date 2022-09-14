@@ -133,7 +133,7 @@ public class FlightDAO implements IBaseDAO<Flight> {
     @Override
     public void updateRow(int id, Flight object) throws SQLException {
 
-        preparedStatement = connection.prepareStatement(INSERT_FLIGHT);
+        preparedStatement = connection.prepareStatement(UPDATE_FLIGHT);
         preparedStatement.setInt(1, object.getAirline().getAirline_id());
         preparedStatement.setInt(2, object.getPilot().getPilot_id());
         preparedStatement.setInt(3, object.getPlane().getPlaneId());
