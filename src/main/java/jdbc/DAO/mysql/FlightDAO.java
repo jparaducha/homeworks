@@ -1,6 +1,5 @@
 package jdbc.DAO.mysql;
 
-import homework2.Main;
 import jdbc.*;
 import jdbc.DAO.IBaseDAO;
 import org.apache.logging.log4j.LogManager;
@@ -17,7 +16,7 @@ public class FlightDAO implements IBaseDAO<Flight> {
     public final String DELETE_BY_ID = "DELETE FROM flights WHERE flight_id = ?";
     public final String UPDATE_FLIGHT = "UPDATE flights SET airlineId = ?, pilotId = ?, planeId = ?, price = ?, departure_time = ? , arrival_time = ?, flight_duration = ? WHERE flight_id = ?";
     public final String DELETE_ALL = "DELETE FROM flights";
-    private final Logger LOGGER = LogManager.getLogger(Main.class);
+    private final Logger LOGGER = LogManager.getLogger(FlightDAO.class);
     Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sql_task", "root", "root");
 
     public FlightDAO() throws SQLException {
