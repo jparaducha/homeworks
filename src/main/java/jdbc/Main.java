@@ -5,6 +5,7 @@ import jdbc.DAO.mysql.FlightDAO;
 import jdbc.DAO.mysql.PlaneDAO;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class Main {
 
@@ -59,5 +60,12 @@ public class Main {
         Flight flight4 = fDAO.getById(4);
 
         System.out.println(flight4);
+
+        ArrayList<Flight> flights = fDAO.getAll();
+
+        for (int i = 0; i < flights.size(); i++) {
+            System.out.println("----------------------------------------------------------------------------------");
+            System.out.println(flights.get(i));
+        }
     }
 }

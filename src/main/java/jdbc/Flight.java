@@ -18,7 +18,6 @@ public class Flight {
 
     public Flight() {
     }
-
     public Flight(int flight_id, String flight_duration, double price, String departure_time, String arrival_time, Airport arrival_airport, Airport departure_airport, Pilot pilot, Plane plane, Airline airline, ArrayList<Passenger> passengers) {
         this.flight_id = flight_id;
         this.flight_duration = flight_duration;
@@ -31,6 +30,46 @@ public class Flight {
         this.plane = plane;
         this.airline = airline;
         this.passengers = passengers;
+    }
+
+    public String getDeparture_time() {
+        return departure_time;
+    }
+
+    public void setDeparture_time(String departure_time) {
+        this.departure_time = departure_time;
+    }
+
+    public String getArrival_time() {
+        return arrival_time;
+    }
+
+    public void setArrival_time(String arrival_time) {
+        this.arrival_time = arrival_time;
+    }
+
+    public Pilot getPilot() {
+        return pilot;
+    }
+
+    public void setPilot(Pilot pilot) {
+        this.pilot = pilot;
+    }
+
+    public Plane getPlane() {
+        return plane;
+    }
+
+    public void setPlane(Plane plane) {
+        this.plane = plane;
+    }
+
+    public Airline getAirline() {
+        return airline;
+    }
+
+    public void setAirline(Airline airline) {
+        this.airline = airline;
     }
 
     public int getFlight_id() {
@@ -80,5 +119,9 @@ public class Flight {
 
     public ArrayList<Passenger> getPassengers() {
         return passengers;
+    }
+
+    public void setPassengers(ArrayList<Passenger> passengers) {
+        this.passengers = passengers;
     }
 }
