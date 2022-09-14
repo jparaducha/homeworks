@@ -25,12 +25,8 @@ public class Company {
     public Company() {
     }
 
-    private double applyRaise(Project p, IRise rise) throws InvalidSalaryException {
+    public double applyRaise(Project p, IRise rise) throws InvalidSalaryException {
         return rise.getSalariesWithRaise(p);
-    }
-
-    public double raiseLambda(Project proyecto, int amount) throws InvalidSalaryException {
-        return this.applyRaise(proyecto, (p) -> p.bricklayersListCost() + (p.getWorkers().length() * amount));
     }
 
     public String getName() {

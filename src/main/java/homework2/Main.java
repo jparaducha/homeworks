@@ -74,7 +74,7 @@ public class Main {
             brick1.setLicense(crane);
             brick1.printLicenseTypes();
 
-            LOGGER.info("workers' salaries raised: " + company.raiseLambda(proyecto, 250));
+            LOGGER.info("workers' salaries raised: " + company.applyRaise(proyecto, (p) -> p.bricklayersListCost() + (p.getWorkers().length() * 450)));
             LOGGER.info("salary of worker1: " + brick1.totalSalary());
 
             LOGGER.info("salary of all workers: " + proyecto.bricklayersListCost());
