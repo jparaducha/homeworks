@@ -18,6 +18,7 @@ public class Flight {
 
     public Flight() {
     }
+
     public Flight(int flight_id, String flight_duration, double price, String departure_time, String arrival_time, Airport arrival_airport, Airport departure_airport, Pilot pilot, Plane plane, Airline airline, ArrayList<Passenger> passengers) {
         this.flight_id = flight_id;
         this.flight_duration = flight_duration;
@@ -90,7 +91,7 @@ public class Flight {
 
     @Override
     public String toString() {
-        return "Flight{" + "passengers=" + passengers + ", flight_id=" + flight_id + ", flight_duration='" + flight_duration + '\'' + ", price=" + price + ", departure_time='" + departure_time + '\'' + ", arrival_time='" + arrival_time + '\'' + ", arrival_airport=" + arrival_airport + ", departure_airport=" + departure_airport + ", pilot=" + pilot + ", plane=" + plane + ", airline=" + airline + '}';
+        return "Flight{" + ", flight_id=" + flight_id + ", flight_duration='" + flight_duration + '\'' + ", price=" + price + ", departure_time='" + departure_time + '\'' + ", arrival_time='" + arrival_time + '\'' + ", arrival_airport=" + arrival_airport + ", departure_airport=" + departure_airport + ", pilot=" + pilot + ", plane=" + plane + ", airline=" + airline + "passengers=" + passengers + '}';
     }
 
     public double getPrice() {
