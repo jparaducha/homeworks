@@ -2,11 +2,15 @@ package jdbc.DAO.mysql;
 
 import jdbc.City;
 import jdbc.Country;
+import jdbc.DAO.ConnectionPool;
 import jdbc.DAO.IBaseDAO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class CityDAO implements IBaseDAO<City> {
@@ -18,7 +22,6 @@ public class CityDAO implements IBaseDAO<City> {
     private final String UPDATE_CITY = "UPDATE cities SET city_name =  ?, countryId = ? WHERE city_id = ?";
     private final String DELETE_ALL = "DELETE FROM cities";
     private final Logger LOGGER = LogManager.getLogger(CityDAO.class);
-    Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sql_task", "root", "root");
 
     public CityDAO() throws SQLException {
     }
@@ -26,7 +29,9 @@ public class CityDAO implements IBaseDAO<City> {
     @Override
     public City getById(int id) throws SQLException {
         PreparedStatement preparedStatement = null;
+        Connection connection = null;
         try {
+            connection = ConnectionPool.getInstance().getConnection();
             preparedStatement = connection.prepareStatement(GET_CITY_BY_ID);
             preparedStatement.setInt(1, id);
 
@@ -41,6 +46,7 @@ public class CityDAO implements IBaseDAO<City> {
             LOGGER.error(e);
             return null;
         } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
             try {
                 preparedStatement.close();
             } catch (SQLException e) {
@@ -52,7 +58,9 @@ public class CityDAO implements IBaseDAO<City> {
     @Override
     public ArrayList<City> getAll() throws SQLException {
         PreparedStatement preparedStatement = null;
+        Connection connection = null;
         try {
+            connection = ConnectionPool.getInstance().getConnection();
 
             preparedStatement = connection.prepareStatement(GET_ALL_CITIES);
             ResultSet result = preparedStatement.executeQuery();
@@ -71,6 +79,7 @@ public class CityDAO implements IBaseDAO<City> {
             LOGGER.error(e);
             return null;
         } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
             try {
                 preparedStatement.close();
             } catch (SQLException e) {
@@ -82,7 +91,9 @@ public class CityDAO implements IBaseDAO<City> {
     @Override
     public void insertRow(City object) throws SQLException {
         PreparedStatement preparedStatement = null;
+        Connection connection = null;
         try {
+            connection = ConnectionPool.getInstance().getConnection();
 
             preparedStatement = connection.prepareStatement(INSERT_CITY);
             preparedStatement.setString(1, object.getCity_name());
@@ -92,6 +103,7 @@ public class CityDAO implements IBaseDAO<City> {
         } catch (SQLException e) {
             LOGGER.error(e);
         } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
             try {
                 preparedStatement.close();
             } catch (SQLException e) {
@@ -103,7 +115,9 @@ public class CityDAO implements IBaseDAO<City> {
     @Override
     public void deleteById(int id) throws SQLException {
         PreparedStatement preparedStatement = null;
+        Connection connection = null;
         try {
+            connection = ConnectionPool.getInstance().getConnection();
 
             preparedStatement = connection.prepareStatement(DELETE_BY_ID);
             preparedStatement.setInt(1, id);
@@ -112,6 +126,7 @@ public class CityDAO implements IBaseDAO<City> {
         } catch (SQLException e) {
             LOGGER.error(e);
         } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
             try {
                 preparedStatement.close();
             } catch (SQLException e) {
@@ -123,7 +138,9 @@ public class CityDAO implements IBaseDAO<City> {
     @Override
     public void updateRow(int id, City object) throws SQLException {
         PreparedStatement preparedStatement = null;
+        Connection connection = null;
         try {
+            connection = ConnectionPool.getInstance().getConnection();
 
             preparedStatement = connection.prepareStatement(UPDATE_CITY);
             preparedStatement.setString(1, object.getCity_name());
@@ -134,6 +151,7 @@ public class CityDAO implements IBaseDAO<City> {
         } catch (SQLException e) {
             LOGGER.error(e);
         } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
             try {
                 preparedStatement.close();
             } catch (SQLException e) {
@@ -145,7 +163,9 @@ public class CityDAO implements IBaseDAO<City> {
     @Override
     public void deleteAll() throws SQLException {
         PreparedStatement preparedStatement = null;
+        Connection connection = null;
         try {
+            connection = ConnectionPool.getInstance().getConnection();
 
             preparedStatement = connection.prepareStatement(DELETE_ALL);
 
@@ -153,6 +173,7 @@ public class CityDAO implements IBaseDAO<City> {
         } catch (SQLException e) {
             LOGGER.error(e);
         } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
             try {
                 preparedStatement.close();
             } catch (SQLException e) {

@@ -1,5 +1,6 @@
 package jdbc.DAO.mysql;
 
+import jdbc.DAO.ConnectionPool;
 import jdbc.DAO.IBaseDAO;
 import jdbc.Pilot;
 import jdbc.Pilot_License;
@@ -26,14 +27,16 @@ public class PilotDAO implements IBaseDAO<Pilot> {
     @Override
     public Pilot getById(int id) throws SQLException {
         PreparedStatement preparedStatement = null;
+        Connection connection = null;
         try {
+            connection = ConnectionPool.getInstance().getConnection();
             preparedStatement = connection.prepareStatement(GET_PILOT_BY_ID);
             preparedStatement.setInt(1, id);
 
             ResultSet result = preparedStatement.executeQuery();
 
             result.next();
-            Pilot_License license = new Pilot_LicenseDAO().getById(result.getInt("license_id"));
+            Pilot_License license = new Pilot_LicenseDAO().getById(result.getInt("licenseId"));
 
             Pilot pilot = new Pilot(result.getInt("id_pilot"), result.getString("pilot_name"), result.getInt("pilot_age"), license);
 
@@ -42,6 +45,7 @@ public class PilotDAO implements IBaseDAO<Pilot> {
             LOGGER.error(e);
             return null;
         } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
             try {
                 preparedStatement.close();
             } catch (SQLException e) {
@@ -53,7 +57,9 @@ public class PilotDAO implements IBaseDAO<Pilot> {
     @Override
     public ArrayList<Pilot> getAll() throws SQLException {
         PreparedStatement preparedStatement = null;
+        Connection connection = null;
         try {
+            connection = ConnectionPool.getInstance().getConnection();
             preparedStatement = connection.prepareStatement(GET_ALL_PILOTS);
             ResultSet result = preparedStatement.executeQuery();
 
@@ -61,7 +67,7 @@ public class PilotDAO implements IBaseDAO<Pilot> {
 
             while (result.next()) {
 
-                Pilot_License license = new Pilot_LicenseDAO().getById(result.getInt("license_id"));
+                Pilot_License license = new Pilot_LicenseDAO().getById(result.getInt("licenseId"));
 
                 Pilot pilot = new Pilot(result.getInt("id_pilot"), result.getString("pilot_name"), result.getInt("pilot_age"), license);
 
@@ -73,6 +79,7 @@ public class PilotDAO implements IBaseDAO<Pilot> {
             LOGGER.error(e);
             return null;
         } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
             try {
                 preparedStatement.close();
             } catch (SQLException e) {
@@ -84,7 +91,9 @@ public class PilotDAO implements IBaseDAO<Pilot> {
     @Override
     public void insertRow(Pilot object) throws SQLException {
         PreparedStatement preparedStatement = null;
+        Connection connection = null;
         try {
+            connection = ConnectionPool.getInstance().getConnection();
 
             preparedStatement = connection.prepareStatement(INSERT_PILOT);
             preparedStatement.setString(1, object.getPilot_name());
@@ -95,6 +104,7 @@ public class PilotDAO implements IBaseDAO<Pilot> {
         } catch (SQLException e) {
             LOGGER.error(e);
         } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
             try {
                 preparedStatement.close();
             } catch (SQLException e) {
@@ -106,7 +116,9 @@ public class PilotDAO implements IBaseDAO<Pilot> {
     @Override
     public void deleteById(int id) throws SQLException {
         PreparedStatement preparedStatement = null;
+        Connection connection = null;
         try {
+            connection = ConnectionPool.getInstance().getConnection();
 
             preparedStatement = connection.prepareStatement(DELETE_BY_ID);
             preparedStatement.setInt(1, id);
@@ -115,6 +127,7 @@ public class PilotDAO implements IBaseDAO<Pilot> {
         } catch (SQLException e) {
             LOGGER.error(e);
         } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
             try {
                 preparedStatement.close();
             } catch (SQLException e) {
@@ -126,7 +139,9 @@ public class PilotDAO implements IBaseDAO<Pilot> {
     @Override
     public void updateRow(int id, Pilot object) throws SQLException {
         PreparedStatement preparedStatement = null;
+        Connection connection = null;
         try {
+            connection = ConnectionPool.getInstance().getConnection();
 
             preparedStatement = connection.prepareStatement(UPDATE_PILOT);
             preparedStatement.setString(1, object.getPilot_name());
@@ -138,6 +153,7 @@ public class PilotDAO implements IBaseDAO<Pilot> {
         } catch (SQLException e) {
             LOGGER.error(e);
         } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
             try {
                 preparedStatement.close();
             } catch (SQLException e) {
@@ -149,7 +165,9 @@ public class PilotDAO implements IBaseDAO<Pilot> {
     @Override
     public void deleteAll() throws SQLException {
         PreparedStatement preparedStatement = null;
+        Connection connection = null;
         try {
+            connection = ConnectionPool.getInstance().getConnection();
 
             preparedStatement = connection.prepareStatement(DELETE_ALL);
 
@@ -157,6 +175,7 @@ public class PilotDAO implements IBaseDAO<Pilot> {
         } catch (SQLException e) {
             LOGGER.error(e);
         } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
             try {
                 preparedStatement.close();
             } catch (SQLException e) {

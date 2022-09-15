@@ -1,11 +1,15 @@
 package jdbc.DAO.mysql;
 
+import jdbc.DAO.ConnectionPool;
 import jdbc.DAO.IBaseDAO;
 import jdbc.Pilot_License;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Pilot_LicenseDAO implements IBaseDAO<Pilot_License> {
@@ -17,7 +21,6 @@ public class Pilot_LicenseDAO implements IBaseDAO<Pilot_License> {
     private final String UPDATE_PILOTLICENSE = "UPDATE pilot_licenses SET issued_on =  ?, expires = ?, pilotId = ? WHERE license_id = ?";
     private final String DELETE_ALL = "DELETE FROM pilot_licenses";
     private final Logger LOGGER = LogManager.getLogger(Pilot_LicenseDAO.class);
-    Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sql_task", "root", "root");
     PreparedStatement preparedStatement;
 
     public Pilot_LicenseDAO() throws SQLException {
@@ -26,7 +29,9 @@ public class Pilot_LicenseDAO implements IBaseDAO<Pilot_License> {
     @Override
     public Pilot_License getById(int id) throws SQLException {
         PreparedStatement preparedStatement = null;
+        Connection connection = null;
         try {
+            connection = ConnectionPool.getInstance().getConnection();
             preparedStatement = connection.prepareStatement(GET_PILOTLICENSE_BY_ID);
             preparedStatement.setInt(1, id);
 
@@ -42,6 +47,7 @@ public class Pilot_LicenseDAO implements IBaseDAO<Pilot_License> {
             LOGGER.error(e);
             return null;
         } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
             try {
                 preparedStatement.close();
             } catch (SQLException e) {
@@ -53,7 +59,9 @@ public class Pilot_LicenseDAO implements IBaseDAO<Pilot_License> {
     @Override
     public ArrayList<Pilot_License> getAll() throws SQLException {
         PreparedStatement preparedStatement = null;
+        Connection connection = null;
         try {
+            connection = ConnectionPool.getInstance().getConnection();
             preparedStatement = connection.prepareStatement(GET_ALL_PILOTLICENSES);
             ResultSet result = preparedStatement.executeQuery();
 
@@ -71,6 +79,7 @@ public class Pilot_LicenseDAO implements IBaseDAO<Pilot_License> {
             LOGGER.error(e);
             return null;
         } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
             try {
                 preparedStatement.close();
             } catch (SQLException e) {
@@ -82,7 +91,9 @@ public class Pilot_LicenseDAO implements IBaseDAO<Pilot_License> {
     @Override
     public void insertRow(Pilot_License object) throws SQLException {
         PreparedStatement preparedStatement = null;
+        Connection connection = null;
         try {
+            connection = ConnectionPool.getInstance().getConnection();
             preparedStatement = connection.prepareStatement(INSERT_PILOTLICENSE);
             preparedStatement.setString(1, object.getIssued_on());
             preparedStatement.setString(2, object.getExpires());
@@ -92,6 +103,7 @@ public class Pilot_LicenseDAO implements IBaseDAO<Pilot_License> {
         } catch (SQLException e) {
             LOGGER.error(e);
         } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
             try {
                 preparedStatement.close();
             } catch (SQLException e) {
@@ -103,7 +115,9 @@ public class Pilot_LicenseDAO implements IBaseDAO<Pilot_License> {
     @Override
     public void deleteById(int id) throws SQLException {
         PreparedStatement preparedStatement = null;
+        Connection connection = null;
         try {
+            connection = ConnectionPool.getInstance().getConnection();
 
             preparedStatement = connection.prepareStatement(DELETE_BY_ID);
             preparedStatement.setInt(1, id);
@@ -112,6 +126,7 @@ public class Pilot_LicenseDAO implements IBaseDAO<Pilot_License> {
         } catch (SQLException e) {
             LOGGER.error(e);
         } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
             try {
                 preparedStatement.close();
             } catch (SQLException e) {
@@ -123,7 +138,9 @@ public class Pilot_LicenseDAO implements IBaseDAO<Pilot_License> {
     @Override
     public void updateRow(int id, Pilot_License object) throws SQLException {
         PreparedStatement preparedStatement = null;
+        Connection connection = null;
         try {
+            connection = ConnectionPool.getInstance().getConnection();
 
             preparedStatement = connection.prepareStatement(UPDATE_PILOTLICENSE);
             preparedStatement.setString(1, object.getIssued_on());
@@ -135,6 +152,7 @@ public class Pilot_LicenseDAO implements IBaseDAO<Pilot_License> {
         } catch (SQLException e) {
             LOGGER.error(e);
         } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
             try {
                 preparedStatement.close();
             } catch (SQLException e) {
@@ -146,7 +164,9 @@ public class Pilot_LicenseDAO implements IBaseDAO<Pilot_License> {
     @Override
     public void deleteAll() throws SQLException {
         PreparedStatement preparedStatement = null;
+        Connection connection = null;
         try {
+            connection = ConnectionPool.getInstance().getConnection();
 
             preparedStatement = connection.prepareStatement(DELETE_ALL);
 
@@ -154,6 +174,7 @@ public class Pilot_LicenseDAO implements IBaseDAO<Pilot_License> {
         } catch (SQLException e) {
             LOGGER.error(e);
         } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
             try {
                 preparedStatement.close();
             } catch (SQLException e) {

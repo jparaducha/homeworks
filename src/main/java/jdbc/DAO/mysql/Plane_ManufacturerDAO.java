@@ -1,11 +1,15 @@
 package jdbc.DAO.mysql;
 
+import jdbc.DAO.ConnectionPool;
 import jdbc.DAO.IBaseDAO;
 import jdbc.Plane_Manufacturer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Plane_ManufacturerDAO implements IBaseDAO<Plane_Manufacturer> {
@@ -17,7 +21,6 @@ public class Plane_ManufacturerDAO implements IBaseDAO<Plane_Manufacturer> {
     private final String UPDATE_MANUFACTURER = "UPDATE plane_manufacturers SET manufacturer_name =  ? WHERE manufacturer_id = ?";
     private final String DELETE_ALL = "DELETE FROM plane_manufacturers";
     private final Logger LOGGER = LogManager.getLogger(Plane_ManufacturerDAO.class);
-    Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sql_task", "root", "root");
 
     public Plane_ManufacturerDAO() throws SQLException {
     }
@@ -25,7 +28,9 @@ public class Plane_ManufacturerDAO implements IBaseDAO<Plane_Manufacturer> {
     @Override
     public Plane_Manufacturer getById(int id) throws SQLException {
         PreparedStatement preparedStatement = null;
+        Connection connection = null;
         try {
+            connection = ConnectionPool.getInstance().getConnection();
             preparedStatement = connection.prepareStatement(GET_MANUFACTURER_BY_ID);
             preparedStatement.setInt(1, id);
 
@@ -39,6 +44,7 @@ public class Plane_ManufacturerDAO implements IBaseDAO<Plane_Manufacturer> {
             LOGGER.error(e);
             return null;
         } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
             try {
                 preparedStatement.close();
             } catch (SQLException e) {
@@ -50,7 +56,9 @@ public class Plane_ManufacturerDAO implements IBaseDAO<Plane_Manufacturer> {
     @Override
     public ArrayList<Plane_Manufacturer> getAll() throws SQLException {
         PreparedStatement preparedStatement = null;
+        Connection connection = null;
         try {
+            connection = ConnectionPool.getInstance().getConnection();
             preparedStatement = connection.prepareStatement(GET_ALL_MANUFACTURERS);
 
             ResultSet result = preparedStatement.executeQuery();
@@ -69,6 +77,7 @@ public class Plane_ManufacturerDAO implements IBaseDAO<Plane_Manufacturer> {
             LOGGER.error(e);
             return null;
         } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
             try {
                 preparedStatement.close();
             } catch (SQLException e) {
@@ -80,7 +89,9 @@ public class Plane_ManufacturerDAO implements IBaseDAO<Plane_Manufacturer> {
     @Override
     public void insertRow(Plane_Manufacturer object) throws SQLException {
         PreparedStatement preparedStatement = null;
+        Connection connection = null;
         try {
+            connection = ConnectionPool.getInstance().getConnection();
             preparedStatement = connection.prepareStatement(INSERT_MANUFACTURER);
             preparedStatement.setString(1, object.getManufacturer_name());
 
@@ -88,6 +99,7 @@ public class Plane_ManufacturerDAO implements IBaseDAO<Plane_Manufacturer> {
         } catch (SQLException e) {
             LOGGER.error(e);
         } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
             try {
                 preparedStatement.close();
             } catch (SQLException e) {
@@ -99,7 +111,9 @@ public class Plane_ManufacturerDAO implements IBaseDAO<Plane_Manufacturer> {
     @Override
     public void deleteById(int id) throws SQLException {
         PreparedStatement preparedStatement = null;
+        Connection connection = null;
         try {
+            connection = ConnectionPool.getInstance().getConnection();
             preparedStatement = connection.prepareStatement(DELETE_BY_ID);
             preparedStatement.setInt(1, id);
 
@@ -107,6 +121,7 @@ public class Plane_ManufacturerDAO implements IBaseDAO<Plane_Manufacturer> {
         } catch (SQLException e) {
             LOGGER.error(e);
         } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
             try {
                 preparedStatement.close();
             } catch (SQLException e) {
@@ -118,7 +133,9 @@ public class Plane_ManufacturerDAO implements IBaseDAO<Plane_Manufacturer> {
     @Override
     public void updateRow(int id, Plane_Manufacturer object) throws SQLException {
         PreparedStatement preparedStatement = null;
+        Connection connection = null;
         try {
+            connection = ConnectionPool.getInstance().getConnection();
             preparedStatement = connection.prepareStatement(UPDATE_MANUFACTURER);
             preparedStatement.setString(1, object.getManufacturer_name());
             preparedStatement.setInt(2, id);
@@ -127,6 +144,7 @@ public class Plane_ManufacturerDAO implements IBaseDAO<Plane_Manufacturer> {
         } catch (SQLException e) {
             LOGGER.error(e);
         } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
             try {
                 preparedStatement.close();
             } catch (SQLException e) {
@@ -138,7 +156,9 @@ public class Plane_ManufacturerDAO implements IBaseDAO<Plane_Manufacturer> {
     @Override
     public void deleteAll() throws SQLException {
         PreparedStatement preparedStatement = null;
+        Connection connection = null;
         try {
+            connection = ConnectionPool.getInstance().getConnection();
 
             preparedStatement = connection.prepareStatement(DELETE_ALL);
 
@@ -146,6 +166,7 @@ public class Plane_ManufacturerDAO implements IBaseDAO<Plane_Manufacturer> {
         } catch (SQLException e) {
             LOGGER.error(e);
         } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
             try {
                 preparedStatement.close();
             } catch (SQLException e) {

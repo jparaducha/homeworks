@@ -1,11 +1,15 @@
 package jdbc.DAO.mysql;
 
 import jdbc.*;
+import jdbc.DAO.ConnectionPool;
 import jdbc.DAO.IBaseDAO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class FlightDAO implements IBaseDAO<Flight> {
@@ -17,7 +21,6 @@ public class FlightDAO implements IBaseDAO<Flight> {
     private final String UPDATE_FLIGHT = "UPDATE flights SET airlineId = ?, pilotId = ?, planeId = ?, price = ?, departure_time = ? , arrival_time = ?, flight_duration = ? WHERE flight_id = ?";
     private final String DELETE_ALL = "DELETE FROM flights";
     private final Logger LOGGER = LogManager.getLogger(FlightDAO.class);
-    Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sql_task", "root", "root");
 
     public FlightDAO() throws SQLException {
     }
@@ -26,7 +29,9 @@ public class FlightDAO implements IBaseDAO<Flight> {
     public Flight getById(int id) throws SQLException {
         PreparedStatement preparedStatement = null;
         Flight flight = null;
+        Connection connection = null;
         try {
+            connection = ConnectionPool.getInstance().getConnection();
             preparedStatement = connection.prepareStatement(GET_FLIGHT_BY_ID, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             preparedStatement.setInt(1, id);
 
@@ -67,6 +72,7 @@ public class FlightDAO implements IBaseDAO<Flight> {
             LOGGER.error(e);
             return null;
         } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
             try {
                 preparedStatement.close();
             } catch (SQLException e) {
@@ -81,7 +87,9 @@ public class FlightDAO implements IBaseDAO<Flight> {
         PreparedStatement preparedStatement = null;
 
         ArrayList<Flight> flights = null;
+        Connection connection = null;
         try {
+            connection = ConnectionPool.getInstance().getConnection();
 
             preparedStatement = connection.prepareStatement(GET_ALL_FLIGHTS, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 
@@ -118,28 +126,28 @@ public class FlightDAO implements IBaseDAO<Flight> {
                     passengers.add(new Passenger(result.getInt("passenger_id"), result.getString("passenger_name")));
                 }
 
+                /*
+//-------------------------------------------
+                Pilot pilot = new PilotDAO().getById(result.getInt("id_pilot"));
+                Plane plane = new PlaneDAO().getPlaneById(result.getInt("plane_id"));
+                Airport departure_airport = new AirportDAO().getById(result.getInt("a1id"));
+
+                Airport arrival_airport = new AirportDAO().getById(result.getInt("a2id"));
+
+                Airline airline = new AirlineDAO().getById(result.getInt("airline_id"));
+
+                passengers.add(new PassengerDAO().getById(result.getInt("passenger_id")));
+
+                while (result.getInt("flight_id") == currFlightId && result.next()) {
+                    passengers.add(new PassengerDAO().getById(result.getInt("passenger_id")));
+                }
+
+                //---------------------------
+*/
                 result.previous();
                 Flight flight = new Flight(result.getInt("flight_id"), result.getString("flight_duration"), result.getDouble("price"), result.getString("departure_time"), result.getString("arrival_time"), arrival_airport, departure_airport, pilot, plane, airline, passengers);
 
                 flights.add(flight);
-
-
-                /*
-                * Pilot pilot = new PilotDAO().getById(result.getInt("id_pilot"));
-            Plane plane = new PlaneDAO().getPlaneById(result.getInt("plane_id"));
-            Airport departure_airport = new AirportDAO().getById(result.getInt("a1id"));
-
-            Airport arrival_airport = new AirportDAO().getById(result.getInt("a2id"));
-
-            Airline airline = new AirlineDAO().getById(result.getInt("airline_id"));
-
-            passengers.add(new PassengerDAO().getById(result.getInt("passenger_id")));
-
-            while (result.next()) {
-                passengers.add(new PassengerDAO().getById(result.getInt("passenger_id")));
-            }
-                *
-                * */
             }
 
             return flights;
@@ -147,6 +155,7 @@ public class FlightDAO implements IBaseDAO<Flight> {
             LOGGER.error(e);
             return null;
         } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
             try {
                 preparedStatement.close();
             } catch (SQLException e) {
@@ -159,7 +168,9 @@ public class FlightDAO implements IBaseDAO<Flight> {
     public void insertRow(Flight object) throws SQLException {
         PreparedStatement preparedStatement = null;
 
+        Connection connection = null;
         try {
+            connection = ConnectionPool.getInstance().getConnection();
 
             preparedStatement = connection.prepareStatement(INSERT_FLIGHT);
             preparedStatement.setInt(1, object.getAirline().getAirline_id());
@@ -174,6 +185,7 @@ public class FlightDAO implements IBaseDAO<Flight> {
         } catch (SQLException e) {
             LOGGER.error(e);
         } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
             try {
                 preparedStatement.close();
             } catch (SQLException e) {
@@ -185,8 +197,10 @@ public class FlightDAO implements IBaseDAO<Flight> {
     @Override
     public void deleteById(int id) throws SQLException {
 
+        Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
+            connection = ConnectionPool.getInstance().getConnection();
 
             preparedStatement = connection.prepareStatement(DELETE_BY_ID);
             preparedStatement.setInt(1, id);
@@ -195,6 +209,7 @@ public class FlightDAO implements IBaseDAO<Flight> {
         } catch (SQLException e) {
             LOGGER.error(e);
         } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
             try {
                 preparedStatement.close();
             } catch (SQLException e) {
@@ -207,7 +222,9 @@ public class FlightDAO implements IBaseDAO<Flight> {
     public void updateRow(int id, Flight object) throws SQLException {
 
         PreparedStatement preparedStatement = null;
+        Connection connection = null;
         try {
+            connection = ConnectionPool.getInstance().getConnection();
             preparedStatement = connection.prepareStatement(UPDATE_FLIGHT);
             preparedStatement.setInt(1, object.getAirline().getAirline_id());
             preparedStatement.setInt(2, object.getPilot().getPilot_id());
@@ -222,6 +239,7 @@ public class FlightDAO implements IBaseDAO<Flight> {
         } catch (SQLException e) {
             LOGGER.error(e);
         } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
             try {
                 preparedStatement.close();
             } catch (SQLException e) {
@@ -234,13 +252,16 @@ public class FlightDAO implements IBaseDAO<Flight> {
     public void deleteAll() throws SQLException {
 
         PreparedStatement preparedStatement = null;
+        Connection connection = null;
         try {
+            connection = ConnectionPool.getInstance().getConnection();
             preparedStatement = connection.prepareStatement(DELETE_ALL);
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             LOGGER.error(e);
         } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
             try {
                 preparedStatement.close();
             } catch (SQLException e) {

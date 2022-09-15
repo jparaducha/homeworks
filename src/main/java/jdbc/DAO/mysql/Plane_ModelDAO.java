@@ -1,12 +1,16 @@
 package jdbc.DAO.mysql;
 
+import jdbc.DAO.ConnectionPool;
 import jdbc.DAO.IBaseDAO;
 import jdbc.Plane_Manufacturer;
 import jdbc.Plane_Model;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Plane_ModelDAO implements IBaseDAO<Plane_Model> {
@@ -18,15 +22,16 @@ public class Plane_ModelDAO implements IBaseDAO<Plane_Model> {
     private final String UPDATE_MODEL = "UPDATE plane_manufacturers SET model_name =  ? , manufacturer = ? WHERE model_id = ?";
     private final String DELETE_ALL = "DELETE FROM plane_manufacturers";
     private final Logger LOGGER = LogManager.getLogger(Plane_ModelDAO.class);
-    Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sql_task", "root", "root");
 
     public Plane_ModelDAO() throws SQLException {
     }
 
     @Override
     public Plane_Model getById(int id) throws SQLException {
+        Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
+            connection = ConnectionPool.getInstance().getConnection();
             preparedStatement = connection.prepareStatement(GET_MODEL_BY_ID);
             preparedStatement.setInt(1, id);
 
@@ -41,6 +46,7 @@ public class Plane_ModelDAO implements IBaseDAO<Plane_Model> {
             LOGGER.error(e);
             return null;
         } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
             try {
                 preparedStatement.close();
             } catch (SQLException e) {
@@ -52,7 +58,9 @@ public class Plane_ModelDAO implements IBaseDAO<Plane_Model> {
     @Override
     public ArrayList<Plane_Model> getAll() throws SQLException {
         PreparedStatement preparedStatement = null;
+        Connection connection = null;
         try {
+            connection = ConnectionPool.getInstance().getConnection();
             preparedStatement = connection.prepareStatement(GET_ALL_MODELS);
 
             ArrayList<Plane_Model> models = new ArrayList<>();
@@ -70,6 +78,7 @@ public class Plane_ModelDAO implements IBaseDAO<Plane_Model> {
             LOGGER.error(e);
             return null;
         } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
             try {
                 preparedStatement.close();
             } catch (SQLException e) {
@@ -81,7 +90,9 @@ public class Plane_ModelDAO implements IBaseDAO<Plane_Model> {
     @Override
     public void insertRow(Plane_Model object) throws SQLException {
         PreparedStatement preparedStatement = null;
+        Connection connection = null;
         try {
+            connection = ConnectionPool.getInstance().getConnection();
 
             preparedStatement = connection.prepareStatement(INSERT_MODEL);
             preparedStatement.setString(1, object.getModel_name());
@@ -91,6 +102,7 @@ public class Plane_ModelDAO implements IBaseDAO<Plane_Model> {
         } catch (SQLException e) {
             LOGGER.error(e);
         } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
             try {
                 preparedStatement.close();
             } catch (SQLException e) {
@@ -102,7 +114,9 @@ public class Plane_ModelDAO implements IBaseDAO<Plane_Model> {
     @Override
     public void deleteById(int id) throws SQLException {
         PreparedStatement preparedStatement = null;
+        Connection connection = null;
         try {
+            connection = ConnectionPool.getInstance().getConnection();
 
             preparedStatement = connection.prepareStatement(DELETE_BY_ID);
             preparedStatement.setInt(1, id);
@@ -111,6 +125,7 @@ public class Plane_ModelDAO implements IBaseDAO<Plane_Model> {
         } catch (SQLException e) {
             LOGGER.error(e);
         } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
             try {
                 preparedStatement.close();
             } catch (SQLException e) {
@@ -122,7 +137,9 @@ public class Plane_ModelDAO implements IBaseDAO<Plane_Model> {
     @Override
     public void updateRow(int id, Plane_Model object) throws SQLException {
         PreparedStatement preparedStatement = null;
+        Connection connection = null;
         try {
+            connection = ConnectionPool.getInstance().getConnection();
 
             preparedStatement = connection.prepareStatement(UPDATE_MODEL);
             preparedStatement.setString(1, object.getModel_name());
@@ -133,6 +150,7 @@ public class Plane_ModelDAO implements IBaseDAO<Plane_Model> {
         } catch (SQLException e) {
             LOGGER.error(e);
         } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
             try {
                 preparedStatement.close();
             } catch (SQLException e) {
@@ -144,7 +162,9 @@ public class Plane_ModelDAO implements IBaseDAO<Plane_Model> {
     @Override
     public void deleteAll() throws SQLException {
         PreparedStatement preparedStatement = null;
+        Connection connection = null;
         try {
+            connection = ConnectionPool.getInstance().getConnection();
 
             preparedStatement = connection.prepareStatement(DELETE_ALL);
 
@@ -152,6 +172,7 @@ public class Plane_ModelDAO implements IBaseDAO<Plane_Model> {
         } catch (SQLException e) {
             LOGGER.error(e);
         } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
             try {
                 preparedStatement.close();
             } catch (SQLException e) {

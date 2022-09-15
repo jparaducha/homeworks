@@ -2,11 +2,15 @@ package jdbc.DAO.mysql;
 
 import jdbc.Airport;
 import jdbc.City;
+import jdbc.DAO.ConnectionPool;
 import jdbc.DAO.IBaseDAO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class AirportDAO implements IBaseDAO<Airport> {
@@ -18,7 +22,6 @@ public class AirportDAO implements IBaseDAO<Airport> {
     private final String UPDATE_AIRPORT = "UPDATE airports SET airport_name =  ?, IATA_code = ?, cityId = ? WHERE airport_id = ?";
     private final String DELETE_ALL = "DELETE FROM airports";
     private final Logger LOGGER = LogManager.getLogger(AirportDAO.class);
-    Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sql_task", "root", "root");
 
     public AirportDAO() throws SQLException {
     }
@@ -26,15 +29,21 @@ public class AirportDAO implements IBaseDAO<Airport> {
     @Override
     public Airport getById(int id) throws SQLException {
         PreparedStatement preparedStatement = null;
+        Connection connection = null;
         try {
+            connection = ConnectionPool.getInstance().getConnection();
             preparedStatement = connection.prepareStatement(GET_AIRPORT_BY_ID);
             preparedStatement.setInt(1, id);
 
             ResultSet result = preparedStatement.executeQuery();
 
             result.next();
-
+/*
             City city = new CityDAO().getById(result.getInt("city_id"));
+            Airport airport = new Airport(result.getInt("airport_id"), result.getString("airport_name"), result.getString("IATA_code"), city);
+*/
+
+            City city = new City(result.getInt("city_id"), result.getString("city_name"));
             Airport airport = new Airport(result.getInt("airport_id"), result.getString("airport_name"), result.getString("IATA_code"), city);
 
             return airport;
@@ -42,6 +51,7 @@ public class AirportDAO implements IBaseDAO<Airport> {
             LOGGER.error(e);
             return null;
         } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
             try {
                 preparedStatement.close();
             } catch (SQLException e) {
@@ -53,7 +63,9 @@ public class AirportDAO implements IBaseDAO<Airport> {
     @Override
     public ArrayList<Airport> getAll() throws SQLException {
         PreparedStatement preparedStatement = null;
+        Connection connection = null;
         try {
+            connection = ConnectionPool.getInstance().getConnection();
             preparedStatement = connection.prepareStatement(GET_ALL_AIRPORTS);
 
             ResultSet result = preparedStatement.executeQuery();
@@ -61,8 +73,9 @@ public class AirportDAO implements IBaseDAO<Airport> {
             ArrayList<Airport> airports = new ArrayList<>();
 
             while (result.next()) {
-                City city = new CityDAO().getById(result.getInt("city_id"));
-
+                //City city = new CityDAO().getById(result.getInt("city_id"));
+                //Airport airport = new Airport(result.getInt("airport_id"), result.getString("airport_name"), result.getString("IATA_code"), city);
+                City city = new City(result.getInt("city_id"), result.getString("city_name"));
                 Airport airport = new Airport(result.getInt("airport_id"), result.getString("airport_name"), result.getString("IATA_code"), city);
 
                 airports.add(airport);
@@ -72,6 +85,7 @@ public class AirportDAO implements IBaseDAO<Airport> {
             LOGGER.error(e);
             return null;
         } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
             try {
                 preparedStatement.close();
             } catch (SQLException e) {
@@ -83,7 +97,9 @@ public class AirportDAO implements IBaseDAO<Airport> {
     @Override
     public void insertRow(Airport object) throws SQLException {
         PreparedStatement preparedStatement = null;
+        Connection connection = null;
         try {
+            connection = ConnectionPool.getInstance().getConnection();
             preparedStatement = connection.prepareStatement(INSERT_AIRPORT);
 
             preparedStatement.setString(1, object.getAirport_name());
@@ -94,6 +110,7 @@ public class AirportDAO implements IBaseDAO<Airport> {
         } catch (SQLException e) {
             LOGGER.error(e);
         } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
             try {
                 preparedStatement.close();
             } catch (SQLException e) {
@@ -105,7 +122,9 @@ public class AirportDAO implements IBaseDAO<Airport> {
     @Override
     public void deleteById(int id) throws SQLException {
         PreparedStatement preparedStatement = null;
+        Connection connection = null;
         try {
+            connection = ConnectionPool.getInstance().getConnection();
 
             preparedStatement = connection.prepareStatement(DELETE_BY_ID);
             preparedStatement.setInt(1, id);
@@ -114,6 +133,7 @@ public class AirportDAO implements IBaseDAO<Airport> {
         } catch (SQLException e) {
             LOGGER.error(e);
         } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
             try {
                 preparedStatement.close();
             } catch (SQLException e) {
@@ -125,7 +145,9 @@ public class AirportDAO implements IBaseDAO<Airport> {
     @Override
     public void updateRow(int id, Airport object) throws SQLException {
         PreparedStatement preparedStatement = null;
+        Connection connection = null;
         try {
+            connection = ConnectionPool.getInstance().getConnection();
 
             preparedStatement = connection.prepareStatement(UPDATE_AIRPORT);
             preparedStatement.setString(1, object.getAirport_name());
@@ -137,6 +159,7 @@ public class AirportDAO implements IBaseDAO<Airport> {
         } catch (SQLException e) {
             LOGGER.error(e);
         } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
             try {
                 preparedStatement.close();
             } catch (SQLException e) {
@@ -148,7 +171,9 @@ public class AirportDAO implements IBaseDAO<Airport> {
     @Override
     public void deleteAll() throws SQLException {
         PreparedStatement preparedStatement = null;
+        Connection connection = null;
         try {
+            connection = ConnectionPool.getInstance().getConnection();
 
             preparedStatement = connection.prepareStatement(DELETE_ALL);
 
@@ -156,6 +181,7 @@ public class AirportDAO implements IBaseDAO<Airport> {
         } catch (SQLException e) {
             LOGGER.error(e);
         } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
             try {
                 preparedStatement.close();
             } catch (SQLException e) {

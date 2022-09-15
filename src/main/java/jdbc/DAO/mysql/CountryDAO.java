@@ -2,11 +2,15 @@ package jdbc.DAO.mysql;
 
 import jdbc.City;
 import jdbc.Country;
+import jdbc.DAO.ConnectionPool;
 import jdbc.DAO.IBaseDAO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -20,7 +24,6 @@ public class CountryDAO implements IBaseDAO<Country> {
     private final String UPDATE_COUNTRY = "UPDATE countries SET country_name =  ? WHERE country_id = ?";
     private final String DELETE_ALL = "DELETE FROM countries";
     private final Logger LOGGER = LogManager.getLogger(CountryDAO.class);
-    Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sql_task", "root", "root");
 
     public CountryDAO() throws SQLException {
     }
@@ -28,7 +31,9 @@ public class CountryDAO implements IBaseDAO<Country> {
     @Override
     public Country getById(int id) throws SQLException {
         PreparedStatement preparedStatement = null;
+        Connection connection = null;
         try {
+            connection = ConnectionPool.getInstance().getConnection();
 
             preparedStatement = connection.prepareStatement(GET_COUNTRY_BY_ID);
 
@@ -57,6 +62,7 @@ public class CountryDAO implements IBaseDAO<Country> {
             LOGGER.error(e);
             return null;
         } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
             try {
                 preparedStatement.close();
             } catch (SQLException e) {
@@ -68,7 +74,9 @@ public class CountryDAO implements IBaseDAO<Country> {
     @Override
     public ArrayList<Country> getAll() throws SQLException {
         PreparedStatement preparedStatement = null;
+        Connection connection = null;
         try {
+            connection = ConnectionPool.getInstance().getConnection();
 
             preparedStatement = connection.prepareStatement(GET_ALL_COUNTRIES, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 
@@ -112,6 +120,7 @@ public class CountryDAO implements IBaseDAO<Country> {
             LOGGER.error(e);
             return null;
         } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
             try {
                 preparedStatement.close();
             } catch (SQLException e) {
@@ -123,7 +132,9 @@ public class CountryDAO implements IBaseDAO<Country> {
     @Override
     public void insertRow(Country object) throws SQLException {
         PreparedStatement preparedStatement = null;
+        Connection connection = null;
         try {
+            connection = ConnectionPool.getInstance().getConnection();
 
             preparedStatement = connection.prepareStatement(INSERT_COUNTRY);
             preparedStatement.setString(1, object.getCountry_name());
@@ -131,6 +142,7 @@ public class CountryDAO implements IBaseDAO<Country> {
         } catch (SQLException e) {
             LOGGER.error(e);
         } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
             try {
                 preparedStatement.close();
             } catch (SQLException e) {
@@ -142,7 +154,9 @@ public class CountryDAO implements IBaseDAO<Country> {
     @Override
     public void deleteById(int id) throws SQLException {
         PreparedStatement preparedStatement = null;
+        Connection connection = null;
         try {
+            connection = ConnectionPool.getInstance().getConnection();
             preparedStatement = connection.prepareStatement(DELETE_BY_ID);
             preparedStatement.setLong(1, id);
 
@@ -150,6 +164,7 @@ public class CountryDAO implements IBaseDAO<Country> {
         } catch (SQLException e) {
             LOGGER.error(e);
         } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
             try {
                 preparedStatement.close();
             } catch (SQLException e) {
@@ -161,7 +176,9 @@ public class CountryDAO implements IBaseDAO<Country> {
     @Override
     public void updateRow(int id, Country object) throws SQLException {
         PreparedStatement preparedStatement = null;
+        Connection connection = null;
         try {
+            connection = ConnectionPool.getInstance().getConnection();
             preparedStatement = connection.prepareStatement(UPDATE_COUNTRY);
             preparedStatement.setString(1, object.getCountry_name());
             preparedStatement.setInt(2, id);
@@ -170,6 +187,7 @@ public class CountryDAO implements IBaseDAO<Country> {
         } catch (SQLException e) {
             LOGGER.error(e);
         } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
             try {
                 preparedStatement.close();
             } catch (SQLException e) {
@@ -181,7 +199,9 @@ public class CountryDAO implements IBaseDAO<Country> {
     @Override
     public void deleteAll() throws SQLException {
         PreparedStatement preparedStatement = null;
+        Connection connection = null;
         try {
+            connection = ConnectionPool.getInstance().getConnection();
 
             preparedStatement = connection.prepareStatement(DELETE_ALL);
 
@@ -189,6 +209,7 @@ public class CountryDAO implements IBaseDAO<Country> {
         } catch (SQLException e) {
             LOGGER.error(e);
         } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
             try {
                 preparedStatement.close();
             } catch (SQLException e) {

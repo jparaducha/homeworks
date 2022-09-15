@@ -1,11 +1,15 @@
 package jdbc.DAO.mysql;
 
+import jdbc.DAO.ConnectionPool;
 import jdbc.DAO.IBaseDAO;
 import jdbc.Passenger;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class PassengerDAO implements IBaseDAO<Passenger> {
@@ -17,7 +21,6 @@ public class PassengerDAO implements IBaseDAO<Passenger> {
     private final String UPDATE_PASSENGER = "UPDATE passengers SET passenger_name =  ? WHERE passenger_id = ?";
     private final String DELETE_ALL = "DELETE FROM passengers";
     private final Logger LOGGER = LogManager.getLogger(PassengerDAO.class);
-    Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sql_task", "root", "root");
 
     public PassengerDAO() throws SQLException {
     }
@@ -25,7 +28,9 @@ public class PassengerDAO implements IBaseDAO<Passenger> {
     @Override
     public Passenger getById(int id) throws SQLException {
         PreparedStatement preparedStatement = null;
+        Connection connection = null;
         try {
+            connection = ConnectionPool.getInstance().getConnection();
             preparedStatement = connection.prepareStatement(GET_PASSENGER_BY_ID);
             preparedStatement.setInt(1, id);
 
@@ -40,6 +45,7 @@ public class PassengerDAO implements IBaseDAO<Passenger> {
             LOGGER.error(e);
             return null;
         } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
             try {
                 preparedStatement.close();
             } catch (SQLException e) {
@@ -51,7 +57,9 @@ public class PassengerDAO implements IBaseDAO<Passenger> {
     @Override
     public ArrayList<Passenger> getAll() throws SQLException {
         PreparedStatement preparedStatement = null;
+        Connection connection = null;
         try {
+            connection = ConnectionPool.getInstance().getConnection();
             preparedStatement = connection.prepareStatement(GET_ALL_PASSENGERS);
 
             ResultSet result = preparedStatement.executeQuery();
@@ -69,6 +77,7 @@ public class PassengerDAO implements IBaseDAO<Passenger> {
             LOGGER.error(e);
             return null;
         } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
             try {
                 preparedStatement.close();
             } catch (SQLException e) {
@@ -80,7 +89,9 @@ public class PassengerDAO implements IBaseDAO<Passenger> {
     @Override
     public void insertRow(Passenger object) throws SQLException {
         PreparedStatement preparedStatement = null;
+        Connection connection = null;
         try {
+            connection = ConnectionPool.getInstance().getConnection();
             preparedStatement = connection.prepareStatement(INSERT_PASSENGER);
             preparedStatement.setString(1, object.getPassenger_name());
 
@@ -88,6 +99,7 @@ public class PassengerDAO implements IBaseDAO<Passenger> {
         } catch (SQLException e) {
             LOGGER.error(e);
         } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
             try {
                 preparedStatement.close();
             } catch (SQLException e) {
@@ -99,7 +111,9 @@ public class PassengerDAO implements IBaseDAO<Passenger> {
     @Override
     public void deleteById(int id) throws SQLException {
         PreparedStatement preparedStatement = null;
+        Connection connection = null;
         try {
+            connection = ConnectionPool.getInstance().getConnection();
 
             preparedStatement = connection.prepareStatement(DELETE_BY_ID);
             preparedStatement.setInt(1, id);
@@ -108,6 +122,7 @@ public class PassengerDAO implements IBaseDAO<Passenger> {
         } catch (SQLException e) {
             LOGGER.error(e);
         } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
             try {
                 preparedStatement.close();
             } catch (SQLException e) {
@@ -119,7 +134,9 @@ public class PassengerDAO implements IBaseDAO<Passenger> {
     @Override
     public void updateRow(int id, Passenger object) throws SQLException {
         PreparedStatement preparedStatement = null;
+        Connection connection = null;
         try {
+            connection = ConnectionPool.getInstance().getConnection();
 
             preparedStatement = connection.prepareStatement(UPDATE_PASSENGER);
             preparedStatement.setString(1, object.getPassenger_name());
@@ -129,6 +146,7 @@ public class PassengerDAO implements IBaseDAO<Passenger> {
         } catch (SQLException e) {
             LOGGER.error(e);
         } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
             try {
                 preparedStatement.close();
             } catch (SQLException e) {
@@ -140,7 +158,9 @@ public class PassengerDAO implements IBaseDAO<Passenger> {
     @Override
     public void deleteAll() throws SQLException {
         PreparedStatement preparedStatement = null;
+        Connection connection = null;
         try {
+            connection = ConnectionPool.getInstance().getConnection();
 
             preparedStatement = connection.prepareStatement(DELETE_ALL);
 
@@ -148,6 +168,7 @@ public class PassengerDAO implements IBaseDAO<Passenger> {
         } catch (SQLException e) {
             LOGGER.error(e);
         } finally {
+            ConnectionPool.getInstance().releaseConnection(connection);
             try {
                 preparedStatement.close();
             } catch (SQLException e) {
