@@ -1,45 +1,40 @@
 package jdbc.DAO.mysql;
 
-import jdbc.Airline;
-import jdbc.Country;
 import jdbc.DAO.IBaseDAO;
+import jdbc.Plane_Manufacturer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
 
-public class AirlineDAO implements IBaseDAO<Airline> {
+public class Plane_ManufacturerDAO implements IBaseDAO<Plane_Manufacturer> {
 
-    public final String INSERT_AIRLINE = "INSERT INTO airlines(airline_name, countryId) " + "VALUES(?,?)";
-    public final String GET_AIRLINE_BY_ID = "SELECT * FROM airlines LEFT JOIN countries ON airlines.countryId = countries.country_id WHERE airline_id = ?";
-    public final String GET_ALL_AIRLINES = "SELECT * FROM airlines LEFT JOIN countries ON countries.country_id = cities.countryId ORDER BY airline_id"; // LEFT JOIN airlines ON countries.country_id = airlines.countryId
-    public final String DELETE_BY_ID = "DELETE FROM airlines WHERE airline_id = ?";
-    public final String UPDATE_AIRLINE = "UPDATE airlines SET airline_name =  ?, countryId = ? WHERE airline_id = ?";
-    public final String DELETE_ALL = "DELETE FROM airlines";
-    private final Logger LOGGER = LogManager.getLogger(AirlineDAO.class);
+    public final String INSERT_MANUFACTURER = "INSERT INTO plane_manufacturers(manufacturer_name) " + "VALUES(?)";
+    public final String GET_MANUFACTURER_BY_ID = "SELECT * FROM plane_manufacturers WHERE manufacturer_id = ?";
+    public final String GET_ALL_MANUFACTURERS = "SELECT * FROM plane_manufacturers ORDER BY manufacturer_id";
+    public final String DELETE_BY_ID = "DELETE FROM plane_manufacturers WHERE manufacturer_id = ?";
+    public final String UPDATE_MANUFACTURER = "UPDATE plane_manufacturers SET manufacturer_name =  ? WHERE manufacturer_id = ?";
+    public final String DELETE_ALL = "DELETE FROM plane_manufacturers";
+    private final Logger LOGGER = LogManager.getLogger(Plane_ManufacturerDAO.class);
     Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sql_task", "root", "root");
 
-    public AirlineDAO() throws SQLException {
+    public Plane_ManufacturerDAO() throws SQLException {
     }
 
     @Override
-    public Airline getById(int id) throws SQLException {
-
+    public Plane_Manufacturer getById(int id) throws SQLException {
         PreparedStatement preparedStatement = null;
         try {
-            preparedStatement = connection.prepareStatement(GET_AIRLINE_BY_ID);
+            preparedStatement = connection.prepareStatement(GET_MANUFACTURER_BY_ID);
             preparedStatement.setInt(1, id);
 
             ResultSet result = preparedStatement.executeQuery();
 
             result.next();
+            Plane_Manufacturer manufacturer = new Plane_Manufacturer(result.getInt("manufacturer_id"), result.getString("manufacturer_name"));
 
-            Country country = new Country();
-            country.setCountry_name(result.getString("country_name"));
-            Airline airline = new Airline(result.getInt("airline_id"), result.getString("airline_name"), country);
-
-            return airline;
+            return manufacturer;
         } catch (SQLException e) {
             LOGGER.error(e);
             return null;
@@ -53,25 +48,23 @@ public class AirlineDAO implements IBaseDAO<Airline> {
     }
 
     @Override
-    public ArrayList<Airline> getAll() throws SQLException {
-
+    public ArrayList<Plane_Manufacturer> getAll() throws SQLException {
         PreparedStatement preparedStatement = null;
         try {
-            preparedStatement = connection.prepareStatement(GET_ALL_AIRLINES);
+            preparedStatement = connection.prepareStatement(GET_ALL_MANUFACTURERS);
+
             ResultSet result = preparedStatement.executeQuery();
 
-            ArrayList<Airline> airlines = new ArrayList<>();
+            ArrayList<Plane_Manufacturer> manufacturers = new ArrayList<>();
 
             while (result.next()) {
 
-                Country country = new Country();
-                country.setCountry_name(result.getString("country_name"));
-                Airline airline = new Airline(result.getInt("airline_id"), result.getString("airline_name"), country);
+                Plane_Manufacturer manufacturer = new Plane_Manufacturer(result.getInt("manufacturer_id"), result.getString("manufacturer_name"));
 
-                airlines.add(airline);
+                manufacturers.add(manufacturer);
             }
 
-            return airlines;
+            return manufacturers;
         } catch (SQLException e) {
             LOGGER.error(e);
             return null;
@@ -85,12 +78,11 @@ public class AirlineDAO implements IBaseDAO<Airline> {
     }
 
     @Override
-    public void insertRow(Airline object) throws SQLException {
+    public void insertRow(Plane_Manufacturer object) throws SQLException {
         PreparedStatement preparedStatement = null;
         try {
-            preparedStatement = connection.prepareStatement(INSERT_AIRLINE);
-            preparedStatement.setString(1, object.getAirline_name());
-            preparedStatement.setInt(2, object.getCountry().getCountryId());
+            preparedStatement = connection.prepareStatement(INSERT_MANUFACTURER);
+            preparedStatement.setString(1, object.getManufacturer_name());
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -124,13 +116,12 @@ public class AirlineDAO implements IBaseDAO<Airline> {
     }
 
     @Override
-    public void updateRow(int id, Airline object) throws SQLException {
+    public void updateRow(int id, Plane_Manufacturer object) throws SQLException {
         PreparedStatement preparedStatement = null;
         try {
-            preparedStatement = connection.prepareStatement(UPDATE_AIRLINE);
-            preparedStatement.setString(1, object.getAirline_name());
-            preparedStatement.setInt(2, object.getCountry().getCountryId());
-            preparedStatement.setInt(3, id);
+            preparedStatement = connection.prepareStatement(UPDATE_MANUFACTURER);
+            preparedStatement.setString(1, object.getManufacturer_name());
+            preparedStatement.setInt(2, id);
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -148,6 +139,7 @@ public class AirlineDAO implements IBaseDAO<Airline> {
     public void deleteAll() throws SQLException {
         PreparedStatement preparedStatement = null;
         try {
+
             preparedStatement = connection.prepareStatement(DELETE_ALL);
 
             preparedStatement.executeUpdate();
