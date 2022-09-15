@@ -1,30 +1,26 @@
 package jdbc;
 
-import java.util.List;
-
 public class Plane {
 
     private int year;
     private String model;
     private Plane_Manufacturer manufacturer;
     private int planeId;
-    private List<String> flights;
 
     public Plane() {
 
     }
 
-    public Plane(int id, int year, String model, Plane_Manufacturer manufacturer/*,List<String> flights*/) {
+    public Plane(int id, int year, String model, Plane_Manufacturer manufacturer) {
         this.planeId = id;
         this.year = year;
         this.model = model;
         this.manufacturer = manufacturer;
-        //this.flights = flights;
     }
 
     @Override
     public String toString() {
-        return "Plane{" + "year=" + year + ", model='" + model + '\'' + ", manufacturer='" + manufacturer + '\'' + ", planeId=" + planeId + ", flights=" + flights + '}';
+        return "Plane{" + "year=" + year + ", model='" + model + '\'' + ", manufacturer='" + manufacturer + '\'' + ", planeId=" + planeId + '}';
     }
 
     public int getPlaneId() {
@@ -49,13 +45,5 @@ public class Plane {
 
     public Plane_Manufacturer getManufacturer() {
         return manufacturer;
-    }
-
-    public List<String> getFlights() {
-        return flights;
-    }
-
-    public void setFlights(List<String> flights) {
-        this.flights = flights;
     }
 }

@@ -11,12 +11,12 @@ import java.util.ArrayList;
 
 public class AirportDAO implements IBaseDAO<Airport> {
 
-    public final String INSERT_AIRPORT = "INSERT INTO airports(airport_name, IATA_code, cityId) " + "VALUES(?, ?, ?)";
-    public final String GET_AIRPORT_BY_ID = "SELECT * FROM airports LEFT JOIN cities ON airports.cityId = cities.city_id WHERE airport_id = ? ORDER BY airport_id";
-    public final String GET_ALL_AIRPORTS = "SELECT * FROM airports LEFT JOIN cities ON airports.cityId = cities.city_id ORDER BY airport_id";
-    public final String DELETE_BY_ID = "DELETE FROM airports WHERE airport_id = ?";
-    public final String UPDATE_AIRPORT = "UPDATE airports SET airport_name =  ?, IATA_code = ?, cityId = ? WHERE airport_id = ?";
-    public final String DELETE_ALL = "DELETE FROM airports";
+    private final String INSERT_AIRPORT = "INSERT INTO airports(airport_name, IATA_code, cityId) " + "VALUES(?, ?, ?)";
+    private final String GET_AIRPORT_BY_ID = "SELECT * FROM airports LEFT JOIN cities ON airports.cityId = cities.city_id WHERE airport_id = ? ORDER BY airport_id";
+    private final String GET_ALL_AIRPORTS = "SELECT * FROM airports LEFT JOIN cities ON airports.cityId = cities.city_id ORDER BY airport_id";
+    private final String DELETE_BY_ID = "DELETE FROM airports WHERE airport_id = ?";
+    private final String UPDATE_AIRPORT = "UPDATE airports SET airport_name =  ?, IATA_code = ?, cityId = ? WHERE airport_id = ?";
+    private final String DELETE_ALL = "DELETE FROM airports";
     private final Logger LOGGER = LogManager.getLogger(AirportDAO.class);
     Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sql_task", "root", "root");
 
@@ -34,7 +34,7 @@ public class AirportDAO implements IBaseDAO<Airport> {
 
             result.next();
 
-            City city = new City(result.getInt("city_id"), result.getString("city_name"));
+            City city = new CityDAO().getById(result.getInt("city_id"));
             Airport airport = new Airport(result.getInt("airport_id"), result.getString("airport_name"), result.getString("IATA_code"), city);
 
             return airport;
@@ -61,7 +61,7 @@ public class AirportDAO implements IBaseDAO<Airport> {
             ArrayList<Airport> airports = new ArrayList<>();
 
             while (result.next()) {
-                City city = new City(result.getInt("city_id"), result.getString("city_name"));
+                City city = new CityDAO().getById(result.getInt("city_id"));
 
                 Airport airport = new Airport(result.getInt("airport_id"), result.getString("airport_name"), result.getString("IATA_code"), city);
 

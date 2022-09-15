@@ -11,12 +11,12 @@ import java.util.ArrayList;
 
 public class Plane_ModelDAO implements IBaseDAO<Plane_Model> {
 
-    public final String INSERT_MODEL = "INSERT INTO plane_models(model_name, manufacturer) " + "VALUES(?,?)";
-    public final String GET_MODEL_BY_ID = "SELECT * FROM plane_models JOIN plane_manufacturers ON plane_models.manufacturer = plane_manufacturers.manufacturer_id WHERE model_id = ?";
-    public final String GET_ALL_MODELS = "SELECT * FROM plane_manufacturers ORDER BY model_id";
-    public final String DELETE_BY_ID = "DELETE FROM plane_manufacturers WHERE model_id = ?";
-    public final String UPDATE_MODEL = "UPDATE plane_manufacturers SET model_name =  ? , manufacturer = ? WHERE model_id = ?";
-    public final String DELETE_ALL = "DELETE FROM plane_manufacturers";
+    private final String INSERT_MODEL = "INSERT INTO plane_models(model_name, manufacturer) " + "VALUES(?,?)";
+    private final String GET_MODEL_BY_ID = "SELECT * FROM plane_models JOIN plane_manufacturers ON plane_models.manufacturer = plane_manufacturers.manufacturer_id WHERE model_id = ?";
+    private final String GET_ALL_MODELS = "SELECT * FROM plane_manufacturers ORDER BY model_id";
+    private final String DELETE_BY_ID = "DELETE FROM plane_manufacturers WHERE model_id = ?";
+    private final String UPDATE_MODEL = "UPDATE plane_manufacturers SET model_name =  ? , manufacturer = ? WHERE model_id = ?";
+    private final String DELETE_ALL = "DELETE FROM plane_manufacturers";
     private final Logger LOGGER = LogManager.getLogger(Plane_ModelDAO.class);
     Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sql_task", "root", "root");
 
@@ -33,7 +33,7 @@ public class Plane_ModelDAO implements IBaseDAO<Plane_Model> {
             ResultSet result = preparedStatement.executeQuery();
 
             result.next();
-            Plane_Manufacturer manufacturer = new Plane_Manufacturer(result.getInt("manufacturer_id"), result.getString("manufacturer_name"));
+            Plane_Manufacturer manufacturer = new Plane_ManufacturerDAO().getById(result.getInt("manufacturer_id"));
             Plane_Model model = new Plane_Model(result.getInt("model_id"), result.getString("model_name"), manufacturer);
 
             return model;

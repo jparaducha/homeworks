@@ -11,12 +11,12 @@ import java.util.ArrayList;
 
 public class PilotDAO implements IBaseDAO<Pilot> {
 
-    public final String INSERT_PILOT = "INSERT INTO pilots(pilot_name, pilot_age, licenseId) " + "VALUES(?,?,?)";
-    public final String GET_PILOT_BY_ID = "SELECT * FROM pilots LEFT JOIN pilot_licenses ON pilots.licenseId = pilot_licenses.license_id WHERE id_pilot = ?";
-    public final String GET_ALL_PILOTS = "SELECT * FROM pilots ORDER BY id_pilot";
-    public final String DELETE_BY_ID = "DELETE FROM pilots WHERE id_pilot = ?";
-    public final String UPDATE_PILOT = "UPDATE pilots SET pilot_name =  ?, pilot_age = ?, licenseId = ? WHERE id_pilot = ?";
-    public final String DELETE_ALL = "DELETE FROM pilots";
+    private final String INSERT_PILOT = "INSERT INTO pilots(pilot_name, pilot_age, licenseId) " + "VALUES(?,?,?)";
+    private final String GET_PILOT_BY_ID = "SELECT * FROM pilots LEFT JOIN pilot_licenses ON pilots.licenseId = pilot_licenses.license_id WHERE id_pilot = ?";
+    private final String GET_ALL_PILOTS = "SELECT * FROM pilots ORDER BY id_pilot";
+    private final String DELETE_BY_ID = "DELETE FROM pilots WHERE id_pilot = ?";
+    private final String UPDATE_PILOT = "UPDATE pilots SET pilot_name =  ?, pilot_age = ?, licenseId = ? WHERE id_pilot = ?";
+    private final String DELETE_ALL = "DELETE FROM pilots";
     private final Logger LOGGER = LogManager.getLogger(PilotDAO.class);
     Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sql_task", "root", "root");
 
@@ -33,7 +33,7 @@ public class PilotDAO implements IBaseDAO<Pilot> {
             ResultSet result = preparedStatement.executeQuery();
 
             result.next();
-            Pilot_License license = new Pilot_License(result.getInt("license_id"), result.getString("issued_on"), result.getString("expires"), result.getInt("pilotId"));
+            Pilot_License license = new Pilot_LicenseDAO().getById(result.getInt("license_id"));
 
             Pilot pilot = new Pilot(result.getInt("id_pilot"), result.getString("pilot_name"), result.getInt("pilot_age"), license);
 
@@ -61,7 +61,7 @@ public class PilotDAO implements IBaseDAO<Pilot> {
 
             while (result.next()) {
 
-                Pilot_License license = new Pilot_License(result.getInt("license_id"), result.getString("issued_on"), result.getString("expires"), result.getInt("pilotId"));
+                Pilot_License license = new Pilot_LicenseDAO().getById(result.getInt("license_id"));
 
                 Pilot pilot = new Pilot(result.getInt("id_pilot"), result.getString("pilot_name"), result.getInt("pilot_age"), license);
 

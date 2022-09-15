@@ -11,12 +11,12 @@ import java.util.ArrayList;
 
 public class CityDAO implements IBaseDAO<City> {
 
-    public final String INSERT_CITY = "INSERT INTO cities(city_name, countryId) " + "VALUES(?,?)";
-    public final String GET_CITY_BY_ID = "SELECT * FROM cities LEFT JOIN countries ON countries.country_id = cities.countryId WHERE city_id = ?";
-    public final String GET_ALL_CITIES = "SELECT * FROM cities LEFT JOIN countries ON countries.country_id = cities.countryId ORDER BY city_id"; // LEFT JOIN airlines ON countries.country_id = airlines.countryId
-    public final String DELETE_BY_ID = "DELETE FROM cities WHERE city_id = ?";
-    public final String UPDATE_CITY = "UPDATE cities SET city_name =  ?, countryId = ? WHERE city_id = ?";
-    public final String DELETE_ALL = "DELETE FROM cities";
+    private final String INSERT_CITY = "INSERT INTO cities(city_name, countryId) " + "VALUES(?,?)";
+    private final String GET_CITY_BY_ID = "SELECT * FROM cities LEFT JOIN countries ON countries.country_id = cities.countryId WHERE city_id = ?";
+    private final String GET_ALL_CITIES = "SELECT * FROM cities LEFT JOIN countries ON countries.country_id = cities.countryId ORDER BY city_id"; // LEFT JOIN airlines ON countries.country_id = airlines.countryId
+    private final String DELETE_BY_ID = "DELETE FROM cities WHERE city_id = ?";
+    private final String UPDATE_CITY = "UPDATE cities SET city_name =  ?, countryId = ? WHERE city_id = ?";
+    private final String DELETE_ALL = "DELETE FROM cities";
     private final Logger LOGGER = LogManager.getLogger(CityDAO.class);
     Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sql_task", "root", "root");
 
@@ -33,7 +33,7 @@ public class CityDAO implements IBaseDAO<City> {
             ResultSet result = preparedStatement.executeQuery();
 
             result.next();
-            Country country = new Country(result.getString("country_name"), result.getInt("countryId"));
+            Country country = new CountryDAO().getById(result.getInt("countryId"));
             City city = new City(result.getInt("city_id"), result.getString("city_name"), country);
 
             return city;

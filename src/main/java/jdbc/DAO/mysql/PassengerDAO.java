@@ -10,12 +10,12 @@ import java.util.ArrayList;
 
 public class PassengerDAO implements IBaseDAO<Passenger> {
 
-    public final String INSERT_PASSENGER = "INSERT INTO passengers(passenger_name) " + "VALUES(?)";
-    public final String GET_PASSENGER_BY_ID = "SELECT * FROM passengers  WHERE passenger_id = ?";
-    public final String GET_ALL_PASSENGERS = "SELECT * FROM passengers  ORDER BY passenger_id";
-    public final String DELETE_BY_ID = "DELETE FROM passengers WHERE passenger_id = ?";
-    public final String UPDATE_PASSENGER = "UPDATE passengers SET passenger_name =  ? WHERE passenger_id = ?";
-    public final String DELETE_ALL = "DELETE FROM passengers";
+    private final String INSERT_PASSENGER = "INSERT INTO passengers(passenger_name) " + "VALUES(?)";
+    private final String GET_PASSENGER_BY_ID = "SELECT * FROM passengers  WHERE passenger_id = ?";
+    private final String GET_ALL_PASSENGERS = "SELECT * FROM passengers  ORDER BY passenger_id";
+    private final String DELETE_BY_ID = "DELETE FROM passengers WHERE passenger_id = ?";
+    private final String UPDATE_PASSENGER = "UPDATE passengers SET passenger_name =  ? WHERE passenger_id = ?";
+    private final String DELETE_ALL = "DELETE FROM passengers";
     private final Logger LOGGER = LogManager.getLogger(PassengerDAO.class);
     Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sql_task", "root", "root");
 

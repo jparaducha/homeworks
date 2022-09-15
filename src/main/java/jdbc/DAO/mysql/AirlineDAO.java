@@ -11,12 +11,12 @@ import java.util.ArrayList;
 
 public class AirlineDAO implements IBaseDAO<Airline> {
 
-    public final String INSERT_AIRLINE = "INSERT INTO airlines(airline_name, countryId) " + "VALUES(?,?)";
-    public final String GET_AIRLINE_BY_ID = "SELECT * FROM airlines LEFT JOIN countries ON airlines.countryId = countries.country_id WHERE airline_id = ?";
-    public final String GET_ALL_AIRLINES = "SELECT * FROM airlines LEFT JOIN countries ON countries.country_id = cities.countryId ORDER BY airline_id"; // LEFT JOIN airlines ON countries.country_id = airlines.countryId
-    public final String DELETE_BY_ID = "DELETE FROM airlines WHERE airline_id = ?";
-    public final String UPDATE_AIRLINE = "UPDATE airlines SET airline_name =  ?, countryId = ? WHERE airline_id = ?";
-    public final String DELETE_ALL = "DELETE FROM airlines";
+    private final String INSERT_AIRLINE = "INSERT INTO airlines(airline_name, countryId) " + "VALUES(?,?)";
+    private final String GET_AIRLINE_BY_ID = "SELECT * FROM airlines LEFT JOIN countries ON airlines.countryId = countries.country_id WHERE airline_id = ?";
+    private final String GET_ALL_AIRLINES = "SELECT * FROM airlines LEFT JOIN countries ON countries.country_id = cities.countryId ORDER BY airline_id"; // LEFT JOIN airlines ON countries.country_id = airlines.countryId
+    private final String DELETE_BY_ID = "DELETE FROM airlines WHERE airline_id = ?";
+    private final String UPDATE_AIRLINE = "UPDATE airlines SET airline_name =  ?, countryId = ? WHERE airline_id = ?";
+    private final String DELETE_ALL = "DELETE FROM airlines";
     private final Logger LOGGER = LogManager.getLogger(AirlineDAO.class);
     Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sql_task", "root", "root");
 
@@ -35,8 +35,7 @@ public class AirlineDAO implements IBaseDAO<Airline> {
 
             result.next();
 
-            Country country = new Country();
-            country.setCountry_name(result.getString("country_name"));
+            Country country = new CountryDAO().getById(result.getInt("countryId"));
             Airline airline = new Airline(result.getInt("airline_id"), result.getString("airline_name"), country);
 
             return airline;
@@ -64,8 +63,7 @@ public class AirlineDAO implements IBaseDAO<Airline> {
 
             while (result.next()) {
 
-                Country country = new Country();
-                country.setCountry_name(result.getString("country_name"));
+                Country country = new CountryDAO().getById(result.getInt("countryId"));
                 Airline airline = new Airline(result.getInt("airline_id"), result.getString("airline_name"), country);
 
                 airlines.add(airline);

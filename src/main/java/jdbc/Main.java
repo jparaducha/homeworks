@@ -1,5 +1,6 @@
 package jdbc;
 
+import jdbc.DAO.mysql.AirportDAO;
 import jdbc.DAO.mysql.CountryDAO;
 import jdbc.DAO.mysql.FlightDAO;
 import jdbc.DAO.mysql.PlaneDAO;
@@ -56,6 +57,7 @@ public class Main {
         */
 
         FlightDAO fDAO = new FlightDAO();
+        ArrayList<Plane> planes = new PlaneDAO().getAllPlanes();
 
         Flight flight4 = fDAO.getById(4);
 
@@ -66,6 +68,15 @@ public class Main {
         for (int i = 0; i < flights.size(); i++) {
             System.out.println("----------------------------------------------------------------------------------");
             System.out.println(flights.get(i));
+        }
+
+        for (int i = 0; i < planes.size(); i++) {
+            System.out.println(planes.get(i));
+        }
+
+        ArrayList<Airport> airports = new AirportDAO().getAll();
+        for (int i = 0; i < airports.size(); i++) {
+            System.out.println(airports.get(i));
         }
     }
 }

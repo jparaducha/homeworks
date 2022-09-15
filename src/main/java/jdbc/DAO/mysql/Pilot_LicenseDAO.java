@@ -10,12 +10,12 @@ import java.util.ArrayList;
 
 public class Pilot_LicenseDAO implements IBaseDAO<Pilot_License> {
 
-    public final String INSERT_PILOTLICENSE = "INSERT INTO pilot_licenses(issued_on, expires, pilotId) " + "VALUES(?,?,?)";
-    public final String GET_PILOTLICENSE_BY_ID = "SELECT * FROM pilot_licenses WHERE license_id = ?";
-    public final String GET_ALL_PILOTLICENSES = "SELECT * FROM pilot_licenses ORDER BY license_id";
-    public final String DELETE_BY_ID = "DELETE FROM pilot_licenses WHERE license_id = ?";
-    public final String UPDATE_PILOTLICENSE = "UPDATE pilot_licenses SET issued_on =  ?, expires = ?, pilotId = ? WHERE license_id = ?";
-    public final String DELETE_ALL = "DELETE FROM pilot_licenses";
+    private final String INSERT_PILOTLICENSE = "INSERT INTO pilot_licenses(issued_on, expires, pilotId) " + "VALUES(?,?,?)";
+    private final String GET_PILOTLICENSE_BY_ID = "SELECT * FROM pilot_licenses WHERE license_id = ?";
+    private final String GET_ALL_PILOTLICENSES = "SELECT * FROM pilot_licenses ORDER BY license_id";
+    private final String DELETE_BY_ID = "DELETE FROM pilot_licenses WHERE license_id = ?";
+    private final String UPDATE_PILOTLICENSE = "UPDATE pilot_licenses SET issued_on =  ?, expires = ?, pilotId = ? WHERE license_id = ?";
+    private final String DELETE_ALL = "DELETE FROM pilot_licenses";
     private final Logger LOGGER = LogManager.getLogger(Pilot_LicenseDAO.class);
     Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sql_task", "root", "root");
     PreparedStatement preparedStatement;

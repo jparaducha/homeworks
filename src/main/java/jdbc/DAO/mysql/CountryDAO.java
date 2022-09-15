@@ -13,12 +13,12 @@ import java.util.Set;
 
 public class CountryDAO implements IBaseDAO<Country> {
 
-    public final String INSERT_COUNTRY = "INSERT INTO countries(country_name) " + "VALUES(?)";
-    public final String GET_COUNTRY_BY_ID = "SELECT * FROM countries LEFT JOIN cities ON countries.country_id = cities.countryId WHERE country_id = ?";
-    public final String GET_ALL_COUNTRIES = "SELECT * FROM countries LEFT JOIN cities ON countries.country_id = cities.countryId ORDER BY country_id"; // LEFT JOIN airlines ON countries.country_id = airlines.countryId
-    public final String DELETE_BY_ID = "DELETE FROM countries WHERE country_id = ?";
-    public final String UPDATE_COUNTRY = "UPDATE countries SET country_name =  ? WHERE country_id = ?";
-    public final String DELETE_ALL = "DELETE FROM countries";
+    private final String INSERT_COUNTRY = "INSERT INTO countries(country_name) " + "VALUES(?)";
+    private final String GET_COUNTRY_BY_ID = "SELECT * FROM countries LEFT JOIN cities ON countries.country_id = cities.countryId WHERE country_id = ?";
+    private final String GET_ALL_COUNTRIES = "SELECT * FROM countries LEFT JOIN cities ON countries.country_id = cities.countryId ORDER BY country_id"; // LEFT JOIN airlines ON countries.country_id = airlines.countryId
+    private final String DELETE_BY_ID = "DELETE FROM countries WHERE country_id = ?";
+    private final String UPDATE_COUNTRY = "UPDATE countries SET country_name =  ? WHERE country_id = ?";
+    private final String DELETE_ALL = "DELETE FROM countries";
     private final Logger LOGGER = LogManager.getLogger(CountryDAO.class);
     Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sql_task", "root", "root");
 
@@ -36,17 +36,16 @@ public class CountryDAO implements IBaseDAO<Country> {
 
             ResultSet result = preparedStatement.executeQuery();
 
-            Country country = new Country();
             result.next();
 
+            Country country = new Country();
             country.setCountry_name(result.getString("country_name"));
             ArrayList<City> cities = new ArrayList<>();
 
-            City city = new City(result.getInt("city_id"), result.getString("city_name"), result.getInt("country_id"));
-
+            City city = new CityDAO().getById(result.getInt("city_id"));
             cities.add(city);
             while (result.next()) {
-                city = new City(result.getInt("city_id"), result.getString("city_name"), result.getInt("country_id"));
+                city = new CityDAO().getById(result.getInt("city_id"));
 
                 cities.add(city);
             }
@@ -79,27 +78,20 @@ public class CountryDAO implements IBaseDAO<Country> {
             ArrayList<Country> countries = new ArrayList<>();
             ArrayList<City> cities = new ArrayList<>();
             Set<City> citiesSet = new HashSet<>();
-            //Set<Airline> airlinesSet;
-            //ArrayList<Airline> airlines;
 
             while (rs.next()) {
                 String currCountry = rs.getString("country_name");
                 country = new Country();
                 cities = new ArrayList<>();
-                //airlines = new ArrayList<>();
+
                 citiesSet = new HashSet<>();
-                //airlinesSet = new HashSet<>();
 
                 country.setCountry_name(rs.getString("country_name"));
-                //cities.add(new City(rs.getString("city_name")));
 
                 while (currCountry.equals(rs.getString("country_name"))) {
-                    //if (rs.getString("airline_name") != null) {
-                    //airlines.add(new Airline(rs.getString("airline_name")));
-                    //}
 
                     if (rs.getString("city_name") != null) {
-                        cities.add(new City(rs.getString("city_name")));
+                        cities.add(new CityDAO().getById(rs.getInt("cityId")));
                     }
                     rs.next();
                 }
@@ -109,13 +101,7 @@ public class CountryDAO implements IBaseDAO<Country> {
 
                 citiesSet.addAll(cities);
                 cities = new ArrayList<>(citiesSet);
-            /*
-            airlinesSet.addAll(airlines);
 
-            airlines = new ArrayList<>(airlinesSet);
-
-            country.setAirlines(airlines);
-            */
                 country.setCities(cities);
 
                 countries.add(country);
