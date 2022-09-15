@@ -10,12 +10,12 @@ import java.util.ArrayList;
 
 public class FlightDAO implements IBaseDAO<Flight> {
 
-    public final String INSERT_FLIGHT = "INSERT INTO flights(airlineId,pilotId,planeId,price, departure_time, arrival_time, flight_duration) " + "VALUES(?,?,?,?,?,?,?)";
-    public final String GET_FLIGHT_BY_ID = "SELECT *, a2.airport_name AS a2_name, a1.airport_name AS a1_name, a1.airport_id AS a1Id, a2.airport_id AS a2Id, a1.IATA_code AS a1IATA, a2.IATA_code AS a2IATA, c1.city_name AS city1, c2.city_name AS city2, con1.country_name AS con1, con2.country_name AS con2, con1.country_id AS con1id, con2.country_id AS con2id, con3.country_name AS con3, con3.country_id AS con3id, c1.city_id AS city1id, c2.city_id AS city2id FROM flights JOIN airlines ON airlines.airline_id = flights.airlineId JOIN countries con3 ON airlines.countryId = con3.country_id  JOIN planes ON planes.plane_id = flights.planeId JOIN plane_models ON planes.modelId = plane_models.model_id JOIN plane_manufacturers ON plane_models.manufacturer = plane_manufacturers.manufacturer_id JOIN pilots ON pilots.id_pilot = flights.pilotId JOIN pilot_licenses ON pilots.id_pilot = pilot_licenses.pilotId LEFT JOIN airport_flights af1 ON flights.flight_id = af1.flightId LEFT JOIN airports a1 ON af1.departure_airportId = a1.airport_id LEFT JOIN airport_flights af2 ON flights.flight_id = af2.flightId LEFT JOIN airports a2 ON af2.arrival_airportId = a2.airport_id INNER JOIN cities c1 ON c1.city_id = a1.cityId INNER JOIN cities c2 ON c2.city_id = a2.cityId INNER JOIN countries con1 ON con1.country_id = c1.countryId INNER JOIN countries con2 ON con2.country_id = c2.countryId JOIN tickets ON flights.flight_id = tickets.flightId JOIN passengers ON passengers.passenger_id = tickets.passengerId WHERE flight_id = ?";
-    public final String GET_ALL_FLIGHTS = "SELECT *, a2.airport_name AS a2_name, a1.airport_name AS a1_name, a1.airport_id AS a1Id, a2.airport_id AS a2Id, a1.IATA_code AS a1IATA, a2.IATA_code AS a2IATA, c1.city_name AS city1, c2.city_name AS city2, con1.country_name AS con1, con2.country_name AS con2, con1.country_id AS con1id, con2.country_id AS con2id, con3.country_name AS con3, con3.country_id AS con3id, c1.city_id AS city1id, c2.city_id AS city2id FROM flights JOIN airlines ON airlines.airline_id = flights.airlineId JOIN countries con3 ON airlines.countryId = con3.country_id JOIN planes ON planes.plane_id = flights.planeId JOIN plane_models ON planes.modelId = plane_models.model_id JOIN plane_manufacturers ON plane_models.manufacturer = plane_manufacturers.manufacturer_id JOIN pilots ON pilots.id_pilot = flights.pilotId JOIN pilot_licenses ON pilots.id_pilot = pilot_licenses.pilotId LEFT JOIN airport_flights af1 ON flights.flight_id = af1.flightId LEFT JOIN airports a1 ON af1.departure_airportId = a1.airport_id LEFT JOIN airport_flights af2 ON flights.flight_id = af2.flightId LEFT JOIN airports a2 ON af2.arrival_airportId = a2.airport_id INNER JOIN cities c1 ON c1.city_id = a1.cityId INNER JOIN cities c2 ON c2.city_id = a2.cityId INNER JOIN countries con1 ON con1.country_id = c1.countryId INNER JOIN countries con2 ON con2.country_id = c2.countryId JOIN tickets ON flights.flight_id = tickets.flightId JOIN passengers ON passengers.passenger_id = tickets.passengerId ORDER BY flight_id";
-    public final String DELETE_BY_ID = "DELETE FROM flights WHERE flight_id = ?";
-    public final String UPDATE_FLIGHT = "UPDATE flights SET airlineId = ?, pilotId = ?, planeId = ?, price = ?, departure_time = ? , arrival_time = ?, flight_duration = ? WHERE flight_id = ?";
-    public final String DELETE_ALL = "DELETE FROM flights";
+    private final String INSERT_FLIGHT = "INSERT INTO flights(airlineId,pilotId,planeId,price, departure_time, arrival_time, flight_duration) " + "VALUES(?,?,?,?,?,?,?)";
+    private final String GET_FLIGHT_BY_ID = "SELECT *, a2.airport_name AS a2_name, a1.airport_name AS a1_name, a1.airport_id AS a1Id, a2.airport_id AS a2Id, a1.IATA_code AS a1IATA, a2.IATA_code AS a2IATA, c1.city_name AS city1, c2.city_name AS city2, con1.country_name AS con1, con2.country_name AS con2, con1.country_id AS con1id, con2.country_id AS con2id, con3.country_name AS con3, con3.country_id AS con3id, c1.city_id AS city1id, c2.city_id AS city2id FROM flights JOIN airlines ON airlines.airline_id = flights.airlineId JOIN countries con3 ON airlines.countryId = con3.country_id  JOIN planes ON planes.plane_id = flights.planeId JOIN plane_models ON planes.modelId = plane_models.model_id JOIN plane_manufacturers ON plane_models.manufacturer = plane_manufacturers.manufacturer_id JOIN pilots ON pilots.id_pilot = flights.pilotId JOIN pilot_licenses ON pilots.id_pilot = pilot_licenses.pilotId LEFT JOIN airport_flights af1 ON flights.flight_id = af1.flightId LEFT JOIN airports a1 ON af1.departure_airportId = a1.airport_id LEFT JOIN airport_flights af2 ON flights.flight_id = af2.flightId LEFT JOIN airports a2 ON af2.arrival_airportId = a2.airport_id INNER JOIN cities c1 ON c1.city_id = a1.cityId INNER JOIN cities c2 ON c2.city_id = a2.cityId INNER JOIN countries con1 ON con1.country_id = c1.countryId INNER JOIN countries con2 ON con2.country_id = c2.countryId JOIN tickets ON flights.flight_id = tickets.flightId JOIN passengers ON passengers.passenger_id = tickets.passengerId WHERE flight_id = ?";
+    private final String GET_ALL_FLIGHTS = "SELECT *, a2.airport_name AS a2_name, a1.airport_name AS a1_name, a1.airport_id AS a1Id, a2.airport_id AS a2Id, a1.IATA_code AS a1IATA, a2.IATA_code AS a2IATA, c1.city_name AS city1, c2.city_name AS city2, con1.country_name AS con1, con2.country_name AS con2, con1.country_id AS con1id, con2.country_id AS con2id, con3.country_name AS con3, con3.country_id AS con3id, c1.city_id AS city1id, c2.city_id AS city2id FROM flights JOIN airlines ON airlines.airline_id = flights.airlineId JOIN countries con3 ON airlines.countryId = con3.country_id JOIN planes ON planes.plane_id = flights.planeId JOIN plane_models ON planes.modelId = plane_models.model_id JOIN plane_manufacturers ON plane_models.manufacturer = plane_manufacturers.manufacturer_id JOIN pilots ON pilots.id_pilot = flights.pilotId JOIN pilot_licenses ON pilots.id_pilot = pilot_licenses.pilotId LEFT JOIN airport_flights af1 ON flights.flight_id = af1.flightId LEFT JOIN airports a1 ON af1.departure_airportId = a1.airport_id LEFT JOIN airport_flights af2 ON flights.flight_id = af2.flightId LEFT JOIN airports a2 ON af2.arrival_airportId = a2.airport_id INNER JOIN cities c1 ON c1.city_id = a1.cityId INNER JOIN cities c2 ON c2.city_id = a2.cityId INNER JOIN countries con1 ON con1.country_id = c1.countryId INNER JOIN countries con2 ON con2.country_id = c2.countryId JOIN tickets ON flights.flight_id = tickets.flightId JOIN passengers ON passengers.passenger_id = tickets.passengerId ORDER BY flight_id";
+    private final String DELETE_BY_ID = "DELETE FROM flights WHERE flight_id = ?";
+    private final String UPDATE_FLIGHT = "UPDATE flights SET airlineId = ?, pilotId = ?, planeId = ?, price = ?, departure_time = ? , arrival_time = ?, flight_duration = ? WHERE flight_id = ?";
+    private final String DELETE_ALL = "DELETE FROM flights";
     private final Logger LOGGER = LogManager.getLogger(FlightDAO.class);
     Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/sql_task", "root", "root");
 
@@ -122,6 +122,24 @@ public class FlightDAO implements IBaseDAO<Flight> {
                 Flight flight = new Flight(result.getInt("flight_id"), result.getString("flight_duration"), result.getDouble("price"), result.getString("departure_time"), result.getString("arrival_time"), arrival_airport, departure_airport, pilot, plane, airline, passengers);
 
                 flights.add(flight);
+
+
+                /*
+                * Pilot pilot = new PilotDAO().getById(result.getInt("id_pilot"));
+            Plane plane = new PlaneDAO().getPlaneById(result.getInt("plane_id"));
+            Airport departure_airport = new AirportDAO().getById(result.getInt("a1id"));
+
+            Airport arrival_airport = new AirportDAO().getById(result.getInt("a2id"));
+
+            Airline airline = new AirlineDAO().getById(result.getInt("airline_id"));
+
+            passengers.add(new PassengerDAO().getById(result.getInt("passenger_id")));
+
+            while (result.next()) {
+                passengers.add(new PassengerDAO().getById(result.getInt("passenger_id")));
+            }
+                *
+                * */
             }
 
             return flights;
