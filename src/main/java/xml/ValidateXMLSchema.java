@@ -22,9 +22,9 @@ public class ValidateXMLSchema {
     public static void main(String[] args) {
 
         /*
-        LOGGER.info("flight.xml validates against flight.xsd? " + XMLValidatorSAX("src\\main\\java\\xml\\flight.xsd", "src\\main\\java\\xml\\flight.xml"));
-        LOGGER.info("airports.xml validates against airport.xsd? " + XMLValidatorSAX("src\\main\\java\\xml\\airport.xsd", "src\\main\\java\\xml\\airports.xml"));
-        LOGGER.info("airport2.xml validates against airport.xsd? " + XMLValidatorSAX("src\\main\\java\\xml\\airport.xsd", "src\\main\\java\\xml\\airport2.xml"));
+        LOGGER.info("flight.xml validates against flight.xsd? " + XMLValidator("src\\main\\java\\xml\\flight.xsd", "src\\main\\java\\xml\\flight.xml"));
+        LOGGER.info("airports.xml validates against airport.xsd? " + XMLValidator("src\\main\\java\\xml\\airport.xsd", "src\\main\\java\\xml\\airports.xml"));
+        LOGGER.info("airport2.xml validates against airport.xsd? " + XMLValidator("src\\main\\java\\xml\\airport.xsd", "src\\main\\java\\xml\\airport2.xml"));
         */
         LOGGER.info("validating flight: " + XMLValidator("src\\main\\java\\xml\\flight.xsd", "src\\main\\java\\xml\\flight.xml"));
 
