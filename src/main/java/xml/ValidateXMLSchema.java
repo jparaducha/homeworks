@@ -2,9 +2,12 @@ package xml;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 import javax.xml.XMLConstants;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
@@ -13,16 +16,52 @@ import java.io.File;
 import java.io.IOException;
 
 public class ValidateXMLSchema {
+    static final String W3C_XML_SCHEMA = "http://www.w3.org/2001/XMLSchema";
+    static final String JAXP_SCHEMA_LANGUAGE = "http://java.sun.com/xml/jaxp/properties/schemaLanguage";
+    static final String JAXP_SCHEMA_SOURCE = "http://java.sun.com/xml/jaxp/properties/schemaSource";
     private static final Logger LOGGER = LogManager.getLogger(ValidateXMLSchema.class);
 
     public static void main(String[] args) {
 
-        LOGGER.info("flight.xml validates against flight.xsd? " + XMLValidator("src\\main\\java\\xml\\flight.xsd", "src\\main\\java\\xml\\flight.xml"));
-        LOGGER.info("airports.xml validates against airport.xsd? " + XMLValidator("src\\main\\java\\xml\\airport.xsd", "src\\main\\java\\xml\\airports.xml"));
-        LOGGER.info("airport2.xml validates against airport.xsd? " + XMLValidator("src\\main\\java\\xml\\airport.xsd", "src\\main\\java\\xml\\airport2.xml"));
+        /*
+        LOGGER.info("flight.xml validates against flight.xsd? " + XMLValidatorSAX("src\\main\\java\\xml\\flight.xsd", "src\\main\\java\\xml\\flight.xml"));
+        LOGGER.info("airports.xml validates against airport.xsd? " + XMLValidatorSAX("src\\main\\java\\xml\\airport.xsd", "src\\main\\java\\xml\\airports.xml"));
+        LOGGER.info("airport2.xml validates against airport.xsd? " + XMLValidatorSAX("src\\main\\java\\xml\\airport.xsd", "src\\main\\java\\xml\\airport2.xml"));
+        */
+        LOGGER.info("validating flight: ");
+        XMLValidator("src\\main\\java\\xml\\flight.xsd", "src\\main\\java\\xml\\flight.xml");
+        LOGGER.info("validating airport2: ");
+        XMLValidator("src\\main\\java\\xml\\airport.xsd", "src\\main\\java\\xml\\airport2.xml");
     }
 
     public static boolean XMLValidator(String xsdPath, String xmlPath) {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        factory.setNamespaceAware(true);
+        factory.setValidating(true);
+
+        factory.setAttribute(JAXP_SCHEMA_LANGUAGE, W3C_XML_SCHEMA);
+
+        // Set the schema file
+        factory.setAttribute(JAXP_SCHEMA_SOURCE, new File(xsdPath));
+
+        try {
+            DocumentBuilder parser = factory.newDocumentBuilder();
+
+            // Parses the file. if an error is found it will be printed  ?????
+            Document document = parser.parse(xmlPath);
+        } catch (Exception e) {
+            LOGGER.error("Exception: " + e.getMessage());
+            //e.printStackTrace();
+            return false;
+        } catch (Error e) {
+            e.printStackTrace();
+            LOGGER.error("Error: " + e.getMessage());
+        }
+
+        return true;
+    }
+
+    public static boolean XMLValidatorSAX(String xsdPath, String xmlPath) {
 
         try {
             SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
