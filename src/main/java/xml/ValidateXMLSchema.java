@@ -8,6 +8,7 @@ import org.xml.sax.SAXException;
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
@@ -28,27 +29,30 @@ public class ValidateXMLSchema {
         LOGGER.info("airports.xml validates against airport.xsd? " + XMLValidatorSAX("src\\main\\java\\xml\\airport.xsd", "src\\main\\java\\xml\\airports.xml"));
         LOGGER.info("airport2.xml validates against airport.xsd? " + XMLValidatorSAX("src\\main\\java\\xml\\airport.xsd", "src\\main\\java\\xml\\airport2.xml"));
         */
-        LOGGER.info("validating flight: ");
-        XMLValidator("src\\main\\java\\xml\\flight.xsd", "src\\main\\java\\xml\\flight.xml");
-        LOGGER.info("validating airport2: ");
-        XMLValidator("src\\main\\java\\xml\\airport.xsd", "src\\main\\java\\xml\\airport2.xml");
+        LOGGER.info("validating flight: " + XMLValidator("src\\main\\java\\xml\\flight.xsd", "src\\main\\java\\xml\\flight.xml"));
+
+        LOGGER.info("validating airport2: " + XMLValidator("src\\main\\java\\xml\\airport.xsd", "src\\main\\java\\xml\\airport2.xml"));
     }
 
     public static boolean XMLValidator(String xsdPath, String xmlPath) {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        factory.setNamespaceAware(true);
-        factory.setValidating(true);
+        DocumentBuilderFactory documentBuilderFactoryfactory = DocumentBuilderFactory.newInstance();
+        documentBuilderFactoryfactory.setNamespaceAware(true);
+        documentBuilderFactoryfactory.setValidating(true);
 
-        factory.setAttribute(JAXP_SCHEMA_LANGUAGE, W3C_XML_SCHEMA);
+        documentBuilderFactoryfactory.setAttribute(JAXP_SCHEMA_LANGUAGE, W3C_XML_SCHEMA);
 
         // Set the schema file
-        factory.setAttribute(JAXP_SCHEMA_SOURCE, new File(xsdPath));
+        documentBuilderFactoryfactory.setAttribute(JAXP_SCHEMA_SOURCE, new File(xsdPath));
 
         try {
-            DocumentBuilder parser = factory.newDocumentBuilder();
+            DocumentBuilder parser = documentBuilderFactoryfactory.newDocumentBuilder();
 
             // Parses the file. if an error is found it will be printed  ?????
             Document document = parser.parse(xmlPath);
+            SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+            Schema schema = factory.newSchema(new File(xsdPath));
+            Validator validator = schema.newValidator();
+            validator.validate(new DOMSource(document));
         } catch (Exception e) {
             LOGGER.error("Exception: " + e.getMessage());
             //e.printStackTrace();
