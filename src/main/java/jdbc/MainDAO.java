@@ -4,11 +4,14 @@ import jdbc.DAO.mysql.CityDAO;
 import jdbc.DAO.mysql.CountryDAO;
 import jdbc.DAO.mysql.FlightDAO;
 import jdbc.DAO.mysql.PlaneDAO;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class Main {
+public class MainDAO {
+    private static final Logger LOGGER = LogManager.getLogger(MainDAO.class);
 
     public static void main(String[] args) throws SQLException {
 
@@ -61,21 +64,21 @@ public class Main {
 
         Flight flight4 = fDAO.getById(4);
 
-        System.out.println(flight4);
+        LOGGER.info(flight4);
         Plane plane5 = new PlaneDAO().getPlaneById(5);
 
-        System.out.println(plane5);
+        LOGGER.info(plane5);
 
         ArrayList<Flight> flights = fDAO.getAll();
 
         for (int i = 0; i < flights.size(); i++) {
-            System.out.println("----------------------------------------------------------------------------------");
-            System.out.println(flights.get(i));
+            LOGGER.info("----------------------------------------------------------------------------------");
+            LOGGER.info(flights.get(i));
         }
         ArrayList<City> cities = new CityDAO().getAll();
 
         for (int i = 0; i < cities.size(); i++) {
-            System.out.println(cities.get(i));
+            LOGGER.info(cities.get(i));
         }
 /*
         for (int i = 0; i < planes.size(); i++) {
